@@ -1,0 +1,37 @@
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    margin-top: 50px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.card-body{
+    background-color: transparent;
+    
+}
+input[type=text] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+}
+input[type=password] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+}
+input::placeholder{
+    color: black;
+}
