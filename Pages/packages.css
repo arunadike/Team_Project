@@ -1,0 +1,124 @@
+.search-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.filter-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-header {
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-option {
+    margin-bottom: 10px;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+.filter-option:hover {
+    color: var(--primary-color);
+}
+
+.filter-option.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.filter-suboption {
+    padding-left: 20px;
+    margin-top: 5px;
+    color: var(--text-light);
+    cursor: pointer;// Sample package data (would normally come from an API)
+
+}
+
+.filter-suboption:hover {
+    color: var(--primary-color);
+}
+
+.package-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+}
+
+.package-image {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.package-details {
+    padding: 15px;
+}
+
+.package-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.package-location {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.package-price {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.package-per-person {
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+
+.search-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    padding-left: 40px;
+    border-radius: 50px;
+    border: 1px solid #ddd;
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    color: var(--text-light);
+}
+
+.clear-all {
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.divider {
+    border-top: 1px solid #eee;
+    margin: 15px 0;
+}

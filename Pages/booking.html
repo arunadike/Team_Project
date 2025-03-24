@@ -1,246 +1,218 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flight Booking</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <!-- Flatpickr CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-        .booking-container {
-            background: linear-gradient(to right, #d1e9f5, #fce4e4);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-one-way {
-            background-color: #ff6600;
-            color: white;
-            border-radius: 20px;
-            padding: 5px 15px;
-            border: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-one-way:hover {
-            background-color: #e65c00;
-        }
-
-        .flight-box {
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
-
-        .promo-box {
-            color: #ff6600;
-            font-weight: bold;
-        }
-
-        .modal-content {
-            background: linear-gradient(to right, #d1e9f5, #fce4e4);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-header {
-            border-bottom: none;
-        }
-
-        .modal-footer {
-            border-top: none;
-        }
-    </style>
-</head>
-
-<body>
-    <nav>
-        <div class="nav__header">
-            <div class="nav__logo">
-                <a href="#" class="logo"><img src="assets/logo.png" alt="logo" /></a>
-            </div>
-            <div class="nav__menu__btn" id="menu-btn">
-                <i class="ri-menu-line"></i>
-            </div>
-        </div>
-        <ul class="nav__links" id="nav-links">
-            <li><a href="#home">HOME</a></li>
-            <li><a href="#about">ABOUT</a></li>
-            <li><a href="#tour">TOUR</a></li>
-            <li><a href="#package">PACKAGE</a></li>
-            <li><a href="support.html">SUPPORT</a></li>
-        </ul>
-        <div class="nav__btns">
-            <button class="btn">BOOK TRIP</button>
-        </div>
-    </nav>
-
-    <header id="home">
-        <div class="header__container">
-            <div class="header__content">
-                <p></p>
-                <h1></h1>
-                <div class="header__btns">
-                    <button class="btn">Book A Trip Now</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Flight Booking</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        />
+        <!-- Flatpickr CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+        />
+        <link rel="stylesheet" href="./styles.css" />
+        <link rel="stylesheet" href="booking.css" />
+    </head>
+    <body>
+        <nav>
+            <div class="nav__header">
+                <div class="nav__logo">
+                    <a href="#" class="logo"
+                        ><img src="assets/logo.png" alt="logo"
+                    /></a>
+                </div>
+                <div class="nav__menu__btn" id="menu-btn">
+                    <i class="ri-menu-line"></i>
                 </div>
             </div>
-            <div class="header__image">
-                <img src="assets/header.png" alt="header" />
+            <ul class="nav__links" id="nav-links">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#tour">TOUR</a></li>
+                <li><a href="#package">PACKAGE</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+            <div class="nav__btns">
+                <button class="btn">BOOK TRIP</button>
             </div>
-        </div>
-    </header>
-    <div class="container mt-4">
-        <div class="booking-container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold">Flight Search</h5>
-                <nav>
-                    <a href="#" class="text-muted me-3">Manage Booking</a>
-                    <a href="#" class="text-muted me-3">Check-in</a>
-                    <a href="#" class="text-muted">Flight Status</a>
-                </nav>
-            </div>
-            <div class="d-flex mb-3">
-                <button class="btn btn-one-way me-2">One Way</button>
-                <button class="btn btn-light">Round Trip</button>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="flight-box" data-target="from">
-                        <span>🛫 Paris</span>
+        </nav>
+
+        <header id="home">
+            <div class="header__container">
+                <div class="header__content">
+                    <p></p>
+                    <h1></h1>
+                    <div class="header__btns">
+                        <button class="btn">Book A Trip Now</button>
                     </div>
                 </div>
-                <div class="col-md-4 text-center">
-                    <div class="flight-box" data-target="to">
-                        <span>✖ Flying to</span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="flight-box" data-target="date">
-                        <span>📅 Wed, Mar 26</span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="flight-box" data-target="guest">
-                        <span>👤 Guest</span>
-                    </div>
+                <div class="header__image">
+                    <img src="assets/header.png" alt="header" />
                 </div>
             </div>
-        </div>
-    </div>
+        </header>
+        <div class="container mt-4">
+            <div class="booking-container">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                >
+                    <h5 class="fw-bold">Flight Search</h5>
+                    <nav>
+                        <a href="#" class="text-muted me-3">Manage Booking</a>
+                        <a href="packages.html" class="text-muted me-3"
+                            >Packages</a
+                        >
+                        <a href="#" class="text-muted">Flight Status</a>
+                    </nav>
+                </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="flightModal" tabindex="-1" aria-labelledby="flightModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="flightModalLabel">
-                        Enter Details
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Input for non-date fields -->
-                    <input type="text" class="form-control mb-3" id="modalInput" placeholder="Enter details..." />
-                    <!-- Date Picker for date fields -->
-                    <input type="text" class="form-control flatpickr" id="datePicker" placeholder="Select Date" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+                <div class="d-flex mb-3">
+                    <button class="btn btn-one-way me-2" id="oneWayBtn">
+                        One Way
                     </button>
-                    <button type="button" class="btn btn-one-way" id="saveDetails">
-                        Save changes
+                    <button class="btn btn-light" id="roundTripBtn">
+                        Round Trip
                     </button>
                 </div>
+
+                <div class="row search-row align-items-center">
+                    <div class="col-md-2">
+                        <select class="form-select" id="departure">
+                            <option selected>Departure</option>
+                            <option>Delhi (DEL)</option>
+                            <option>Mumbai (BOM)</option>
+                            <option>Bangalore (BLR)</option>
+                            <option>Chennai (MAA)</option>
+                            <option>Kolkata (CCU)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="destination">
+                            <option selected>Destination</option>
+                            <option>New York (JFK)</option>
+                            <option>London (LHR)</option>
+                            <option>Dubai (DXB)</option>
+                            <option>Singapore (SIN)</option>
+                            <option>Bangkok (BKK)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input
+                            type="text"
+                            class="form-control date-input"
+                            id="departureDate"
+                            placeholder="Departure Date"
+                        />
+                    </div>
+                    <div class="col-md-2" id="returnDateCol">
+                        <input
+                            type="text"
+                            class="form-control date-input"
+                            id="returnDate"
+                            placeholder="Return Date"
+                        />
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" id="passengers">
+                            <option selected>1 Adult</option>
+                            <option>2 Adults</option>
+                            <option>3 Adults</option>
+                            <option>1 Adult, 1 Child</option>
+                            <option>2 Adults, 1 Child</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn search-btn w-100" id="searchBtn">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <!-- Logo and Description -->
-                <div class="col-md-3">
-                    <div class="footer-logo">
-                        <img src="assets/logo.png" alt="Logo" />
-                    </div>
-                    <p class="footer-description">
-                        Discover The World One Adventure At A Time Life Is
-                        Short Book A Trip
-                    </p>
-                </div>
-
-                <!-- Company Links -->
-                <div class="col-md-3">
-                    <h5>Company</h5>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Tour Guide</a></li>
-                        <li><a href="#">Packages</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-
-                <!-- Travel Links -->
-                <div class="col-md-3">
-                    <h5>Travel</h5>
-                    <ul>
-                        <li><a href="#">Turkey</a></li>
-                        <li><a href="#">America</a></li>
-                        <li><a href="#">Dubai</a></li>
-                        <li><a href="#">Germany</a></li>
-                    </ul>
-                </div>
-
-                <!-- Resources Links -->
-                <div class="col-md-3">
-                    <h5>Resources</h5>
-                    <ul>
-                        <li><a href="#">Free Ebooks</a></li>
-                        <li><a href="#">Travel Guide</a></li>
-                        <li><a href="#">How To Blog</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Follow Section -->
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class="follow-box ms-3">
-                        <span>Follow</span>
-                        <div class="social-icon facebook">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
+        <!-- Footer Section -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo and Description -->
+                    <div class="col-md-3">
+                        <div class="footer-logo">
+                            <img src="assets/logo.png" alt="Logo" />
                         </div>
-                        <div class="social-icon instagram">
-                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        <p class="footer-description">
+                            Discover The World One Adventure At A Time Life Is
+                            Short Book A Trip
+                        </p>
+                    </div>
+
+                    <!-- Company Links -->
+                    <div class="col-md-3">
+                        <h5>Company</h5>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Tour Guide</a></li>
+                            <li><a href="#">Packages</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Travel Links -->
+                    <div class="col-md-3">
+                        <h5>Travel</h5>
+                        <ul>
+                            <li><a href="#">Turkey</a></li>
+                            <li><a href="#">America</a></li>
+                            <li><a href="#">Dubai</a></li>
+                            <li><a href="#">Germany</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources Links -->
+                    <div class="col-md-3">
+                        <h5>Resources</h5>
+                        <ul>
+                            <li><a href="#">Free Ebooks</a></li>
+                            <li><a href="#">Travel Guide</a></li>
+                            <li><a href="#">How To Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Follow Section -->
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="follow-box ms-3">
+                            <span>Follow</span>
+                            <div class="social-icon facebook">
+                                <a href="#"><i class="bi bi-facebook"></i></a>
+                            </div>
+                            <div class="social-icon instagram">
+                                <a href="#"><i class="bi bi-instagram"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </footer>
+
+        <!-- Footer Bottom Section (Copyright) -->
+        <div class="footer-bottom">
+            <div class="container">
+                <p>Copyright © 2025 TEAM 4. All rights reserved.</p>
+            </div>
         </div>
-    </footer>
 
-    <!-- Footer Bottom Section (Copyright) -->
-    <div class="footer-bottom">
-        <div class="container">
-            <p>Copyright © 2025 TEAM 4. All rights reserved.</p>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Flatpickr JS -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="./../JavaScript/main.js"></script>
-    <script src="./../JavaScript/booking.js"></script>
-</body>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Flatpickr JS -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="main.js"></script>
+        <script src="./../JavaScript/booking.js"></script>
+    </body>
 </html>

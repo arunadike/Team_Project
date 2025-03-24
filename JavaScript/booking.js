@@ -1,70 +1,65 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const oneWayBtn = document.querySelector(".btn-one-way");
-  const roundTripBtn = document.querySelector(".btn-light");
-  const flightBoxes = document.querySelectorAll(".flight-box");
-  const modal = new bootstrap.Modal(document.getElementById("flightModal"));
-  const modalInput = document.getElementById("modalInput");
-  const datePicker = document.getElementById("datePicker");
-  const saveDetailsBtn = document.getElementById("saveDetails");
-  let currentBox = null;
-
-  // Initialize Flatpickr
-  flatpickr("#datePicker", {
-    dateFormat: "D, M d", // Format: Wed, Mar 26
-    minDate: "today", // Disable past dates
+  // Initialize date pickers
+  flatpickr("#departureDate", {
+    dateFormat: "D, M d",
+    minDate: "today",
   });
 
-  let tripType = "one-way";
+  flatpickr("#returnDate", {
+    dateFormat: "D, M d",
+    minDate: "today",
+  });
+
+  // Trip type toggle
+  const oneWayBtn = document.getElementById("oneWayBtn");
+  const roundTripBtn = document.getElementById("roundTripBtn");
+  const returnDateCol = document.getElementById("returnDateCol");
+
+  let isRoundTrip = false;
 
   oneWayBtn.addEventListener("click", function () {
-    tripType = "one-way";
+    isRoundTrip = false;
     oneWayBtn.classList.add("btn-one-way");
     oneWayBtn.classList.remove("btn-light");
     roundTripBtn.classList.add("btn-light");
     roundTripBtn.classList.remove("btn-one-way");
+    returnDateCol.style.display = "none";
   });
 
   roundTripBtn.addEventListener("click", function () {
-    tripType = "round-trip";
+    isRoundTrip = true;
     roundTripBtn.classList.add("btn-one-way");
     roundTripBtn.classList.remove("btn-light");
     oneWayBtn.classList.add("btn-light");
     oneWayBtn.classList.remove("btn-one-way");
+    returnDateCol.style.display = "block";
   });
 
-  flightBoxes.forEach((box) => {
-    box.addEventListener("click", function () {
-      currentBox = box;
-      if (box.getAttribute("data-target") === "date") {
-        // Show date picker for date fields
-        modalInput.style.display = "none";
-        datePicker.style.display = "block";
-      } else {
-        // Show text input for non-date fields
-        modalInput.style.display = "block";
-        datePicker.style.display = "none";
-      }
-      modal.show();
-    });
-  });
+  // Initialize as one-way
+  oneWayBtn.click();
 
-  saveDetailsBtn.addEventListener("click", function () {
-    if (currentBox.getAttribute("data-target") === "date") {
-      // Save date from date picker
-      if (datePicker.value) {
-        currentBox.innerHTML = `📅 ${datePicker.value}`;
-        modal.hide();
-      }
-    } else {
-      // Save text from input
-      if (modalInput.value) {
-        currentBox.innerHTML = modalInput.value;
-        modal.hide();
-      }
+  // Search button functionality
+  document.getElementById("searchBtn").addEventListener("click", function () {
+    const departure = document.getElementById("departure").value;
+    const destination = document.getElementById("destination").value;
+    const departureDate = document.getElementById("departureDate").value;
+    const returnDate = isRoundTrip
+      ? document.getElementById("returnDate").value
+      : "";
+    const passengers = document.getElementById("passengers").value;
+
+    if (
+      !departure ||
+      !destination ||
+      !departureDate ||
+      (isRoundTrip && !returnDate)
+    ) {
+      alert("Please fill all required fields");
+      return;
     }
-  });
 
-  document.querySelector(".promo-box").addEventListener("click", function () {
-    alert("Promo Code Applied Successfully!");
+    alert(
+      `Searching flights from ${departure} to ${destination}\nDeparture: ${departureDate}\n${isRoundTrip ? "Return: " + returnDate : "One Way"}\nPassengers: ${passengers}`,
+    );
   });
 });
