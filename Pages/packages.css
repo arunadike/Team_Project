@@ -41,7 +41,9 @@
     padding-left: 20px;
     margin-top: 5px;
     color: var(--text-light);
-    cursor: pointer;// Sample package data (would normally come from an API)
+    cursor: pointer;
+    
+    /* // Sample package data (would normally come from an API) */
 
 }
 
