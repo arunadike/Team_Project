@@ -57,9 +57,5 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Please fill all required fields");
       return;
     }
-
-    alert(
-      `Searching flights from ${departure} to ${destination}\nDeparture: ${departureDate}\n${isRoundTrip ? "Return: " + returnDate : "One Way"}\nPassengers: ${passengers}`,
-    );
   });
 });
