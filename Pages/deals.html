@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Deals</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .deal-card {
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        .deal-card:hover {
+            transform: scale(#000);
+        }
+        .carousel-indicators li {
+            background-color: #000;
+        }
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4 text-center" style="padding-bottom: 50px;">Exclusive Travel Deals</h1>
+        <div id="dealCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#dealCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#dealCarousel" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card deal-card">
+                                <img src="https://www.bing.com/th?id=OADD2.9964418807321_19MNEPN6RMRRRKZ412&pid=21.2&c=16&roil=0&roit=0&roir=1&roib=1&w=472&h=247&rs=2" class="card-img-top" alt="Beach Paradise">
+                                <div class="card-body">
+                                    <h5 class="card-title">Beach Paradise</h5>
+                                    <p class="card-text">Enjoy a relaxing vacation at a beautiful beach resort. Special discount available!</p>
+                                    <a href="#" class="btn btn-primary">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card deal-card">
+                                <img src="https://www.bing.com/th?id=OADD2.9964418807321_19MNEPN6RMRRRKZ412&pid=21.2&c=16&roil=0&roit=0&roir=1&roib=1&w=472&h=247&rs=2" class="card-img-top" alt="Mountain Adventure">
+                                <div class="card-body">
+                                    <h5 class="card-title">Mountain Adventure</h5>
+                                    <p class="card-text">Experience thrilling mountain adventures with guided tours. Limited time offer!</p>
+                                    <a href="#" class="btn btn-primary">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card deal-card">
+                                <img src="https://www.bing.com/th?id=OADD2.9964418807321_19MNEPN6RMRRRKZ412&pid=21.2&c=16&roil=0&roit=0&roir=1&roib=1&w=472&h=247&rs=2" class="card-img-top" alt="City Escape">
+                                <div class="card-body">
+                                    <h5 class="card-title">City Escape</h5>
+                                    <p class="card-text">Explore the vibrant city life with exclusive deals on hotels and activities.</p>
+                                    <a href="#" class="btn btn-primary">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card deal-card">
+                                <img src="https://www.bing.com/th?id=OADD2.9964418807321_19MNEPN6RMRRRKZ412&pid=21.2&c=16&roil=0&roit=0&roir=1&roib=1&w=472&h=247&rs=2" class="card-img-top" alt="Beach Paradise">
+                                <div class="card-body">
+                                    <h5 class="card-title">Beach Paradise</h5>
+                                    <p class="card-text">Enjoy a relaxing vacation at a beautiful beach resort. Special discount available!</p>
+                                    <a href="#" class="btn btn-primary">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card deal-card">
+                                <img src="https://www.bing.com/th?id=OADD2.9964418807321_19MNEPN6RMRRRKZ412&pid=21.2&c=16&roil=0&roit=0&roir=1&roib=1&w=472&h=247&rs=2" class="card-img-top" alt="Mountain Adventure">
+                                <div class="card-body">
+                                    <h5 class="card-title">Mountain Adventure</h5>
+                                    <p class="card-text">Experience thrilling mountain adventures with guided tours. Limited time offer!</p>
+                                    <a href="#" class="btn btn-primary">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card deal-card">
+                                <img src="https://www.bing.com/th?id=OADD2.9964418807321_19MNEPN6RMRRRKZ412&pid=21.2&c=16&roil=0&roit=0&roir=1&roib=1&w=472&h=247&rs=2" class="card-img-top" alt="City Escape">
+                                <div class="card-body">
+                                    <h5 class="card-title">City Escape</h5>
+                                    <p class="card-text">Explore the vibrant city life with exclusive deals on hotels and activities.</p>
+                                    <a href="#" class="btn btn-primary">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional carousel items can be added here -->
+            
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
