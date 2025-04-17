@@ -1,5 +1,7 @@
 package com.Project3.Project3.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -31,10 +33,10 @@ public class Review {
     
     private String reviewComment;
     
-    private String reviewTimestamp;
+    private LocalDateTime reviewTimestamp;
 
     public Review() {
-        this.reviewTimestamp = TimeUtil.getCurrentTime(); // Set default value
+        this.reviewTimestamp = LocalDateTime.now(); // Set default value
     }
 
     public int getReviewId() {
@@ -77,15 +79,27 @@ public class Review {
         this.reviewComment = reviewComment;
     }
 
-    public String getReviewTimestamp() {
+    public LocalDateTime getReviewTimestamp() {
         return reviewTimestamp;
     }
 
-    public void setReviewTimestamp(String reviewTimestamp) {
+    public void setReviewTimestamp(LocalDateTime reviewTimestamp) {
         this.reviewTimestamp = reviewTimestamp;
     }
 
-    @Override
+    
+    public Review(int reviewId, User user, TravelPackage travelPackage, @NotNull @Min(1) @Max(5) int rating,
+			String reviewComment, LocalDateTime reviewTimestamp) {
+		super();
+		this.reviewId = reviewId;
+		this.user = user;
+		this.travelPackage = travelPackage;
+		this.rating = rating;
+		this.reviewComment = reviewComment;
+		this.reviewTimestamp = reviewTimestamp;
+	}
+
+	@Override
     public String toString() {
         return "Review [reviewId=" + reviewId + ", user=" + user + ", travelPackage=" + travelPackage + ", rating="
                 + rating + ", comment=" + reviewComment + ", reviewTimestamp=" + reviewTimestamp + "]";
