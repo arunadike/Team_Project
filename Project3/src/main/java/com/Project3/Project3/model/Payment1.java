@@ -1,7 +1,5 @@
 package com.Project3.Project3.model;
 
-import org.springframework.stereotype.Service;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;

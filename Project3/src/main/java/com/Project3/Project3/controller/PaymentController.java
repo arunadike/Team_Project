@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Project3.Project3.model.Payment;
 import com.Project3.Project3.model.Payment1;
 import com.Project3.Project3.service.PaymentService;
 
