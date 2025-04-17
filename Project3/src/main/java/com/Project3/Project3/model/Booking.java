@@ -38,7 +38,6 @@ public class Booking {
 	private Date endDate;
 
 	@NotNull
-	@Size(min = 0, max = 2)
 	private String status;
 
 	@NotNull
