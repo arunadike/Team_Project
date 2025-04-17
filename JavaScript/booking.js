@@ -39,23 +39,5 @@ document.addEventListener("DOMContentLoaded", function () {
   oneWayBtn.click();
 
   // Search button functionality
-  document.getElementById("searchBtn").addEventListener("click", function () {
-    const departure = document.getElementById("departure").value;
-    const destination = document.getElementById("destination").value;
-    const departureDate = document.getElementById("departureDate").value;
-    const returnDate = isRoundTrip
-      ? document.getElementById("returnDate").value
-      : "";
-    const passengers = document.getElementById("passengers").value;
-
-    if (
-      !departure ||
-      !destination ||
-      !departureDate ||
-      (isRoundTrip && !returnDate)
-    ) {
-      alert("Please fill all required fields");
-      return;
-    }
-  });
+  
 });

@@ -467,9 +467,5 @@ $(document).ready(function () {
   }
 
   // Add event listener for book now buttons
-  $(document).on("click", ".btn-primary", function () {
-    const packageId = $(this).closest(".package-card").data("id");
-    const selectedPackage = packages.find((pkg) => pkg.id === packageId);
-    alert(`Booking ${selectedPackage.title} for ${selectedPackage.price}`);
-  });
+  
 });
