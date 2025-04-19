@@ -3,6 +3,8 @@ package com.Project3.Project3.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,15 +18,18 @@ import jakarta.validation.constraints.NotNull;
 public class Review {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int reviewId;
-
+    
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "userid", nullable=false)
+    @JoinColumn(name = "userid")
     private User user;
-
+    
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "packageId", nullable=false)
-    private TravelPackage travelPackage;
+    @JoinColumn(name = "bookingId")
+    private Booking booking;
 
     @NotNull
     @Min(1)
@@ -55,15 +60,17 @@ public class Review {
         this.user = user;
     }
 
-    public TravelPackage getTravelPackage() {
-        return travelPackage;
-    }
+   
 
-    public void setTravelPackage(TravelPackage travelPackage) {
-        this.travelPackage = travelPackage;
-    }
+    public Booking getBooking() {
+		return booking;
+	}
 
-    public int getRating() {
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
+
+	public int getRating() {
         return rating;
     }
 
@@ -88,12 +95,12 @@ public class Review {
     }
 
     
-    public Review(int reviewId, User user, TravelPackage travelPackage, @NotNull @Min(1) @Max(5) int rating,
+    public Review(int reviewId, User user, Booking booking, @NotNull @Min(1) @Max(5) int rating,
 			String reviewComment, LocalDateTime reviewTimestamp) {
 		super();
 		this.reviewId = reviewId;
 		this.user = user;
-		this.travelPackage = travelPackage;
+		this.booking = booking;
 		this.rating = rating;
 		this.reviewComment = reviewComment;
 		this.reviewTimestamp = reviewTimestamp;
@@ -101,7 +108,7 @@ public class Review {
 
 	@Override
     public String toString() {
-        return "Review [reviewId=" + reviewId + ", user=" + user + ", travelPackage=" + travelPackage + ", rating="
+        return "Review [reviewId=" + reviewId + ", user=" + user + ", travelPackage=" + booking + ", rating="
                 + rating + ", comment=" + reviewComment + ", reviewTimestamp=" + reviewTimestamp + "]";
     }
 }
