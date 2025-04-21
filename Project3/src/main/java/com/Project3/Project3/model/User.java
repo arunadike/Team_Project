@@ -1,6 +1,8 @@
 package com.Project3.Project3.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -24,7 +26,7 @@ public class User {
 		this.contact_number = contact_number;
 	}
 	@Id
-	//@Column(name="userid", nullable=false, length=200)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userid;
 	//@Column(name="name", nullable=false)
 	@NotNull

@@ -2,6 +2,10 @@ package com.Project3.Project3.model;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,12 +15,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "CartItems")
+@Table(name = "cartitems")
 public class CartItems {
 	public CartItems() {
     }
@@ -34,12 +39,13 @@ public class CartItems {
 		this.noOfPersons = noOfPersons;
 		this.insurance = insurance;
 		this.price = price;
+		//version=1;
 	}
 
 
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CartItemID")
     private Integer cartItemID;
 
@@ -55,10 +61,10 @@ public class CartItems {
 
     @NotNull
 	@FutureOrPresent
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Kolkata")
 	private Date startDate;
 
     @NotNull
-    @Size(min=1,max=10)
     private int noOfPersons;
 
     
@@ -67,7 +73,8 @@ public class CartItems {
     @NotNull
 	private double price;
 
-   
+  
+    
 
     public Integer getCartItemID() {
 		return cartItemID;

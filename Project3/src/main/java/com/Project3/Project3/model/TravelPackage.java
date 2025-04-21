@@ -2,18 +2,16 @@ package com.Project3.Project3.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="travelpackage")
 public class TravelPackage {
-	public TravelPackage()
-	{
-		
-	}
 	public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
-			String includedService) {
+			String includedService, User user) {
 		super();
 		this.packageId = packageId;
 		this.title = title;
@@ -21,7 +19,22 @@ public class TravelPackage {
 		this.duration = duration;
 		this.price = price;
 		this.includedService = includedService;
+		this.user = user;
 	}
+	public TravelPackage()
+	{
+		
+	}
+//	public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
+//			String includedService) {
+//		super();
+//		this.packageId = packageId;
+//		this.title = title;
+//		this.description = description;
+//		this.duration = duration;
+//		this.price = price;
+//		this.includedService = includedService;
+//	}
 	@Id
 	private int packageId;
 	@NotNull
@@ -30,7 +43,16 @@ public class TravelPackage {
     @NotNull
     private int duration; // Duration in days
     private double price;
-    private String includedService;
+    public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	private String includedService;
+    @ManyToOne
+    @JoinColumn(name="userid")
+    private User user;
 	public int getPackageId() {
 		return packageId;
 	}

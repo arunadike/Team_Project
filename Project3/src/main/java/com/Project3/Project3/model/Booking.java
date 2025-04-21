@@ -13,8 +13,21 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "booking")
+@Table(name = "booking1")
 public class Booking {
+
+	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1,
+			@NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
+			@NotNull String paymentMethod) {
+		super();
+		this.bookingId = bookingId;
+		this.user = user;
+		this.package1 = package1;
+		this.orderDate = orderDate;
+		this.price = price;
+		this.paymentStatus = paymentStatus;
+		this.paymentMethod = paymentMethod;
+	}
 
 	@Id
 	private long bookingId;
@@ -31,19 +44,55 @@ public class Booking {
 
 	@NotNull
 	@FutureOrPresent
-	private Date startDate;
+	private Date orderDate;
+
+//	@NotNull
+//	@FutureOrPresent
+//	private Date endDate;
 
 	@NotNull
-	@FutureOrPresent
-	private Date endDate;
-
+	private double price;
 	@NotNull
-	private String status;
-
+	private String paymentStatus;
 	@NotNull
-	@OneToOne
-	@JoinColumn(name = "paymentid")
-	private Payment1 payment;
+	private String paymentMethod;
+
+//	@NotNull
+//	@OneToOne
+//	@JoinColumn(name = "paymentid")
+//	private Payment1 payment;
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
 
 	public long getBookingId() {
 		return bookingId;
@@ -69,59 +118,34 @@ public class Booking {
 		this.package1 = package1;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
+	
+	
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+	
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Payment1 getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment1 payment) {
-		this.payment = payment;
-	}
+	
 	
 	public Booking() {
 		
 	}
 
-	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1,
-			@NotNull @FutureOrPresent Date startDate, @NotNull @FutureOrPresent Date endDate,
-			@NotNull @Size(min = 0, max = 2) String status, @NotNull Payment1 payment) {
-		// super();
-		this.bookingId = bookingId;
-		this.user = user;
-		this.package1 = package1;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.status = status;
-		this.payment = payment;
-	}
+//	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1,
+//			@NotNull @FutureOrPresent Date startDate, @NotNull @FutureOrPresent Date endDate,
+//			@NotNull @Size(min = 0, max = 2) String status, @NotNull Payment1 payment) {
+//		// super();
+//		this.bookingId = bookingId;
+//		this.user = user;
+//		this.package1 = package1;
+//		this.startDate = startDate;
+//		this.endDate = endDate;
+//		this.status = status;
+//		this.payment = payment;
+//	}
 
-	@Override
-	public String toString() {
-		return "Booking [bookingId=" + bookingId + ", user=" + user + ", package1=" + package1 + ", startDate="
-				+ startDate + ", endDate=" + endDate + ", status=" + status + ", payment=" + payment + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Booking [bookingId=" + bookingId + ", user=" + user + ", package1=" + package1 + ", startDate="
+//				+ startDate + ", endDate=" + endDate + ", status=" + status + ", payment=" + payment + "]";
+//	}
 
 }

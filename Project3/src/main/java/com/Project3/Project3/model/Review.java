@@ -2,24 +2,25 @@ package com.Project3.Project3.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="review1")
+@Table(name="review2")
 public class Review {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int reviewId;
+	 @Id
+     private int reviewId;
     
     @NotNull
     @ManyToOne
