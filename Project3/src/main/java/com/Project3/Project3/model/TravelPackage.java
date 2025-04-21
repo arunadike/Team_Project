@@ -1,9 +1,12 @@
 package com.Project3.Project3.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -36,6 +39,8 @@ public class TravelPackage {
 //		this.includedService = includedService;
 //	}
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "travel_package_seq")
+    @SequenceGenerator(name = "travel_package_seq", sequenceName = "TRAVEL_PACKAGE_SEQ", allocationSize = 1)
 	private int packageId;
 	@NotNull
     private String title;

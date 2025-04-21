@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -45,7 +46,8 @@ public class CartItems {
 
 
 	@Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cart_items_seq")
+    @SequenceGenerator(name = "cart_items_seq", sequenceName = "CART_ITEMS_SEQ", allocationSize = 1)
     @Column(name = "CartItemID")
     private Integer cartItemID;
 
