@@ -467,5 +467,5 @@ $(document).ready(function () {
   }
 
   // Add event listener for book now buttons
-  
+
 });

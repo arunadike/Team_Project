@@ -1,0 +1,85 @@
+1.Users
+  {
+  "userId" : 3,
+  "name" : "John Doe",
+  "email" : "john.doe@example.com",
+  "password" : "P@$$wOrd123!",
+  "role" : "USER",
+  "contact_number" : "9876543210"
+}
+2.TravelPackage
+   {
+    "packageId": 1,
+    "title": "Sample Package",
+    "description": "This is a description of the package.",
+    "duration": 7,
+    "price": 499.99,
+    "includedService": "Hotel, Food, Transport",
+    "user": {
+        "userId": 3
+    }
+  }
+
+3.CartItems
+    {
+        "cartItemID": 1,
+        "user": {
+            "name": "Your Name",
+            "email": "your.email@example.com",
+            "password": "YourSecurePassword123!",
+            "role": "USER",
+            "contact_number": "9876543210",
+            "userId": 1
+        },
+        "package1": {
+            "packageId": 101,
+            "title": "Amazing Kerala Tour",
+            "description": "Explore the backwaters",
+            "duration": 7,
+            "price": 35000.0,
+            "includedService": "Accommodation",
+            "user": null
+        },
+        "startDate": "2025-04-21T16:23:00.000+05:30",
+        "noOfPersons": 2,
+        "insurance": true,
+        "price": 2999.99
+    }
+
+4. Booking
+    {
+    "bookingId": 1,
+    "user": {
+        "userId" : 3,
+        "name" : "John Doe",
+  	  "email" : "john.doe@example.com",
+  	  "password" : "P@$$wOrd123!"
+    },
+    "package1": {
+        "packageId": 1,
+        "title": "Beach Holiday",
+        "description": "A relaxing trip to the beach with all-inclusive services.",
+        "duration": 7,
+        "price": 799.99,
+        "includedService": "Hotel, Food, Transport"
+    },
+    "orderDate": "2025-04-20T12:00:00",
+    "price": 799.99,
+    "paymentStatus": "Completed",
+    "paymentMethod": "Credit Card"
+}
+
+5. Review
+
+   {
+    "reviewId": 1,
+    "user": {
+        "userId" : 1
+    },
+    "booking": {
+        "bookingId": 1
+    },
+    "rating": 4,
+    "reviewComment": "Amazing experience! Highly recommended.",
+    "reviewTimestamp": "2025-04-21T18:30:00"
+}
