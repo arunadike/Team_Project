@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa;
+    font-family: sans-serif; /* Add a default font for better readability */
+    margin: 0; /* Reset default body margin */
+    padding: 20px; /* Add some padding around the content */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes at least the full viewport height */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.container {
+    flex-grow: 1; /* Allow the container to take up remaining vertical space */
+    display: flex;
+    justify-content: center; /* Center the form horizontally */
+    align-items: flex-start; /* Align form to the top of the container */
+    padding: 20px;
+    box-sizing: border-box;
+    /* margin: 0px auto; */
+}
+
+.col-lg-8 {
+    width: 150%; /* Make the form take full width of the container */
+    max-width: 700px; /* Limit the maximum width of the form */
+    padding: 20px;
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    margin: -20 auto; /* Center the form in the container */
+}

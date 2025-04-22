@@ -1,57 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Package Feedback Form</title>
+    <title>Travel Package Review Form</title>
     <link rel="stylesheet" href="webfeedback.css">
+    <link rel="stylesheet" href="nav_footer_feedback.css">
+    <style>
+        /* Add any specific styling for this form if needed */
+    </style>
 </head>
+
 <body>
+    <nav>
+        <!-- Same navbar as index.html -->
+        <div class="nav__header">
+            <div class="nav__logo">
+                <a href="#" class="logo"><img src="assets/logo.png" alt="logo" /></a>
+            </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="support.html">SUPPORT</a></li>
+            <li><a href="packages.html">PACKAGE</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+            <li><a href="RazorPay.html">CART</a></li>
+        </ul>
+        <div class="nav__btns">
+            <a href="loginOrSignUpPage.html">
+                <button class="btn">LOGIN</button>
+            </a>
+        </div>
+    </nav>
     <div class="feedback-form-cnt">
-        <h2>Travel Package Feedback</h2>
-        <form action="/submitFeedback" method="post" class="checkform">
+        <h2>Review Your Travel Package</h2>
+        <form action="/submitReview" method="post" class="checkform">
+            <input type="hidden" id="bookingPaymentID" name="bookingPaymentID" value="${bookingPaymentID}" required>
+
             <div class="form-field">
-                <label for="rating">Rating</label>
+                <label for="rating">Overall Rating</label>
                 <div class="star-rating">
-                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">&#9733;</label>
-                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">&#9733;</label>
-                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">&#9733;</label>
-                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">&#9733;</label>
-                    <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 stars">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1" required><label for="star1"
+                        title="1 star">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2"
+                        title="2 stars">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3"
+                        title="3 stars">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4"
+                        title="4 stars">&#9733;</label>
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5"
+                        title="5 stars">&#9733;</label>
                 </div>
             </div>
-           
+
             <div class="form-field">
-                <label for="navigation">Navigation Experience</label>
-                <select id="navigation" name="navigation" required>
-                    <option value="">Select an option</option>
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="average">Average</option>
-                    <option value="poor">Poor</option>
-                </select>
+                <label for="comment">Comments</label>
+                <textarea id="comment" name="comment" rows="5"
+                    placeholder="Share your experience with the travel package..."></textarea>
             </div>
+
             <div class="form-field">
-                <label for="website">Website Usability</label>
-                <select id="website" name="website" required>
-                    <option value="">Select an option</option>
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="average">Average</option>
-                    <option value="poor">Poor</option>
-                </select>
-            </div>
-            <div class="form-field">
-                <label for="comments">Comments</label>
-                <textarea id="comments" name="comments" rows="4" required></textarea>
-            </div>
-            <div class="form-field">
-                <input type="submit" class="box-btn" value="Submit">
+                <input type="submit" class="box-btn" value="Submit Review">
             </div>
         </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="webfeedback.js"></script>
+    <script>
+        // Basic client-side validation (you should also have server-side validation)
+        $(document).ready(function () {
+            $(".checkform").submit(function (e) {
+                if (!$("input[name='rating']:checked").length) {
+                    alert("Please select a rating.");
+                    e.preventDefault(); // Prevent form submission
+                }
+                // You can add more validation here if needed
+            });
+        });
+    </script>
 </body>
+
 </html>

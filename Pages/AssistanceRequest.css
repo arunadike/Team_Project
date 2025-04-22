@@ -1,8 +1,8 @@
 /* Assistance Page Styles */
 .assistance-container {
-    max-width: 800px;
-    margin: 100px auto;
-    padding: 2rem;
+    max-width: 650px; /* Further reduced max-width */
+    margin: 0px auto; /* Further adjusted top margin */
+    padding: 1rem; /* Further reduced padding */
     background-color: var(--white);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -10,59 +10,68 @@
 
 .assistance-form h2 {
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem; /* Further reduced margin */
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px; /* Further reduced gap */
+    font-size: 1.3rem; /* Further reduced font size */
 }
 
 .assistance-form p {
     color: var(--text-light);
-    margin-bottom: 2rem;
+    margin-bottom: 1.2rem; /* Further reduced margin */
+    font-size: 0.85rem; /* No change */
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.8rem; /* Further reduced margin */
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem; /* Further reduced margin */
     font-weight: 600;
     color: var(--text-dark);
+    font-size: 0.9rem; /* Slightly reduced font size */
 }
 
 .form-control {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.5rem; /* Further reduced padding */
     border: 1px solid #ddd;
     border-radius: 5px;
     font-family: "DM Sans", sans-serif;
+    font-size: 0.85rem; /* Further reduced font size */
 }
 
 textarea.form-control {
-    min-height: 150px;
+    min-height: 100px; /* Further reduced minimum height */
 }
 
 .contact-options {
     display: flex;
-    gap: 20px;
-    margin-top: 0.5rem;
+    gap: 10px; /* Further reduced gap */
+    margin-top: 0.2rem; /* Further reduced margin */
 }
 
 .form-check {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px; /* Further reduced gap */
+    font-size: 0.8rem; /* Reduced font size for checkboxes */
 }
 
 .btn-submit {
     width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-    margin-top: 1rem;
+    padding: 0.7rem; /* Further reduced padding */
+    font-size: 0.9rem; /* Further reduced font size */
+    margin-top: 0.6rem; /* Further reduced margin */
     background-color: var(--primary-color);
     border: none;
+    border-radius: 5px;
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn-submit:hover {
@@ -71,7 +80,41 @@ textarea.form-control {
 
 @media (max-width: 768px) {
     .assistance-container {
-        margin: 80px 1rem;
-        padding: 1.5rem;
+        margin: 50px 0.5rem; /* Further adjusted margin for smaller screens */
+        padding: 0.8rem; /* Further reduced padding for smaller screens */
+    }
+
+    .assistance-form h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .assistance-form p {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.6rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+        margin-bottom: 0.15rem;
+    }
+
+    .form-control,
+    textarea.form-control,
+    .btn-submit {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+
+    textarea.form-control {
+        min-height: 80px;
+    }
+
+    .form-check {
+        font-size: 0.75rem;
     }
 }
