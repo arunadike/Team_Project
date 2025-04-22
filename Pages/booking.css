@@ -1,0 +1,47 @@
+.booking-container {
+  background: linear-gradient(to right, #d1e9f5, #fce4e4);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-one-way {
+  background-color: #ff6600;
+  color: white;
+  border-radius: 20px;
+  padding: 5px 15px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-one-way:hover {
+  background-color: #e65c00;
+}
+
+.flight-box {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.promo-box {
+  color: #ff6600;
+  font-weight: bold;
+}
+
+.modal-content {
+  background: linear-gradient(to right, #d1e9f5, #fce4e4);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}
