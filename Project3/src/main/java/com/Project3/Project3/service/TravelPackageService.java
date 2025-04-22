@@ -32,6 +32,11 @@ public class TravelPackageService {
 		
 		
 	}
+	public List<TravelPackage> packageDisplay() {
+		// TODO Auto-generated method stub
+		return (List<TravelPackage>) travelPackageRepository.findAll();
+		//return null;
+	}
 	
 
 }

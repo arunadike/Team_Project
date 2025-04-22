@@ -44,5 +44,11 @@ public class TravelPackageController {
 		travelPackageService.createPackage(travelPackage);
 	}
 	
+	@GetMapping("/packageDisplay")
+	public List<TravelPackage> packageDisplay()
+	{
+		return travelPackageService.packageDisplay();
+	}
+	
 	
 }

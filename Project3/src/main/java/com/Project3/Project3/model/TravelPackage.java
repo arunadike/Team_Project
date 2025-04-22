@@ -11,10 +11,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="travelpackage")
+@Table(name="travelpackage1")
 public class TravelPackage {
-	public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
-			String includedService, User user) {
+public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
+			String includedService, User user, String imageUrl) {
 		super();
 		this.packageId = packageId;
 		this.title = title;
@@ -23,7 +23,19 @@ public class TravelPackage {
 		this.price = price;
 		this.includedService = includedService;
 		this.user = user;
+		this.imageUrl = imageUrl;
 	}
+//	public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
+//			String includedService, User user) {
+//		super();
+//		this.packageId = packageId;
+//		this.title = title;
+//		this.description = description;
+//		this.duration = duration;
+//		this.price = price;
+//		this.includedService = includedService;
+//		this.user = user;
+//	}
 	public TravelPackage()
 	{
 		
@@ -58,6 +70,49 @@ public class TravelPackage {
     @ManyToOne
     @JoinColumn(name="userid")
     private User user;
+    private String imageUrl;
+//	public int getPackageId() {
+//		return packageId;
+//	}
+//	public void setPackageId(int packageId) {
+//		this.packageId = packageId;
+//	}
+//	public String getTitle() {
+//		return title;
+//	}
+//	public void setTitle(String title) {
+//		this.title = title;
+//	}
+//	public String getDescription() {
+//		return description;
+//	}
+//	public void setDescription(String description) {
+//		this.description = description;
+//	}
+//	public int getDuration() {
+//		return duration;
+//	}
+//	public void setDuration(int duration) {
+//		this.duration = duration;
+//	}
+//	public double getPrice() {
+//		return price;
+//	}
+//	public void setPrice(double price) {
+//		this.price = price;
+//	}
+//	public String getIncludedService() {
+//		return includedService;
+//	}
+//	public void setIncludedService(String includedService) {
+//		this.includedService = includedService;
+//	}
+//	@Override
+//	public String toString() {
+//		return "TravelPackage [packageId=" + packageId + ", title=" + title + ", description=" + description
+//				+ ", duration=" + duration + ", price=" + price + ", includedService=" + includedService + "]";
+//	}
+//    
 	public int getPackageId() {
 		return packageId;
 	}
@@ -94,10 +149,17 @@ public class TravelPackage {
 	public void setIncludedService(String includedService) {
 		this.includedService = includedService;
 	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	@Override
 	public String toString() {
 		return "TravelPackage [packageId=" + packageId + ", title=" + title + ", description=" + description
-				+ ", duration=" + duration + ", price=" + price + ", includedService=" + includedService + "]";
+				+ ", duration=" + duration + ", price=" + price + ", includedService=" + includedService + ", user="
+				+ user + ", imageUrl=" + imageUrl + "]";
 	}
     
 
