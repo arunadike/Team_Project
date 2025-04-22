@@ -11,8 +11,6 @@ function renderPackages(filteredPackages = []) { // Expecting an array of packag
   }
 
   filteredPackages.forEach((pkg) => {
-    // Assuming your transformed pkg object now has 'id', 'title', 'description', 'duration', 'price', 'includes'
-
     // Create icons for included services (adjust based on your 'includes' array)
     const serviceIcons = `
       <div class="d-flex mt-2">
@@ -28,11 +26,12 @@ function renderPackages(filteredPackages = []) { // Expecting an array of packag
     const packageHTML = `
       <div class="col-md-4 mb-4 package-card" data-id="${pkg.id}">
         <div class="card h-100">
+          <img src="${pkg.imageUrl}" class="card-img-top" alt="${pkg.title}" style="height: 200px; object-fit: cover;">
           <div class="card-body">
             <h5 class="package-title card-title mb-2">${pkg.title}</h5>
             <p class="package-description card-text mb-2">${pkg.description}</p>
             <p class="package-duration card-text"><i class="bi bi-clock"></i> ${pkg.duration}</p>
-            <p class="package-price card-text h5">${pkg.price}</p>
+            <p class="package-price card-text h5">${pkg.price.toLocaleString('en-IN')}</p>
             ${serviceIcons}
             <button class="btn btn-sm btn-primary mt-3">View Details</button>
           </div>
@@ -59,7 +58,7 @@ $(document).ready(function(){
           duration: `${pkg.duration} Days`,
           price: `₹${pkg.price.toLocaleString('en-IN')}`, // Format as Indian Rupees
           includes: pkg.includedService ? pkg.includedService.split(', ').map(s => s.toLowerCase()) : [],
-          // ... more transformations for missing fields if your UI needs them
+          imageUrl: pkg.imageUrl // Use imageUrl from the database response
         };
         console.log(newPkg);
         return newPkg;
