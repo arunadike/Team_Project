@@ -64,8 +64,8 @@ public class CartItemsService {
 		    
 		    
 		    	   double originalPrice = cartItem.getPackage1().getPrice();
-		    	    double orignalPrice = originalPrice*noOfPersons;
-		    	   cartItem.setPrice(orignalPrice); 
+		    	    double newPrice = originalPrice*noOfPersons;
+		    	   cartItem.setPrice(newPrice); 
 		    	   
 		    	  
 		    cartItemsRepository.save(cartItem);
