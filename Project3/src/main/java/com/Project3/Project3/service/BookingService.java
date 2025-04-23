@@ -10,10 +10,10 @@ import com.Project3.Project3.repository.BookingRepository;
 
 @Service
 public class BookingService {
-	
+
 	@Autowired
 	BookingRepository bookingRepository;
-	
+
 	public List<Booking> returnData() {
 		// TODO Auto-generated method stub
 		return (List<Booking>) bookingRepository.findAll();
@@ -24,6 +24,6 @@ public class BookingService {
 		bookingRepository.save(booking);
 		System.out.println("Done");
 	}
-	
+
 
 }

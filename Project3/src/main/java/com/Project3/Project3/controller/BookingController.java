@@ -15,13 +15,13 @@ import com.Project3.Project3.service.BookingService;
 public class BookingController {
 	@Autowired
 	BookingService bookingService;
-	
+
 	@GetMapping("/bookingGet")
 	public List<Booking> get()
 	{
 		return  bookingService.returnData();
 	}
-	
+
 	@PostMapping("/booking")
 	public void post(@RequestBody Booking booking)
 	{
