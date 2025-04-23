@@ -1,37 +1,55 @@
 package com.Project3.Project3.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "assistancerequest")
+@Table(name = "assistancerequest2")
 public class AssistanceRequest {
+	public AssistanceRequest(int requestId, User user, @NotNull String issueDescription, @NotNull String status,
+			Timestamp resolutionTime) {
+		super();
+		this.requestId = requestId;
+		this.user = user;
+		this.issueDescription = issueDescription;
+		this.status = status;
+		this.resolutionTime = resolutionTime;
+	}
+
 	public AssistanceRequest() {
 	}
 
 	@Id
 	private int requestId;
-	@NotNull
-	private int userId;
+	@ManyToOne
+	@JoinColumn(name="userid")
+	private User user;
 	@NotNull
 	private String issueDescription;
 	@NotNull
 	private String status;
-	private LocalDateTime resolutionTime;
+	private Timestamp resolutionTime;
 
-	public AssistanceRequest(int requestId, @NotNull int userId, @NotNull String issueDescription,
-			@NotNull String status, LocalDateTime resolutionTime) {
-		super();
-		this.requestId = requestId;
-		this.userId = userId;
-		this.issueDescription = issueDescription;
-		this.status = status;
+	public void setResolutionTime(Timestamp resolutionTime) {
 		this.resolutionTime = resolutionTime;
 	}
+
+//	public AssistanceRequest(int requestId, @NotNull int userId, @NotNull String issueDescription,
+//			@NotNull String status, Timestamp resolutionTime) {
+//		super();
+//		this.requestId = requestId;
+//		this.userId = userId;
+//		this.issueDescription = issueDescription;
+//		this.status = status;
+//		this.resolutionTime = resolutionTime;
+//	}
 
 	public int getRequestId() {
 		return requestId;
@@ -41,12 +59,12 @@ public class AssistanceRequest {
 		this.requestId = requestId;
 	}
 
-	public int getUserId() {
-		return userId;
+	public User getUserId() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId(User user) {
+		this.user = user;
 	}
 
 	public String getIssueDescription() {
@@ -65,17 +83,13 @@ public class AssistanceRequest {
 		this.status = status;
 	}
 
-	public LocalDateTime getResolutionTime() {
+	public Timestamp getResolutionTime() {
 		return resolutionTime;
-	}
-
-	public void setResolutionTime(LocalDateTime resolutionTime) {
-		this.resolutionTime = resolutionTime;
 	}
 
 	@Override
 	public String toString() {
-		return "AssistanceRequest [requestId=" + requestId + ", userId=" + userId + ", issueDescription="
+		return "AssistanceRequest [requestId=" + requestId + ", userId=" + user + ", issueDescription="
 				+ issueDescription + ", status=" + status + ", resolutionTime=" + resolutionTime + "]";
 	}
 

@@ -1,81 +1,57 @@
 package com.Project3.Project3.model;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Date;
+
 @Entity
-@Table(name="review1")
+//@Table(name="review2")
 public class Review {
 
+    public Review(){
+        super();
+    }
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int reviewId;
-    
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_seq")
+    @SequenceGenerator(name = "review_seq", sequenceName = "REVIEW_SEQ", allocationSize = 1)
+    private int id;
+
     @ManyToOne
-    @JoinColumn(name = "userid")
-    private User user;
-    
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "bookingId")
+    @JoinColumn(name = "booking_id")  // Foreign key column in Review table
     private Booking booking;
 
-    @NotNull
-    @Min(1)
-    @Max(5)
-    private int rating;
-    
     private String reviewComment;
-    
-    private LocalDateTime reviewTimestamp;
+    private int rating;
+    private Date reviewDate;
 
-    public Review() {
-        this.reviewTimestamp = LocalDateTime.now(); // Set default value
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "packageid")
+    private TravelPackage package1;
+    public int getId() {
+        return id;
     }
 
-    public int getReviewId() {
-        return reviewId;
+    public Review(int id, Booking booking, String reviewComment, int rating, Date reviewDate, TravelPackage package1) {
+        this.id = id;
+        this.booking = booking;
+        this.reviewComment = reviewComment;
+        this.rating = rating;
+        this.reviewDate = reviewDate;
+        this.package1 = package1;
     }
 
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
+    public void setId(int id) {
+        this.id = id;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-   
 
     public Booking getBooking() {
-		return booking;
-	}
-
-	public void setBooking(Booking booking) {
-		this.booking = booking;
-	}
-
-	public int getRating() {
-        return rating;
+        return booking;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     public String getComment() {
@@ -86,29 +62,39 @@ public class Review {
         this.reviewComment = reviewComment;
     }
 
-    public LocalDateTime getReviewTimestamp() {
-        return reviewTimestamp;
+    public int getRating() {
+        return rating;
     }
 
-    public void setReviewTimestamp(LocalDateTime reviewTimestamp) {
-        this.reviewTimestamp = reviewTimestamp;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
-    
-    public Review(int reviewId, User user, Booking booking, @NotNull @Min(1) @Max(5) int rating,
-			String reviewComment, LocalDateTime reviewTimestamp) {
-		super();
-		this.reviewId = reviewId;
-		this.user = user;
-		this.booking = booking;
-		this.rating = rating;
-		this.reviewComment = reviewComment;
-		this.reviewTimestamp = reviewTimestamp;
-	}
+    public Date getReviewDate() {
+        return reviewDate;
+    }
 
-	@Override
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public TravelPackage getPackage1() {
+        return package1;
+    }
+
+    public void setPackage1(TravelPackage package1) {
+        this.package1 = package1;
+    }
+
+    @Override
     public String toString() {
-        return "Review [reviewId=" + reviewId + ", user=" + user + ", travelPackage=" + booking + ", rating="
-                + rating + ", comment=" + reviewComment + ", reviewTimestamp=" + reviewTimestamp + "]";
+        return "Review{" +
+                "id=" + id +
+                ", booking=" + booking +
+                ", reviewComment='" + reviewComment + '\'' +
+                ", rating=" + rating +
+                ", reviewDate=" + reviewDate +
+                ", package1=" + package1 +
+                '}';
     }
 }

@@ -1,7 +1,10 @@
 package com.Project3.Project3.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +27,8 @@ public class User {
 		this.contact_number = contact_number;
 	}
 	@Id
-	//@Column(name="userid", nullable=false, length=200)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "USER_SEQ", allocationSize = 1)
 	private long userid;
 	//@Column(name="name", nullable=false)
 	@NotNull

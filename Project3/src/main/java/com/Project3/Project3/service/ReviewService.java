@@ -12,7 +12,7 @@ import com.Project3.Project3.repository.ReviewRepository;
 public class ReviewService {
 
     @Autowired
-    ReviewRepository reviewRepository;
+    private ReviewRepository reviewRepository;
 
     public void saveData(Review review) {
         reviewRepository.save(review);
@@ -20,6 +20,12 @@ public class ReviewService {
     }
 
     public List<Review> returnData() {
+        System.out.println(reviewRepository.findAll());
         return (List<Review>) reviewRepository.findAll();
+    }
+
+    //  Corrected method name to match ReviewRepository
+    public List<Review> getReviewsByPackageId(int packageId) {
+        return reviewRepository.findByPackage1_PackageId(packageId);
     }
 }

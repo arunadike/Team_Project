@@ -21,8 +21,8 @@
 
     <form>
         <div class="form-group">
-            <label for="location">Location:</label>
-            <input type="text" class="form-control" id="location" placeholder="Enter location" required>
+            <label for="location">Title:</label>
+            <input type="text" class="form-control" id="title" placeholder="Enter Title" required>
         </div>
 
         <div class="form-group">
@@ -31,38 +31,30 @@
         </div>
 
         <div class="form-group">
-            <label for="perPerson">Per Person:</label>
-            <input type="number" class="form-control" id="perPerson" placeholder="Enter per person cost" required min="1000" step="500">
+            <label for="perPerson">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Enter Description" required>
         </div>
 
-        <div class="form-group">
-            <label for="type">Type:</label>
-            <select class="form-control" id="type" required>
-                <option value="">Select type</option>
-                <option value="Domestic">Domestic</option>
-                <option value="Business Class">Business Class</option>
-            </select>
-        </div>
+        
 
         <div class="form-group">
-            <label for="budget">Budget:</label>
-            <input type="number" class="form-control" id="budget" placeholder="Enter budget" required min="10000" step="1000">
+            <label for="includedService">includedService:</label>
+            <input type="text" class="form-control" id="includedService" placeholder="Enter includedService:" required>
         </div>
-
         <div class="form-group">
-            <label for="category">Category:</label>
-            <select class="form-control" id="category" required>
-                <option value="">Select category</option>
-                <option value="Beaches">Beaches</option>
-                <option value="Mountains">Mountains</option>
-                <option value="Cities">Cities</option>
-                <option value="Adventure">Adventure</option>
-            </select>
+            <label for="userId">UserId:</label>
+            <input type="number" class="form-control" id="userId" placeholder="Enter UserId" required>
+        </div>
+        <div class="form-group">
+            <label for="duration">Duration:</label>
+            <input type="number" class="form-control" id="duration" placeholder="Enter duration:" required>
         </div>
 
        
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+       
+
+        <button id="submit1" type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 <a href="webfeedback.html"><div class="feedback-btn">
@@ -71,10 +63,37 @@
 
 <script>
     $(document).ready(function() {
-        $("#fromDate, #toDate").datepicker({
-            dateFormat: "yy-mm-dd"
+    $("#fromDate, #toDate").datepicker({
+        dateFormat: "yy-mm-dd"
+    });
+
+    $("#submit1").on("click", function(event) {
+        event.preventDefault(); // Stops default form submission
+
+        var formData = {
+            title: $("#title").val(),
+            price: $("#price").val(),
+            description: $("#description").val(),
+            includedService: $("#includedService").val(),
+            userId: $("#userId").val(),
+            duration: $("#duration").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8081/api/packageCreation",
+            data: JSON.stringify(formData),
+            contentType: "application/json",
+            success: function(response) {
+                alert("Package stored successfully!");
+            },
+            error: function(xhr) {
+                alert("Error: " + xhr.responseText);
+            }
         });
     });
+});
+
 </script>
 
 </body>
