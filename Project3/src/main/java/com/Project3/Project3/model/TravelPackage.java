@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="travelpackage1")
+@Table(name="travelpackage2")
 public class TravelPackage {
 public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
 			String includedService, User user, String imageUrl) {
@@ -51,6 +51,7 @@ public TravelPackage(int packageId, @NotNull String title, String description, @
 //		this.includedService = includedService;
 //	}
 	@Id
+	@NotNull
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "travel_package_seq")
     @SequenceGenerator(name = "travel_package_seq", sequenceName = "TRAVEL_PACKAGE_SEQ", allocationSize = 1)
 	private int packageId;

@@ -22,7 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "cartitems1")
+@Table(name = "cartitems2")
 public class CartItems {
 	public CartItems(Integer cartItemID, @NotNull User user, @NotNull TravelPackage package1,
 			@NotNull @FutureOrPresent Date startDate, @NotNull int noOfPersons, boolean insurance,

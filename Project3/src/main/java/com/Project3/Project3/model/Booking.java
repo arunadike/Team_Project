@@ -44,7 +44,7 @@ public class Booking {
 
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "packageid")
+	@JoinColumn(name = "packageId",nullable = false)
 	private TravelPackage package1;
 
 	@NotNull
