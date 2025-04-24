@@ -1,10 +1,11 @@
 package com.Project3.Project3.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.Project3.Project3.model.TravelPackage;
 import com.Project3.Project3.repository.TravelPackageRepository;
@@ -13,26 +14,29 @@ import com.Project3.Project3.repository.TravelPackageRepository;
 public class TravelPackageService {
 
 	@Autowired
-	private TravelPackageRepository travelPackageRepository;
+	TravelPackageRepository travelPackageRepository;
 
 	public void saveData(TravelPackage travelPackage) {
-		travelPackageRepository.save(travelPackage);
-	}
+		// TODO Auto-generated method stub
+		((CrudRepository<TravelPackage, Integer>) travelPackageRepository).save(travelPackage);
 
-	public List<TravelPackage> returnData() {
-		return (List<TravelPackage>) travelPackageRepository.findAll();
-	}
 
+	}
+	public List<TravelPackage> returnData()
+	{
+		return (List<TravelPackage>) ((CrudRepository<TravelPackage, Integer>) travelPackageRepository).findAll();
+	}
 	public void createPackage(TravelPackage travelPackage) {
-		travelPackageRepository.save(travelPackage);
-	}
+		// TODO Auto-generated method stub
+		       travelPackageRepository.save(travelPackage);
 
+
+	}
 	public List<TravelPackage> packageDisplay() {
+		// TODO Auto-generated method stub
 		return (List<TravelPackage>) travelPackageRepository.findAll();
+		//return null;
 	}
 
-	// New method to get a single package by ID
-	public Optional<TravelPackage> getPackageById(int packageId) {
-		return travelPackageRepository.findById(packageId);
-	}
+
 }

@@ -13,32 +13,31 @@ function renderPackages(filteredPackages = []) { // Expecting an array of packag
   filteredPackages.forEach((pkg) => {
     // Create icons for included services (adjust based on your 'includes' array)
     const serviceIcons = `
-      <div class="d-flex mt-2">
+<div class="d-flex mt-2">
         ${pkg.includes.includes("flight") ? '<span class="badge bg-info me-2"><i class="bi bi-airplane"></i> Flight</span>' : ""}
         ${pkg.includes.includes("hotel") ? '<span class="badge bg-success"><i class="bi bi-building"></i> Hotel</span>' : ""}
         ${pkg.includes.includes("food") ? '<span class="badge bg-warning me-2"><i class="bi bi-egg"></i> Food</span>' : ""}
         ${pkg.includes.includes("transport") ? '<span class="badge bg-secondary"><i class="bi bi-bus-front"></i> Transport</span>' : ""}
         ${pkg.includes.includes("accommodation") ? '<span class="badge bg-primary"><i class="bi bi-house-door"></i> Accommodation</span>' : ""}
-      </div>
+</div>
     `;
 
     // Basic HTML structure for each package (adapt to your UI)
-    // In the renderPackages function:
-const packageHTML = `
+    const packageHTML = `
 <div class="col-md-4 mb-4 package-card" data-id="${pkg.id}">
-    <div class="card h-100">
-        <img src="${pkg.imageUrl}" class="card-img-top" alt="${pkg.title}" style="height: 200px; object-fit: cover;">
-        <div class="card-body">
-            <h5 class="package-title card-title mb-2">${pkg.title}</h5>
-            <p class="package-description card-text mb-2">${pkg.description}</p>
-            <p class="package-duration card-text"><i class="bi bi-clock"></i> ${pkg.duration}</p>
-            <p class="package-price card-text h5">${pkg.price}</p>
+<div class="card h-100">
+<img src="${pkg.imageUrl}" class="card-img-top" alt="${pkg.title}" style="height: 200px; object-fit: cover;">
+<div class="card-body">
+<h5 class="package-title card-title mb-2">${pkg.title}</h5>
+<p class="package-description card-text mb-2">${pkg.description}</p>
+<p class="package-duration card-text"><i class="bi bi-clock"></i> ${pkg.duration}</p>
+<p class="package-price card-text h5">${pkg.price.toLocaleString('en-IN')}</p>
             ${serviceIcons}
-            <a href="package-details.html?id=${pkg.id}" class="btn btn-sm btn-primary mt-3">Know More</a>
-        </div>
-    </div>
+<button class="btn btn-sm btn-primary mt-3">View Details</button>
 </div>
-`;
+</div>
+</div>
+    `;
 
     packagesContainer.append(packageHTML);
   });
@@ -72,4 +71,5 @@ $(document).ready(function(){
       // Optionally display an error message to the user
     }
   });
+
 });

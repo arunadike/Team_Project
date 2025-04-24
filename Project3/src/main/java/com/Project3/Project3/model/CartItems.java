@@ -22,7 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "cartitems1")
+@Table(name = "cartitems2")
 public class CartItems {
 	public CartItems(Integer cartItemID, @NotNull User user, @NotNull TravelPackage package1,
 			@NotNull @FutureOrPresent Date startDate, @NotNull int noOfPersons, boolean insurance,
@@ -40,8 +40,8 @@ public class CartItems {
 
 	public CartItems() {
     }
-	
-	
+
+
 
 //    public CartItems(Integer cartItemID, @NotNull User user, @NotNull TravelPackage package1,
 //			@NotNull @FutureOrPresent Date startDate, @NotNull @Size(min = 1, max = 10) int noOfPersons,
@@ -83,12 +83,12 @@ public class CartItems {
     @NotNull
     private int noOfPersons;
 
-    
+
     private boolean insurance;
 
     @NotNull
 	private double price;
-    
+
     private String imageUrl;
 
 	public Integer getCartItemID() {
@@ -162,8 +162,8 @@ public class CartItems {
 				+ ", imageUrl=" + imageUrl + "]";
 	}
 
-  
-    
+
+
 //
 //    public Integer getCartItemID() {
 //		return cartItemID;
@@ -254,9 +254,9 @@ public class CartItems {
 //		return "CartItems [cartItemID=" + cartItemID + ", user=" + user + ", package1=" + package1 + ", startDate="
 //				+ startDate + ", noOfPersons=" + noOfPersons + ", insurance=" + insurance + ", price=" + price + "]";
 //	}
-    
 
-	
 
-	
+
+
+
 }

@@ -20,8 +20,8 @@ import jakarta.validation.constraints.Size;
 public class Booking {
 
 	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1,
-				   @NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
-				   @NotNull String paymentMethod) {
+			@NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
+			@NotNull String paymentMethod) {
 		super();
 		this.bookingId = bookingId;
 		this.user = user;
@@ -34,7 +34,7 @@ public class Booking {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_seq")
-	@SequenceGenerator(name = "booking_seq", sequenceName = "BOOKING_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "booking_seq", sequenceName = "BOOKING_SEQ", allocationSize = 1)
 	private long bookingId;
 
 	@NotNull
