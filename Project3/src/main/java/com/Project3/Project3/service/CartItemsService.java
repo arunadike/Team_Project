@@ -72,4 +72,52 @@ public class CartItemsService {
 
 	}
 
+<<<<<<< HEAD
 }
+=======
+
+	public boolean updateInsurance(int cartItemId, Boolean hasInsurance) {
+		// TODO Auto-generated method stub
+		Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
+        if (optionalCartItem.isPresent()) {
+            CartItems cartItem = optionalCartItem.get();
+            cartItem.setInsurance(hasInsurance);
+            // Recalculate the price based on insurance (you'll need your pricing logic here)
+            double basePrice = cartItem.getPrice();// ... get the base price of the item ...
+            double insuranceCost = hasInsurance ? 500.00 : 0.00; // Example insurance cost
+            cartItem.setPrice(basePrice + insuranceCost);
+            cartItemsRepository.save(cartItem);
+            return true;
+        }
+        return false;
+		
+		//return false;
+	}
+
+	public void updateCart(int cartItemId,int noOfPersons,boolean insurance) {
+		// TODO Auto-generated method stub
+		Optional<CartItems> optionalCartItem=cartItemsRepository.findById(cartItemId);
+		if(optionalCartItem.isPresent())
+		{
+			CartItems cartItem = optionalCartItem.get();
+			cartItem.setNoOfPersons(noOfPersons);
+			cartItem.setInsurance(insurance);
+			double price1=cartItem.getPackage1().getPrice()*cartItem.getNoOfPersons();
+			double c=0;
+			//cartItem.setInsurance(cartItem.isInsurance());
+			if(cartItem.isInsurance())
+			{
+				c=500*cartItem.getNoOfPersons();
+			}
+			//cartItem.setInsurance(cartItem.isInsurance());
+			cartItem.setPrice(price1+c);
+			//cartItem.setNoOfPersons(cartItem.getNoOfPersons());
+			
+			cartItemsRepository.save(cartItem);
+		}
+		
+		
+	}
+	
+}
+>>>>>>> master

@@ -1,8 +1,10 @@
 package com.Project3.Project3.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,11 +58,28 @@ public class CartItemsController {
 	{
 		cartItemsService.updateCartItem(cartItemId,updateCartRequest.getNoOfPersons());
 	}
+	
+	 @PutMapping("/insuranceUpdate/{cartItemId}")
+	    public void updateInsurance(@PathVariable int cartItemId, @RequestBody Map<String, Boolean> requestBody) {
+	        Boolean hasInsurance = requestBody.get("hasInsurance");
+	        if (hasInsurance == null) {
+	            System.out.println("Missing 'hasInsurance' in request body");
+	        }
+
+	        boolean updated = cartItemsService.updateInsurance(cartItemId, hasInsurance);
+	        
+	    }
+	 @PutMapping("/updateCart/{cartItemId}")
+	 public void updateCartItems(@PathVariable int cartItemId,@RequestBody UpdateCartRequest updateCartRequest)
+	 {
+		 cartItemsService.updateCart(cartItemId,updateCartRequest.getNoOfPersons(),updateCartRequest.getInsurance());
+	 }
 }
 class UpdateCartRequest
 {
 	private Integer noOfPersons;
 	private Double price;
+	private boolean insurance;
 
 	  public Integer getNoOfPersons() {
 	   return noOfPersons;
@@ -77,4 +96,16 @@ class UpdateCartRequest
 	  {
 		  this.price=price;
 	  }
+<<<<<<< HEAD
 }
+=======
+	  public Boolean getInsurance()
+	  {
+		  return insurance;
+	  }
+	  public void setInsurance(boolean insurance)
+	  {
+		  this.insurance=insurance;
+	  }
+}
+>>>>>>> master
