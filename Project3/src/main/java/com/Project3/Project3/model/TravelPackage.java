@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="travelpackage2")
+@Table(name="travelpackage1")
 public class TravelPackage {
 public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
 			String includedService, User user, String imageUrl) {

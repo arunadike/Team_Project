@@ -27,7 +27,7 @@ public class Review {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "packageid")
+    @JoinColumn(name = "packageId")
     private TravelPackage package1;
     public int getId() {
         return id;

@@ -7,8 +7,8 @@
 }
 
 .package-image {
-    width: 550%;
-    max-height: 300px;
+    width: 68rem;
+    max-height: 400px;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 20px;

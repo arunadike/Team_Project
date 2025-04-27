@@ -1,6 +1,7 @@
 package com.Project3.Project3.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -38,5 +39,8 @@ public class TravelPackageService {
 		//return null;
 	}
 
+	public Optional<TravelPackage> getPackageById(int packageId) {
+		return travelPackageRepository.findById(packageId);
+	}
 
 }

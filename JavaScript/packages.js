@@ -33,7 +33,7 @@ function renderPackages(filteredPackages = []) { // Expecting an array of packag
 <p class="package-duration card-text"><i class="bi bi-clock"></i> ${pkg.duration}</p>
 <p class="package-price card-text h5">${pkg.price.toLocaleString('en-IN')}</p>
             ${serviceIcons}
-<button class="btn btn-sm btn-primary mt-3">View Details</button>
+<a href="package-details.html?id=${pkg.id}" class="btn btn-sm btn-primary mt-3">Know More</a>
 </div>
 </div>
 </div>

@@ -13,19 +13,18 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "booking1")
 public class Booking {
 
-	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1,
-			@NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
-			@NotNull String paymentMethod) {
+	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1, // Renamed for clarity
+				   @NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
+				   @NotNull String paymentMethod) {
 		super();
 		this.bookingId = bookingId;
 		this.user = user;
-		this.package1 = package1;
+		this.package1 = package1; // Using the renamed field
 		this.orderDate = orderDate;
 		this.price = price;
 		this.paymentStatus = paymentStatus;
@@ -34,7 +33,7 @@ public class Booking {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_seq")
-    @SequenceGenerator(name = "booking_seq", sequenceName = "BOOKING_SEQ", allocationSize = 1)
+	@SequenceGenerator(name = "booking_seq", sequenceName = "BOOKING_SEQ", allocationSize = 1)
 	private long bookingId;
 
 	@NotNull
@@ -44,16 +43,12 @@ public class Booking {
 
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "packageId",nullable = false)
-	private TravelPackage package1;
+	@JoinColumn(name = "packageId")
+	private TravelPackage package1; // Renamed the field
 
 	@NotNull
 	@FutureOrPresent
 	private Date orderDate;
-
-//	@NotNull
-//	@FutureOrPresent
-//	private Date endDate;
 
 	@NotNull
 	private double price;
@@ -61,11 +56,6 @@ public class Booking {
 	private String paymentStatus;
 	@NotNull
 	private String paymentMethod;
-
-//	@NotNull
-//	@OneToOne
-//	@JoinColumn(name = "paymentid")
-//	private Payment1 payment;
 
 	public Date getOrderDate() {
 		return orderDate;
@@ -123,34 +113,7 @@ public class Booking {
 		this.package1 = package1;
 	}
 
-
-
-
-
-
-
-
 	public Booking() {
 
 	}
-
-//	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1,
-//			@NotNull @FutureOrPresent Date startDate, @NotNull @FutureOrPresent Date endDate,
-//			@NotNull @Size(min = 0, max = 2) String status, @NotNull Payment1 payment) {
-//		// super();
-//		this.bookingId = bookingId;
-//		this.user = user;
-//		this.package1 = package1;
-//		this.startDate = startDate;
-//		this.endDate = endDate;
-//		this.status = status;
-//		this.payment = payment;
-//	}
-
-//	@Override
-//	public String toString() {
-//		return "Booking [bookingId=" + bookingId + ", user=" + user + ", package1=" + package1 + ", startDate="
-//				+ startDate + ", endDate=" + endDate + ", status=" + status + ", payment=" + payment + "]";
-//	}
-
 }
