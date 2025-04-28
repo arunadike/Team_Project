@@ -72,9 +72,7 @@ public class CartItemsService {
 
 	}
 
-<<<<<<< HEAD
-}
-=======
+
 
 	public boolean updateInsurance(int cartItemId, Boolean hasInsurance) {
 		// TODO Auto-generated method stub
@@ -90,7 +88,7 @@ public class CartItemsService {
             return true;
         }
         return false;
-		
+
 		//return false;
 	}
 
@@ -112,12 +110,11 @@ public class CartItemsService {
 			//cartItem.setInsurance(cartItem.isInsurance());
 			cartItem.setPrice(price1+c);
 			//cartItem.setNoOfPersons(cartItem.getNoOfPersons());
-			
+
 			cartItemsRepository.save(cartItem);
 		}
-		
-		
+
+
 	}
-	
+
 }
->>>>>>> master

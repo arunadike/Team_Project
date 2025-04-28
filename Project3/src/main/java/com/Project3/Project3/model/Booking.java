@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "booking1")
 public class Booking {
 
-	public Booking(long bookingId, @NotNull User user, @NotNull TravelPackage package1, // Renamed for clarity
+	public Booking(int bookingId, @NotNull User user, @NotNull TravelPackage package1, // Renamed for clarity
 				   @NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
 				   @NotNull String paymentMethod) {
 		super();
@@ -34,7 +34,7 @@ public class Booking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_seq")
 	@SequenceGenerator(name = "booking_seq", sequenceName = "BOOKING_SEQ", allocationSize = 1)
-	private long bookingId;
+	private int bookingId;
 
 	@NotNull
 	@ManyToOne
@@ -89,11 +89,11 @@ public class Booking {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public long getBookingId() {
+	public int getBookingId() {
 		return bookingId;
 	}
 
-	public void setBookingId(long bookingId) {
+	public void setBookingId(int bookingId) {
 		this.bookingId = bookingId;
 	}
 

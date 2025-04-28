@@ -58,7 +58,7 @@ public class CartItemsController {
 	{
 		cartItemsService.updateCartItem(cartItemId,updateCartRequest.getNoOfPersons());
 	}
-	
+
 	 @PutMapping("/insuranceUpdate/{cartItemId}")
 	    public void updateInsurance(@PathVariable int cartItemId, @RequestBody Map<String, Boolean> requestBody) {
 	        Boolean hasInsurance = requestBody.get("hasInsurance");
@@ -67,7 +67,7 @@ public class CartItemsController {
 	        }
 
 	        boolean updated = cartItemsService.updateInsurance(cartItemId, hasInsurance);
-	        
+
 	    }
 	 @PutMapping("/updateCart/{cartItemId}")
 	 public void updateCartItems(@PathVariable int cartItemId,@RequestBody UpdateCartRequest updateCartRequest)
@@ -96,9 +96,9 @@ class UpdateCartRequest
 	  {
 		  this.price=price;
 	  }
-<<<<<<< HEAD
-}
-=======
+
+
+
 	  public Boolean getInsurance()
 	  {
 		  return insurance;
@@ -108,4 +108,3 @@ class UpdateCartRequest
 		  this.insurance=insurance;
 	  }
 }
->>>>>>> master

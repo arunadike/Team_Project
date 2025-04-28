@@ -17,8 +17,8 @@ public class Review {
     @SequenceGenerator(name = "review_seq", sequenceName = "REVIEW_SEQ", allocationSize = 1)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id")  // Foreign key column in Review table
+    @OneToOne
+    @JoinColumn(name = "booking_id", unique = true)
     private Booking booking;
 
     private String reviewComment;

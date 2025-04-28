@@ -1,57 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Package Feedback Form</title>
     <link rel="stylesheet" href="webfeedback.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="nav_footer_feedback.css">
 </head>
+
 <body>
     <div class="feedback-form-cnt">
         <h2>Travel Package Feedback</h2>
-        <form action="/submitFeedback" method="post" class="checkform">
+        <form id="reviewForm" class="checkform">
             <div class="form-field">
                 <label for="rating">Rating</label>
                 <div class="star-rating">
-                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">&#9733;</label>
-                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">&#9733;</label>
-                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">&#9733;</label>
-                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">&#9733;</label>
-                    <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 stars">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1" required><label for="star1"
+                        title="1 star">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2"
+                        title="2 stars">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3"
+                        title="3 stars">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4"
+                        title="4 stars">&#9733;</label>
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5"
+                        title="5 stars">&#9733;</label>
                 </div>
             </div>
-           
-            <div class="form-field">
-                <label for="navigation">Navigation Experience</label>
-                <select id="navigation" name="navigation" required>
-                    <option value="">Select an option</option>
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="average">Average</option>
-                    <option value="poor">Poor</option>
-                </select>
-            </div>
-            <div class="form-field">
-                <label for="website">Website Usability</label>
-                <select id="website" name="website" required>
-                    <option value="">Select an option</option>
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="average">Average</option>
-                    <option value="poor">Poor</option>
-                </select>
-            </div>
+
             <div class="form-field">
                 <label for="comments">Comments</label>
                 <textarea id="comments" name="comments" rows="4" required></textarea>
             </div>
             <div class="form-field">
-                <input type="submit" class="box-btn" value="Submit">
+                <input type="hidden" id="packageId" name="packageId" value="6">
+                <input type="hidden" id="bookingPaymentId" name="bookingPaymentId" value="">
+                <input type="hidden" id="userId" name="userId">
+                <button type="submit" class="box-btn">Submit</button>
             </div>
         </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="webfeedback.js"></script>
+    <script>
+        $(document).ready(function () {
+            // --- Get URL parameters ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingPaymentId = urlParams.get('bookingPaymentId');
+            const userId = urlParams.get('userId');
+            const packageId = urlParams.get('packageId');
+
+            // --- Set the hidden field values ---
+            $('#bookingPaymentId').val(bookingPaymentId);
+            $('#userId').val(userId);
+            $('#packageId').val(packageId);
+
+            // --- Form submission ---
+            $('#reviewForm').submit(function (event) {
+                event.preventDefault();
+
+                const rating = $('input[name="rating"]:checked').val();
+                const comment = $('#comments').val();
+                const packageId = $('#packageId').val();
+                const bookingPaymentId = $('#bookingPaymentId').val();
+                const userId = $('#userId').val();
+
+                if (!rating) {
+                    alert('Please select a rating.');
+                    return;
+                }
+
+                if (!comment) { // Added check for comment
+                    alert('Please enter a comment.');
+                    return;
+                }
+
+                const reviewData = {
+                    rating: parseInt(rating),
+                    reviewComment: comment,
+                    package1: {
+                        packageId: parseInt(packageId)
+                    },
+                    booking: {
+                        bookingId: parseInt(bookingPaymentId)
+                    },
+                    user: {
+                        userId: parseInt(userId)
+                    }
+                };
+
+                $.ajax({
+                    url: 'http://localhost:8081/api/reviewPost',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(reviewData),
+                    success: function (response) {
+                        console.log('Review submitted successfully:', response);
+                        alert('Thank you for your review!');
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error submitting review:', status, error);
+                        alert('Failed to submit your review. Please try again.');
+                    }
+                });
+                console.log('Submit button clicked');
+            });
+        });
+    </script>
 </body>
+
 </html>

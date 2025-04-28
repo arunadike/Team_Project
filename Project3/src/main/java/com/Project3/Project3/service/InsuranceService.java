@@ -10,18 +10,18 @@ import com.Project3.Project3.repository.InsuranceRepository;
 
 @Service
 public class InsuranceService {
-	
+
 	@Autowired
 	private InsuranceRepository insuranceRepository;
-	
+
 	public void saveData(Insurance insurance) {
 		insuranceRepository.save(insurance);
-		
+
 	}
 
 	public List<Insurance> returnData() {
 		// TODO Auto-generated method stub
 		return (List<Insurance>) insuranceRepository.findAll();
 	}
-	
+
 }
