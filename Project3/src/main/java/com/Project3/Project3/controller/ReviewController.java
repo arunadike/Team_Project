@@ -9,8 +9,10 @@ import com.Project3.Project3.model.Review;
 import com.Project3.Project3.service.ReviewService;
 import com.Project3.Project3.model.Booking;
 import com.Project3.Project3.repository.BookingRepository;
+import com.Project3.Project3.repository.ReviewRepository;
 import jakarta.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 @RestController
@@ -19,28 +21,45 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 public class ReviewController {
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @PostMapping("/reviewPost")
     @Transactional
     public ResponseEntity<String> reviewPost(@RequestBody @Valid Review review) {
         try {
-            Booking booking = review.getBooking();
-            if (booking != null && booking.getBookingId() != 0) {
-                Booking existingBooking = bookingRepository.findById(booking.getBookingId()).orElse(null);
-                if (existingBooking != null) {
-                    review.setBooking(existingBooking);
-                }
+            // 1.  Null Check for Booking
+            if (review.getBooking() == null) {
+                return new ResponseEntity<>("Failed to save review: Booking is required.", HttpStatus.BAD_REQUEST);
             }
+
+            // 2.  Check for existing review using the repository
+            if (reviewRepository.findByBooking(review.getBooking()) != null) {
+                return new ResponseEntity<>("Failed to save review: A review for this booking already exists.", HttpStatus.BAD_REQUEST);
+            }
+
+            // 3.  Get Booking from DB
+            Booking booking = bookingRepository.findById(review.getBooking().getBookingId()).orElse(null);
+            if(booking == null){
+                return new ResponseEntity<>("Failed to save review: Booking does not exist.", HttpStatus.BAD_REQUEST);
+            }
+            review.setBooking(booking);
+
+            // 4. Save the review through the service (which should just call the repository)
             reviewService.saveData(review);
             return new ResponseEntity<>("Review saved successfully", HttpStatus.OK);
+
         } catch (ObjectOptimisticLockingFailureException e) {
-            //  Handle the optimistic locking failure specifically.
             e.printStackTrace();
-            return new ResponseEntity<>("Failed to save review: Booking data was modified concurrently. Please try again.", HttpStatus.CONFLICT); // Return 409 Conflict
+            return new ResponseEntity<>("Failed to save review: Booking data was modified concurrently. Please try again.", HttpStatus.CONFLICT);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Failed to save review: A review for this booking already exists.", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Failed to save review: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
