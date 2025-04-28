@@ -1,0 +1,128 @@
+.package-details-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.package-image {
+    width: 68rem;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.package-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.package-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.package-duration,
+.package-price {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.package-price {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.reviews-container {
+    margin-top: 40px;
+}
+
+.review-card {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.review-user {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #007bff;
+}
+
+.review-rating {
+    margin-bottom: 5px;
+}
+
+.review-comment {
+    font-size: 14px;
+    color: #666;
+}
+
+.review-timestamp {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.star-icon {
+    color: #ffd700;
+    margin-right: 2px;
+}
+
+.package-includes {
+    margin-bottom: 10px;
+}
+
+.package-includes-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Adjust layout to move image outside the card and to the left */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /* Align items to the start (top in this case) */
+}
+
+.col-md-12 {
+    display: flex;
+    /* Enable flexbox for the main content area */
+    flex-direction: column;
+    align-items: flex-start;
+    /* Align items to the start */
+}
+
+.package-image-container {
+    flex: 0 0 50%;
+    /* Take up 50% of the width */
+    margin-right: 20px;
+    /* Add some margin to separate from text */
+    margin-bottom: 20px;
+}
+
+.package-details-text {
+    flex: 0 0 50%;
+    /* Take up the other 50% of the width */
+}
+
+/* Adjust review section width */
+#reviews-list {
+    width: 100%;
+    /* Make the reviews section take up full width */
+}
+
+.review-card {
+    width: 45%;
+    margin-right: 10px;
+    margin-left: 10px;
+}

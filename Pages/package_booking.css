@@ -1,0 +1,26 @@
+.close-btn {
+    position: absolute;
+    top: 10px; /* Adjust the top position to align with the heading */
+    right: 10px; /* Adjust the right position to align with the heading */
+    font-size: 12px;
+    color: white;
+    background-color: red;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background-color: darkred; /* Change to a darker red on hover */
+}
+
+.popup {
+    max-width: 600px; /* Set a maximum width for the form */
+    margin: 0 auto; /* Center the form */
+    background-color: white; /* Background color for the pop-up */
+    padding: 20px; /* Padding for the pop-up */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect for the pop-up */
+    position: relative; /* Position relative for absolute positioning of close button */
+    height: 400px; /* Set a fixed height for the form */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
