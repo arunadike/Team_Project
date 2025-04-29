@@ -1,10 +1,14 @@
 package com.Project3.Project3.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,6 +78,32 @@ public class CartItemsController {
 	 {
 		 cartItemsService.updateCart(cartItemId,updateCartRequest.getNoOfPersons(),updateCartRequest.getInsurance());
 	 }
+	@PostMapping("/add")
+	public ResponseEntity<CartItems> addItemToCart(@RequestBody Map<String, Object> payload) {
+		// Extract data from the request body
+		Long userId = Long.parseLong(((Map<String, Object>) payload.get("user")).get("userId").toString());
+		int packageId = Integer.parseInt(((Map<String, Object>) payload.get("package1")).get("packageId").toString());
+		String startDateStr = payload.get("startDate").toString();
+		Integer noOfPersons = (Integer) payload.get("noOfPersons");
+		Boolean insurance = (Boolean) payload.get("insurance");
+		Double price = Double.parseDouble(payload.get("price").toString());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust pattern if needed
+		Date startDate = null;
+		try {
+			startDate = dateFormat.parse(startDateStr);
+		} catch (ParseException e) {
+			System.err.println("Error parsing date: " + startDateStr);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Indicate invalid date format
+		}
+
+		CartItems addedItem = cartItemsService.addItemToCart(userId, packageId, startDate, noOfPersons, insurance, price);
+
+		if (addedItem != null) {
+			return new ResponseEntity<>(addedItem, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Or another appropriate status
+		}
+	}
 }
 class UpdateCartRequest
 {
@@ -107,4 +137,7 @@ class UpdateCartRequest
 	  {
 		  this.insurance=insurance;
 	  }
+
+
+
 }

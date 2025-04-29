@@ -76,7 +76,6 @@ public class CartItems {
 	private TravelPackage package1;
 
     @NotNull
-	@FutureOrPresent
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Kolkata")
 	private Date startDate;
 
