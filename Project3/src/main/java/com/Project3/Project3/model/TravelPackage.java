@@ -69,7 +69,7 @@ public TravelPackage(int packageId, @NotNull String title, String description, @
 	}
 	private String includedService;
     @ManyToOne
-    @JoinColumn(name="userid")
+    @JoinColumn(name="userId")
     private User user;
     private String imageUrl;
 //	public int getPackageId() {
