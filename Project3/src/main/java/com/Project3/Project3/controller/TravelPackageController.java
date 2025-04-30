@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Project3.Project3.model.TravelPackage;
 import com.Project3.Project3.model.Review; // Import the Review model
-import com.Project3.Project3.service.TravelPackageService;
+import com.Project3.Project3.model.TravelPackage;
 import com.Project3.Project3.service.ReviewService; // Import ReviewService
+import com.Project3.Project3.service.TravelPackageService;
 
 import jakarta.validation.Valid;
 
@@ -55,35 +55,131 @@ public class TravelPackageController {
 //	}
 	
 	
-	@GetMapping("/packageDisplay")
-	public List<TravelPackage> packageDisplay(
-	        @RequestParam(value = "title", required = false) String title,
-	        @RequestParam(value = "minDuration", required = false) Integer minDuration,
-	        @RequestParam(value = "maxDuration", required = false) Integer maxDuration,
-	        @RequestParam(value = "services", required = false) List<String> services) {
+//	@GetMapping("/packageDisplay")
+//	public List<TravelPackage> packageDisplay(
+//	        @RequestParam(value = "title", required = false) String title,
+//	        @RequestParam(value = "minDuration", required = false) Integer minDuration,
+//	        @RequestParam(value = "maxDuration", required = false) Integer maxDuration,
+//	        @RequestParam(value = "services", required = false) List<String> services) {
 
-	    if (title != null && !title.isEmpty() && minDuration != null && maxDuration != null && services != null && !services.isEmpty()) {
-	        List<TravelPackage> results = travelPackageService.findByTitleContainingIgnoreCaseAndDurationBetween(title, minDuration, maxDuration);
-	        return travelPackageService.filterByMultipleServices(results, services);
-	    } else if (title != null && !title.isEmpty() && minDuration != null && maxDuration != null) {
-	        return travelPackageService.findByTitleContainingIgnoreCaseAndDurationBetween(title, minDuration, maxDuration);
-	    } else if (title != null && !title.isEmpty() && services != null && !services.isEmpty()) {
-	        List<TravelPackage> results = travelPackageService.searchPackagesByTitle(title);
-	        return travelPackageService.filterByMultipleServices(results, services);
-	    } else if (minDuration != null && maxDuration != null && services != null && !services.isEmpty()) {
-	        List<TravelPackage> results = travelPackageService.filterPackagesByDuration(minDuration, maxDuration);
-	        return travelPackageService.filterByMultipleServices(results, services);
-	    } else if (title != null && !title.isEmpty()) {
-	        return travelPackageService.searchPackagesByTitle(title);
-	    } else if (minDuration != null && maxDuration != null) {
-	        return travelPackageService.filterPackagesByDuration(minDuration, maxDuration);
-	    } else if (services != null && !services.isEmpty()) {
-	        List<TravelPackage> results = travelPackageService.packageDisplay();
-	        return travelPackageService.filterByMultipleServices(results, services);
-	    } else {
-	        return travelPackageService.packageDisplay();
-	    }
-	}
+//		System.out.println("Title"+title);
+//	    if (title != null && !title.isEmpty() && minDuration != null && maxDuration != null && services != null && !services.isEmpty()) {
+//	        List<TravelPackage> results = travelPackageService.findByTitleContainingIgnoreCaseAndDurationBetween(title, minDuration, maxDuration);
+//	        return travelPackageService.filterByMultipleServices(results, services);
+//	    } else if (title != null && !title.isEmpty() && minDuration != null && maxDuration != null) {
+//	        return travelPackageService.findByTitleContainingIgnoreCaseAndDurationBetween(title, minDuration, maxDuration);
+//	    } else if (title != null && !title.isEmpty() && services != null && !services.isEmpty()) {
+//	        List<TravelPackage> results = travelPackageService.searchPackagesByTitle(title);
+//	        return travelPackageService.filterByMultipleServices(results, services);
+//	    } else if (minDuration != null && maxDuration != null && services != null && !services.isEmpty()) {
+//	        List<TravelPackage> results = travelPackageService.filterPackagesByDuration(minDuration, maxDuration);
+//	        return travelPackageService.filterByMultipleServices(results, services);
+//	    } else if (title != null && !title.isEmpty()) {
+//	        return travelPackageService.searchPackagesByTitle(title);
+//	    } else if (minDuration != null && maxDuration != null) {
+//	        return travelPackageService.filterPackagesByDuration(minDuration, maxDuration);
+//	    } else if (services != null && !services.isEmpty()) {
+//	        List<TravelPackage> results = travelPackageService.packageDisplay();
+//	        return travelPackageService.filterByMultipleServices(results, services);
+//	    } else {
+//	        return travelPackageService.packageDisplay();
+//	    }
+		
+	@GetMapping("/packageDisplay")
+    public List<TravelPackage> packageDisplay(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "minDuration", required = false) Integer minDuration,
+            @RequestParam(value = "maxDuration", required = false) Integer maxDuration,
+            @RequestParam(value = "services", required = false) String service, // Changed to single service
+            @RequestParam(value = "minPrice", required = false) Double minPrice,
+            @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
+
+        System.out.println("title: " + title + ", minDuration: " + minDuration + ", maxDuration: " + maxDuration + ", service: " + service + ", minPrice: " + minPrice + ", maxPrice: " + maxPrice);
+
+        // 2. Filter by Title
+        if (title != null && minDuration == null && maxDuration == null && service == null && minPrice == null && maxPrice == null) {
+            System.out.println("Filter by title: " + title);
+            return travelPackageService.searchPackagesByTitle(title);
+        }
+        // 3. Filter by Duration
+        else if (title == null && minDuration != null && maxDuration != null && service == null && minPrice == null && maxPrice == null) {
+            System.out.println("Filter by duration: " + minDuration + " - " + maxDuration);
+            return travelPackageService.filterPackagesByDuration(minDuration, maxDuration);
+        }
+        // 4. Filter by Service
+        else if (title == null && minDuration == null && maxDuration == null && service != null && minPrice == null && maxPrice == null) {
+            System.out.println("Filter by service: " + service);
+            return travelPackageService.filterPackagesByService(service);
+        }
+        // 5. Filter by Price
+        else if (title == null && minDuration == null && maxDuration == null && service == null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by price: " + minPrice + " - " + maxPrice);
+            return travelPackageService.filterPackagesByPrice(minPrice, maxPrice);
+        }
+        // 6. Filter by Title and Duration
+        else if (title != null && minDuration != null && maxDuration != null && service == null && minPrice == null && maxPrice == null) {
+            System.out.println("Filter by title and duration: " + title + ", " + minDuration + " - " + maxDuration);
+            return travelPackageService.findPackagesByTitleAndDuration(title, minDuration, maxDuration);
+        }
+        // 7. Filter by Title and Service
+        else if (title != null && minDuration == null && maxDuration == null && service != null && minPrice == null && maxPrice == null) {
+            System.out.println("Filter by title and service: " + title + ", " + service);
+            return travelPackageService.findPackagesByTitleAndService(title, service);
+        }
+        // 8. Filter by Title and Price
+        else if (title != null && minDuration == null && maxDuration == null && service == null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by title and price: " + title + ", " + minPrice + " - " + maxPrice);
+            return travelPackageService.findPackagesByTitleAndPrice(title, minPrice, maxPrice);
+        }
+        // 9. Filter by Duration and Service
+        else if (title == null && minDuration != null && maxDuration != null && service != null && minPrice == null && maxPrice == null) {
+            System.out.println("Filter by duration and service: " + minDuration + " - " + maxDuration + ", " + service);
+            return travelPackageService.findPackagesByDurationAndService(minDuration, maxDuration, service);
+        }
+        // 10. Filter by Duration and Price
+        else if (title == null && minDuration != null && maxDuration != null && service == null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by duration and price: " + minDuration + " - " + maxDuration + ", " + minPrice + " - " + maxPrice);
+            return travelPackageService.findPackagesByDurationAndPrice(minDuration, maxDuration, minPrice, maxPrice);
+        }
+        // 11. Filter by Service and Price
+        else if (title == null && minDuration == null && maxDuration == null && service != null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by service and price: " + service + ", " + minPrice + " - " + maxPrice);
+            return travelPackageService.findPackagesByServiceAndPrice(service, minPrice, maxPrice);
+        }
+        // 12. Filter by Title, Duration, and Service
+        else if (title != null && minDuration != null && maxDuration != null && service != null && minPrice == null && maxPrice == null) {
+            System.out.println("Filter by title, duration, and service: " + title + ", " + minDuration + " - " + maxDuration + ", " + service);
+            return travelPackageService.findPackagesByTitleAndDurationAndService(title, minDuration, maxDuration, service);
+        }
+        // 13. Filter by Title, Duration, and Price
+        else if (title != null && minDuration != null && maxDuration != null && service == null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by title, duration, and price: " + title + ", " + minDuration + " - " + maxDuration + ", " + minPrice + " - " + maxPrice);
+            return travelPackageService.findPackagesByTitleAndDurationAndPrice(title, minDuration, maxDuration, minPrice, maxPrice);
+        }
+        // 14. Filter by Title, Service, and Price
+        else if (title != null && minDuration == null && maxDuration == null && service != null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by title, service, and price: " + title + ", " + service + ", " + minPrice + " - " + maxPrice);
+            return travelPackageService.findPackagesByTitleAndServiceAndPrice(title, service, minPrice, maxPrice);
+        }
+        // 15. Filter by Duration, Service, and Price
+        else if (title == null && minDuration != null && maxDuration != null && service != null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by duration, service, and price: " + minDuration + " - " + maxDuration + ", " + service + ", " + minPrice + " - " + maxPrice);
+            return travelPackageService.findPackagesByDurationAndServiceAndPrice(minDuration, maxDuration, service, minPrice, maxPrice);
+        }
+        // 16. Filter by Title, Duration, Service, and Price
+        else if (title != null && minDuration != null && maxDuration != null && service != null && minPrice != null && maxPrice != null) {
+            System.out.println("Filter by title, duration, service, and price: " + title + ", " + minDuration + " - " + maxDuration + ", " + service + ", " + minPrice + " - " + maxPrice);
+            return travelPackageService.findPackagesByTitleAndDurationAndServiceAndPrice(title, minDuration, maxDuration, service, minPrice, maxPrice);
+        }
+
+        else {
+            System.out.println("No filters applied");
+            return travelPackageService.packageDisplay(); // Default return, if no filters match.
+        }
+    }
+
+		
+	
 
 
 	// New endpoint to get a single package by ID
