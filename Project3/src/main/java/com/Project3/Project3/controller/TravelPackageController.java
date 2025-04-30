@@ -2,22 +2,13 @@ package com.Project3.Project3.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.Project3.Project3.model.TravelPackage;
-import com.Project3.Project3.model.Review; // Import the Review model
+import com.Project3.Project3.model.Review;
 import com.Project3.Project3.service.TravelPackageService;
-import com.Project3.Project3.service.ReviewService; // Import ReviewService
-
+import com.Project3.Project3.service.ReviewService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -27,18 +18,17 @@ public class TravelPackageController {
 
 	@Autowired
 	private TravelPackageService travelPackageService;
-
 	@Autowired
-	private ReviewService reviewService; // Add ReviewService
+	private ReviewService reviewService;
 
 	@PostMapping("/travelPost")
 	public void travelPost(@RequestBody TravelPackage travelPackage) {
-		travelPackageService.saveData(travelPackage);
+		travelPackageService.createPackage(travelPackage); // Use createPackage
 	}
 
 	@GetMapping("/travelGet")
 	public List<TravelPackage> travelGet() {
-		return travelPackageService.returnData();
+		return travelPackageService.getAllPackages(); // Use getAllPackages
 	}
 
 	@PostMapping("/packageCreation")
@@ -48,14 +38,19 @@ public class TravelPackageController {
 	}
 
 	@GetMapping("/packageDisplay")
-	public List<TravelPackage> packageDisplay() {
-		return travelPackageService.packageDisplay();
+	public List<TravelPackage> packageDisplay(
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "minDuration", required = false) Integer minDuration,
+			@RequestParam(value = "maxDuration", required = false) Integer maxDuration,
+			@RequestParam(value = "services", required = false) String services) { // Changed to single service
+
+		System.out.println(maxDuration);
+		return travelPackageService.searchAndFilterPackages(title, minDuration, maxDuration, services);
 	}
 
-	// New endpoint to get a single package by ID
 	@GetMapping("/package/{packageId}")
 	public ResponseEntity<TravelPackage> getPackageById(@PathVariable int packageId) {
-		Optional<TravelPackage> packageOptional = travelPackageService.getPackageById(packageId); // Corrected method call
+		Optional<TravelPackage> packageOptional = travelPackageService.getPackageById(packageId);
 		if (packageOptional.isPresent()) {
 			return ResponseEntity.ok(packageOptional.get());
 		} else {
@@ -63,13 +58,11 @@ public class TravelPackageController {
 		}
 	}
 
-	// New endpoint to get reviews for a package
 	@GetMapping("/reviews/{packageId}")
 	public ResponseEntity<List<Review>> getReviewsByPackageId(@PathVariable int packageId) {
-		System.out.println("Fetching reviews for package ID: " + packageId); // Added logging
+		System.out.println("Fetching reviews for package ID: " + packageId);
 		List<Review> reviews = reviewService.getReviewsByPackageId(packageId);
-		System.out.println("Reviews found: " + reviews.size()); // Added logging
+		System.out.println("Reviews found: " + reviews.size());
 		return ResponseEntity.ok(reviews);
 	}
 }
-

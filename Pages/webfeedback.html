@@ -32,7 +32,7 @@
 
             <div class="form-field">
                 <label for="comments">Comments</label>
-                <textarea id="comments" name="comments" rows="4" required></textarea>
+                <textarea id="comments" name="comments" type="text" rows="4" required></textarea>
             </div>
             <div class="form-field">
                 <input type="hidden" id="packageId" name="packageId" value="6">
@@ -61,33 +61,17 @@
             $('#reviewForm').submit(function (event) {
                 event.preventDefault();
 
-                const rating = $('input[name="rating"]:checked').val();
-                const comment = $('#comments').val();
-                const packageId = $('#packageId').val();
-                const bookingPaymentId = $('#bookingPaymentId').val();
-                const userId = $('#userId').val();
-
-                if (!rating) {
-                    alert('Please select a rating.');
-                    return;
-                }
-
-                if (!comment) { // Added check for comment
-                    alert('Please enter a comment.');
-                    return;
-                }
-
-                const reviewData = {
-                    rating: parseInt(rating),
-                    reviewComment: comment,
-                    package1: {
-                        packageId: parseInt(packageId)
+                var formData = {
+                    rating: $('input[name="rating"]:checked').val(),
+                    reviewComment: $("#comments").val(),
+                    package1: { // Create the package1 object
+                        packageId: $("#packageId").val() // Include the packageId here
                     },
-                    booking: {
-                        bookingId: parseInt(bookingPaymentId)
+                    booking: { // Backend expects a 'booking' object
+                        bookingId: $("#bookingPaymentId").val()
                     },
-                    user: {
-                        userId: parseInt(userId)
+                    user: { // Assuming your backend might use a 'user' object as well
+                        userId: $("#userId").val()
                     }
                 };
 
@@ -95,7 +79,7 @@
                     url: 'http://localhost:8081/api/reviewPost',
                     method: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify(reviewData),
+                    data: JSON.stringify(formData),
                     success: function (response) {
                         console.log('Review submitted successfully:', response);
                         alert('Thank you for your review!');

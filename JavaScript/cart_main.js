@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    let cartItems = []; // Store the fetched cart items
+    let cartItems = [];
+    let bookingIdMap = {};
 
-    // --- Function to render cart items ---
     function renderCartItems(items) {
         const cartItemsContainer = $("#cart-items-container");
         cartItemsContainer.empty();
@@ -19,8 +19,6 @@ $(document).ready(function() {
             const itemPrice = parseFloat(item.package1.price) || 0;
             const quantity = parseInt(item.noOfPersons) || 1;
             const insurance = item.insurance || false;
-            // Hardcoded booking ID
-            const bookingPaymentId = 1001;
 
             totalItems += quantity;
             totalPrice += item.package1.price * quantity;
@@ -39,8 +37,8 @@ $(document).ready(function() {
                         <div class="d-flex" style="width: 100px;">
                             <i class="fas fa-minus change-quantity" data-action="decrement" data-cart-item-id="${item.cartItemID}"></i>
                             <input id="quantity-${item.cartItemID}" min="1" name="quantity" value="${quantity}" type="number"
-                                class="form-control form-control-sm quantity-input" data-cart-item-id="${item.cartItemID}" style="width: 65px;"/>
-                            <i class="fas fa-plus change-quantity" data-action="increment" data-cart-item-id="${item.cartItemID}" style="marginLeft: 89px"></i>
+                                class="form-control form-control-sm quantity-input" data-cart-item-id="${item.cartItemID}" />
+                            <i class="fas fa-plus change-quantity" data-action="increment" data-cart-item-id="${item.cartItemID}"></i>
                         </div>
                         <div class="form-check mt-2">
                             <input class="form-check-input insurance-checkbox" type="checkbox" value="" id="insurance-${item.cartItemID}" data-cart-item-id="${item.cartItemID}" ${item.insurance ? 'checked' : ''}>
@@ -49,19 +47,28 @@ $(document).ready(function() {
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2 d-flex justify-content-end align-items-center">
+                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1 d-flex justify-content-between align-items-center">
                         <h6 class="mb-0 price-item" data-cart-item-id="${item.cartItemID}">Rs. ${(itemPrice * quantity).toFixed(2)}</h6>
-                        <button class="btn btn-primary btn-sm ms-2 save-item" style="border-radius: 2px;"
-                            data-mdb-tooltip-init title="Save item" data-cart-item-id="${item.cartItemID}">
-                            <i class="bi bi-save"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm ms-2 delete-item" style="border-radius: 2px;background-color:red"
-                            data-mdb-tooltip-init title="Remove item" data-cart-item-id="${item.cartItemID}">
-                            <i class="bi bi-trash"></i>
-                        </button>
+                        <div class="d-flex ms-2">
+                            <button class="btn btn-primary btn-sm me-1 save-item" style="border-radius: 2px;"
+                                data-mdb-tooltip-init title="Save item" data-cart-item-id="${item.cartItemID}">
+                                <i class="bi bi-save"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm me-1 delete-item" style="border-radius: 2px;background-color:red"
+                                data-mdb-tooltip-init title="Remove item" data-cart-item-id="${item.cartItemID}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <button class="btn btn-success btn-sm me-1 initiate-payment-btn" style="border-radius: 2px;background-color:green"
+                                data-cart-item-id="${item.cartItemID}"
+                                data-package-id="${item.package1.packageId}"
+                                data-price="${(itemPrice * quantity).toFixed(2)}">
+                                <i class="bi bi-check-circle"></i> Book Now
+                            </button>
+                            <button class="btn btn-info btn-sm review-btn" data-package-id="${item.package1.packageId}" data-booking-id="${bookingIdMap[item.cartItemID]}">Review</button>
+                        </div>
                     </div>
-                    <div class="col-md-2 col-lg-1 col-xl-1 text-end">
-                        <button class="btn btn-info btn-sm review-btn" data-package-id="${item.package1.packageId}" data-booking-payment-id="${bookingPaymentId}">Review</button>
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                        <a href="#!" class="text-muted remove-all-item" data-cart-item-id="${item.cartItemID}"><i class="fas fa-times"></i></a>
                     </div>
                 </div>
                 <hr class="my-4">
@@ -72,7 +79,6 @@ $(document).ready(function() {
         updateSummary(totalItems, totalPrice);
     }
 
-    // --- Function to update the cart summary ---
     function updateSummary(totalItems, totalPrice) {
         $('.mb-0.text-muted').text(`${totalItems} items`);
         $('.d-flex.justify-content-between.mb-4 h5:first-child').text(`items ${totalItems}`);
@@ -84,7 +90,6 @@ $(document).ready(function() {
         $('.d-flex.justify-content-between.mb-5:last-child h5:last-child').text(`Rs. ${(totalPrice + addCharges).toFixed(2)}`);
     }
 
-    // --- Event listener for deleting a single item ---
     $(document).on('click', '.delete-item', function() {
         const cartItemId = $(this).data('cart-item-id');
         const cartItemRow = $(this).closest('.row');
@@ -96,6 +101,7 @@ $(document).ready(function() {
                 console.log("Item deleted successfully:", response);
                 cartItemRow.remove();
                 cartItems = cartItems.filter(item => item.cartItemID !== cartItemId);
+                delete bookingIdMap[cartItemId]; // Remove bookingId from the map
                 updateCartDisplay();
             },
             error: function(xhr, status, error) {
@@ -105,7 +111,6 @@ $(document).ready(function() {
         });
     });
 
-    // --- Event listener for changing quantity (using 'change' event on input) ---
     $(document).on('change', '.quantity-input', function() {
         const cartItemId = $(this).data('cart-item-id');
         const newQuantity = parseInt($(this).val());
@@ -116,14 +121,13 @@ $(document).ready(function() {
         if (itemDataIndex !== -1) {
             cartItems[itemDataIndex].noOfPersons = newQuantity;
             const itemPrice = parseFloat(cartItems[itemDataIndex].package1.price) || 0;
-            const updatedPrice = itemPrice * newQuantity;
+            const insurance = cartItems[itemDataIndex].insurance || false;
+            const updatedPrice = itemPrice * newQuantity + (insurance ? 500 * newQuantity : 0);
             priceElement.text(`Rs. ${updatedPrice.toFixed(2)}`);
-            updateCartDisplay(); // Update summary after quantity change
-            // Backend update will happen on save
+            updateCartDisplay();
         }
     });
 
-    // --- Event listener for insurance checkbox change ---
     $(document).on('change', '.insurance-checkbox', function() {
         const cartItemId = $(this).data('cart-item-id');
         const isChecked = $(this).prop('checked');
@@ -135,44 +139,32 @@ $(document).ready(function() {
             cartItems[itemDataIndex].insurance = isChecked;
             console.log(`Insurance for item ${cartItemId} is now: ${isChecked}`);
 
-            // --- Update the displayed price in the UI ---
             const quantity = parseInt(cartItems[itemDataIndex].noOfPersons) || 1;
             const basePrice = parseFloat(cartItems[itemDataIndex].package1.price) || 0;
-            let updatedItemPrice = basePrice * quantity;
             const insuranceCostPerItem = 500.00;
-
-            if (isChecked) {
-                updatedItemPrice += insuranceCostPerItem * quantity;
-            }
+            const updatedItemPrice = basePrice * quantity + (isChecked ? insuranceCostPerItem * quantity : 0);
             priceElement.text(`Rs. ${updatedItemPrice.toFixed(2)}`);
-            updateCartDisplay(); // Update summary after insurance change
-            // Backend update will happen on save
+            updateCartDisplay();
         }
     });
 
-    // --- Event listener for saving the cart item ---
     $(document).on('click', '.save-item', function() {
         const cartItemId = $(this).data('cart-item-id');
-        console.log(cartItems);
         const itemToUpdate = cartItems.find(item => item.cartItemID === cartItemId);
-        console.log(itemToUpdate);
 
         if (itemToUpdate) {
-            // Make an AJAX PUT/POST request to update the item on the backend
             $.ajax({
-                url: `http://localhost:8081/cart/updateCart/${cartItemId}`, // Use the same update endpoint
-                method: 'PUT', // Or POST, depending on your API
+                url: `http://localhost:8081/cart/updateCart/${cartItemId}`,
+                method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     noOfPersons: itemToUpdate.noOfPersons,
                     insurance: itemToUpdate.insurance,
-                    package1: itemToUpdate.package1
-                    // You might need to send other relevant data as well
+                    package1: { packageId: itemToUpdate.package1.packageId } // Ensure packageId is sent
                 }),
                 success: function(response) {
                     console.log(`Item ${cartItemId} updated successfully:`, response);
                     alert(`Item ${cartItemId} saved successfully!`);
-                    // Optionally update the cartItems array with the response from the server
                 },
                 error: function(xhr, status, error) {
                     console.error(`Error updating item ${cartItemId}:`, status, error);
@@ -184,18 +176,140 @@ $(document).ready(function() {
         }
     });
 
-    // --- Event listener for "Review" button ---
-    $(document).on('click', '.review-btn', function() {
+    $(document).on('click', '.initiate-payment-btn', function() {
+        const cartItemId = $(this).data('cart-item-id');
         const packageId = $(this).data('package-id');
-        // Hardcoded booking ID and user ID
-        const bookingPaymentId = 1;
-        const userId = 3;
+        const amount = parseFloat($(this).data('price'));
+        const itemToBook = cartItems.find(item => item.cartItemID === cartItemId);
 
-        // Open the review form (assuming webfeedback.html is your review form)
-        window.location.href = `webfeedback.html?packageId=${packageId}&bookingPaymentId=${bookingPaymentId}&userId=${userId}`;
+        if (itemToBook) {
+            var options = {
+                "key": "rzp_test_XrIUc52C7IOx6I",
+                "amount": amount * 100,
+                "currency": "INR",
+                "name": "Adventure Awaits Travel",
+                "description": itemToBook.package1.title,
+                "order_id": "",
+                "handler": function (response) {
+                    console.log("Razorpay Success Response:", response);
+                    createBookingAndHandlePayment('Paid', response.razorpay_payment_id, cartItemId, packageId, amount, itemToBook);
+                },
+                "prefill": {
+                    "name": "Dikshit",
+                    "email": "dikshit.sharma@example.com",
+                    "contact": "6712527522"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+
+            rzp1.on('payment.failed', function (response){
+                console.log("Razorpay Failed Response:", response);
+                createBookingAndHandlePayment('Failed', response.error.reason, cartItemId, packageId, amount, itemToBook);
+                alert('Payment failed. Please try again.');
+            });
+        } else {
+            console.warn(`Cart item with ID ${cartItemId} not found.`);
+        }
     });
 
-    // --- Function to re-render the cart summary ---
+    function createBookingAndHandlePayment(paymentStatus, paymentId, cartItemId, packageId, totalPrice, cartItemDetails) {
+        $.ajax({
+            url: 'http://localhost:8081/booking',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                user: { userId: 3 },
+                package1: { packageId: packageId },
+                orderDate: new Date().toISOString().slice(0, 10),
+                price: totalPrice,
+                paymentStatus: paymentStatus,
+                paymentMethod: 'Razorpay',
+            }),
+            success: function(bookingResponse) {
+                console.log("Booking created:", bookingResponse);
+                const bookingId = bookingResponse.bookingId;
+                bookingIdMap[cartItemId] = bookingId; // Store the bookingId
+                if (paymentStatus === 'Paid') {
+                    alert(`Booking successful! Payment ID: ${paymentId}`);
+                } else {
+                    alert(`Booking created with payment status: ${paymentStatus} (${paymentId})`);
+                }
+                //  Now call updateBookingPaymentStatus *after* you have the bookingId
+                updateBookingPaymentStatus(cartItemId, paymentStatus, paymentId, bookingId);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error creating booking:", status, error);
+                alert("Failed to create booking.");
+            }
+        });
+    }
+
+    function updateBookingPaymentStatus(cartItemId, paymentStatus, paymentId, bookingId) {
+        $.ajax({
+            url: `http://localhost:8081/bookingPayment/updateStatusByCartItem/${cartItemId}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                paymentStatus: paymentStatus,
+                paymentMethod: 'Razorpay',
+                transactionId: paymentId,
+                booking: { bookingId: bookingId } // Include bookingId here
+            }),
+            success: function(paymentResponse) {
+                console.log("BookingPayment updated:", paymentResponse);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error updating BookingPayment:", status, error);
+            }
+        });
+    }
+
+    $(document).on('click', '.review-btn', function() {
+        const packageId = $(this).data('package-id');
+        const cartItemId = $(this).closest('.row').data('cart-item-id'); // Assuming cart item ID is available on the row
+        const userId = 3; // Hardcoded userId, consider fetching dynamically
+
+        if (cartItemId) {
+            $.ajax({
+                url: `http://localhost:8081/bookingGet`, // Using the /bookingGet endpoint
+                method: 'GET',
+                dataType: 'json',
+                success: function(bookingData) {
+                    console.log("All booking data fetched for review:", bookingData);
+                    if (bookingData && bookingData.length > 0) {
+                        // Filter bookings to find the one associated with the current cart item and user
+                        const relevantBooking = bookingData.find(booking =>
+                            booking.package1 && booking.package1.packageId === parseInt(packageId) &&
+                            booking.user && booking.user.userId === userId
+                        );
+
+                        if (relevantBooking) {
+                            const bookingId = relevantBooking.bookingId;
+                            window.location.href = `webfeedback.html?packageId=${packageId}&bookingPaymentId=${bookingId}&userId=${userId}`;
+                        } else {
+                            console.warn(`No booking found for package ID: ${packageId}, cart item ID: ${cartItemId}, and user ID: ${userId}`);
+                            alert("No booking information available for review for this item.");
+                        }
+                    } else {
+                        console.warn("No booking data found.");
+                        alert("No booking information available for review.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching all booking data for review:", status, error);
+                    alert("Failed to fetch booking information for review.");
+                }
+            });
+        } else {
+            console.warn("Cart item ID not found for review button.");
+            alert("Could not retrieve booking information for review.");
+        }
+    });
+
     function updateCartDisplay() {
         let totalItems = 0;
         let totalPrice = 0;
@@ -213,19 +327,36 @@ $(document).ready(function() {
         updateSummary(totalItems, totalPrice);
     }
 
-    // --- Fetch cart items from the API and render them ---
     $.ajax({
         url: 'http://localhost:8081/cart/cartGet',
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-            console.log("Successfully fetched cart items:", data);
+            console.log("Cart items fetched:", data);
             cartItems = data;
-            renderCartItems(cartItems);
+            // Fetch booking IDs for the cart items
+            $.ajax({
+                url: 'http://localhost:8081/booking/bookingGet',
+                method: 'GET',
+                dataType: 'json',
+                success: function(bookingData) {
+                    console.log("Bookings fetched:", bookingData);
+                    bookingData.forEach(booking => {
+                        if (booking.cartItem && booking.cartItem.cartItemID) {
+                            bookingIdMap[booking.cartItem.cartItemID] = booking.bookingId;
+                        }
+                    });
+                    renderCartItems(cartItems);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching bookings:", status, error);
+                    renderCartItems(cartItems); // Render cart items even if booking fetch fails
+                }
+            });
         },
         error: function(xhr, status, error) {
             console.error("Error fetching cart items:", status, error);
-            $("#cart-items-container").html('<p class="text-danger">Failed to load cart items.</p>');
+            $("#cart-items-container").html('<p>Failed to load cart items.</p>');
             updateSummary(0, 0);
         }
     });

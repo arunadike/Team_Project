@@ -18,19 +18,6 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "booking1")
 public class Booking {
 
-	public Booking(int bookingId, @NotNull User user, @NotNull TravelPackage package1, // Renamed for clarity
-				   @NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
-				   @NotNull String paymentMethod) {
-		super();
-		this.bookingId = bookingId;
-		this.user = user;
-		this.package1 = package1; // Using the renamed field
-		this.orderDate = orderDate;
-		this.price = price;
-		this.paymentStatus = paymentStatus;
-		this.paymentMethod = paymentMethod;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_seq")
 	@SequenceGenerator(name = "booking_seq", sequenceName = "BOOKING_SEQ", allocationSize = 1)
@@ -44,10 +31,10 @@ public class Booking {
 	@NotNull
 	@OneToOne
 	@JoinColumn(name = "packageId")
-	private TravelPackage package1; // Renamed the field
+	private TravelPackage package1;
 
 	@NotNull
-	@FutureOrPresent
+//	@FutureOrPresent
 	private Date orderDate;
 
 	@NotNull
@@ -57,6 +44,23 @@ public class Booking {
 	@NotNull
 	private String paymentMethod;
 
+	// Constructors
+	public Booking() {
+	}
+
+	public Booking(int bookingId, @NotNull User user, @NotNull TravelPackage package1,
+				   @NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
+				   @NotNull String paymentMethod) {
+		this.bookingId = bookingId;
+		this.user = user;
+		this.package1 = package1;
+		this.orderDate = orderDate;
+		this.price = price;
+		this.paymentStatus = paymentStatus;
+		this.paymentMethod = paymentMethod;
+	}
+
+	// Getters and Setters
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -111,9 +115,5 @@ public class Booking {
 
 	public void setPackage1(TravelPackage package1) {
 		this.package1 = package1;
-	}
-
-	public Booking() {
-
 	}
 }
