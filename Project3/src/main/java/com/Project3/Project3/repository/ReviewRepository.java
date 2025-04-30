@@ -9,7 +9,7 @@ import com.Project3.Project3.model.Booking; // Import Booking
 import org.springframework.data.jpa.repository.Query; // Import Query
 
 @Repository
-public interface ReviewRepository extends CrudRepository<Review, Long> {
+public interface ReviewRepository extends CrudRepository<Review, Integer> {
 
     // Corrected query to access TravelPackage ID.  Use JPQL.
     @Query("SELECT r FROM Review r WHERE r.package1.packageId = :packageId")

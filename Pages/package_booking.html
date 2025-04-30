@@ -84,7 +84,9 @@
                     price: $("#price").val(),
                     description: $("#description").val(),
                     includedService: $("#includedService").val(),
-                    userId: $("#userId").val(),
+                    user: {
+                        userId: $("#userId").val()
+                    },
                     duration: $("#duration").val(),
                     imageUrl: $("#imageUrl").val()
                 };

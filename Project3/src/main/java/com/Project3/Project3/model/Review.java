@@ -54,11 +54,11 @@ public class Review {
         this.booking = booking;
     }
 
-    public String getComment() {
+    public String getReviewComment() {
         return reviewComment;
     }
 
-    public void setComment(String reviewComment) {
+    public void setReviewComment(String reviewComment) {
         this.reviewComment = reviewComment;
     }
 

@@ -25,6 +25,7 @@ public class ReviewService {
             if (existingBooking != null) {
                 review.setBooking(existingBooking);
                 review.setReviewDate(new Date()); // Set the review date on the backend
+                review.setReviewComment(review.getReviewComment());
                 reviewRepository.save(review);
                 System.out.println("Review Saved");
             } else {
