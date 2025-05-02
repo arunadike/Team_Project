@@ -45,55 +45,60 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
-            // --- Get URL parameters ---
-            const urlParams = new URLSearchParams(window.location.search);
-            const bookingPaymentId = urlParams.get('bookingPaymentId');
-            const userId = urlParams.get('userId');
-            const packageId = urlParams.get('packageId');
+    $(document).ready(function () {
+    // --- Get URL parameters ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookingPaymentId = urlParams.get('bookingPaymentId');
+    const userId = urlParams.get('userId');
+    const packageId = urlParams.get('packageId');
 
-            // --- Set the hidden field values ---
-            $('#bookingPaymentId').val(bookingPaymentId);
-            $('#userId').val(userId);
-            $('#packageId').val(packageId);
+    const jwt=localStorage.getItem('JWT');
 
-            // --- Form submission ---
-            $('#reviewForm').submit(function (event) {
-                event.preventDefault();
+    // --- Set the hidden field values ---
+    $('#bookingPaymentId').val(bookingPaymentId);
+    $('#userId').val(userId);
+    $('#packageId').val(packageId);
 
-                var formData = {
-                    rating: $('input[name="rating"]:checked').val(),
-                    reviewComment: $("#comments").val(),
-                    package1: { // Create the package1 object
-                        packageId: $("#packageId").val() // Include the packageId here
-                    },
-                    booking: { // Backend expects a 'booking' object
-                        bookingId: $("#bookingPaymentId").val()
-                    },
-                    user: { // Assuming your backend might use a 'user' object as well
-                        userId: $("#userId").val()
-                    }
-                };
+    // --- Form submission ---
+    $('#reviewForm').submit(function (event) {
+        event.preventDefault();
 
-                $.ajax({
-                    url: 'http://localhost:8081/api/reviewPost',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(formData),
-                    success: function (response) {
-                        console.log('Review submitted successfully:', response);
-                        alert('Thank you for your review!');
+        var formData = {
+            rating: $('input[name="rating"]:checked').val(),
+            reviewComment: $("#comments").val(),
+            package1: { // Create the package1 object
+                packageId: $("#packageId").val() // Include the packageId here
+            },
+            booking: { // Backend expects a 'booking' object
+                bookingId: $("#bookingPaymentId").val()
+            },
+            user: { // Assuming your backend might use a 'user' object as well
+                userId: $("#userId").val()
+            }
+        };
 
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error submitting review:', status, error);
-                        alert('Failed to submit your review. Please try again.');
-                    }
-                });
-                console.log('Submit button clicked');
-            });
+        $.ajax({
+            url: 'http://localhost:8081/api/reviewPost',
+            method: 'POST',
+            headers:{
+                "Authorization": "Bearer " + jwt
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                console.log('Review submitted successfully:', response);
+                alert('Thank you for your review!');
+
+            },
+            error: function (xhr, status, error) {
+                console.error('Error submitting review:', status, error);
+                alert('Failed to submit your review. Please try again.');
+            }
         });
-    </script>
+        console.log('Submit button clicked');
+    });
+});
+</script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 $(document).ready(function() {
     let cartItems = [];
     let bookingIdMap = {};
+    const jwtToken = localStorage.getItem("JWT"); 
 
     function renderCartItems(items) {
         const cartItemsContainer = $("#cart-items-container");
@@ -97,6 +98,9 @@ $(document).ready(function() {
         $.ajax({
             url: `http://localhost:8081/cart/delete/${cartItemId}`,
             method: 'DELETE',
+            headers: { // Add the headers option
+                "Authorization": "Bearer " + jwtToken
+            },
             success: function(response) {
                 console.log("Item deleted successfully:", response);
                 cartItemRow.remove();
@@ -156,6 +160,9 @@ $(document).ready(function() {
             $.ajax({
                 url: `http://localhost:8081/cart/updateCart/${cartItemId}`,
                 method: 'PUT',
+                headers: { // Add the headers option
+                    "Authorization": "Bearer " + jwtToken
+                },
                 contentType: 'application/json',
                 data: JSON.stringify({
                     noOfPersons: itemToUpdate.noOfPersons,
@@ -220,9 +227,12 @@ $(document).ready(function() {
         $.ajax({
             url: 'http://localhost:8081/booking',
             method: 'POST',
+            headers: { // Add the headers option
+                "Authorization": "Bearer " + jwtToken
+            },
             contentType: 'application/json',
             data: JSON.stringify({
-                user: { userId: 3 },
+                user: { userId: localStorage.getItem('userId') }, // Assuming userId is stored in localStorage
                 package1: { packageId: packageId },
                 orderDate: new Date().toISOString().slice(0, 10),
                 price: totalPrice,
@@ -251,7 +261,9 @@ $(document).ready(function() {
     function updateBookingPaymentStatus(cartItemId, paymentStatus, paymentId, bookingId) {
         $.ajax({
             url: `http://localhost:8081/bookingPayment/updateStatusByCartItem/${cartItemId}`,
-            method: 'PUT',
+            method: 'PUT',headers: { // Add the headers option
+                "Authorization": "Bearer " + jwtToken
+            },
             contentType: 'application/json',
             data: JSON.stringify({
                 paymentStatus: paymentStatus,
@@ -271,12 +283,15 @@ $(document).ready(function() {
     $(document).on('click', '.review-btn', function() {
         const packageId = $(this).data('package-id');
         const cartItemId = $(this).closest('.row').data('cart-item-id'); // Assuming cart item ID is available on the row
-        const userId = 3; // Hardcoded userId, consider fetching dynamically
-
+        const userId = parseInt(localStorage.getItem("userId")); // Hardcoded userId, consider fetching dynamically
+        console.log("User ID:", userId);
         if (cartItemId) {
             $.ajax({
                 url: `http://localhost:8081/bookingGet`, // Using the /bookingGet endpoint
                 method: 'GET',
+                headers: { // Add the headers option
+                    "Authorization": "Bearer " + jwtToken
+                },
                 dataType: 'json',
                 success: function(bookingData) {
                     console.log("All booking data fetched for review:", bookingData);
@@ -286,13 +301,14 @@ $(document).ready(function() {
                             booking.package1 && booking.package1.packageId === parseInt(packageId) &&
                             booking.user && booking.user.userId === userId
                         );
+                        console.log(relevantBooking);
 
                         if (relevantBooking) {
                             const bookingId = relevantBooking.bookingId;
                             window.location.href = `webfeedback.html?packageId=${packageId}&bookingPaymentId=${bookingId}&userId=${userId}`;
                         } else {
                             console.warn(`No booking found for package ID: ${packageId}, cart item ID: ${cartItemId}, and user ID: ${userId}`);
-                            alert("No booking information available for review for this item.");
+                            alert("No booking information available for review for this item. bookingID:");
                         }
                     } else {
                         console.warn("No booking data found.");
@@ -330,6 +346,9 @@ $(document).ready(function() {
     $.ajax({
         url: 'http://localhost:8081/cart/cartGet',
         method: 'GET',
+        headers: { // Add the headers option
+            "Authorization": "Bearer " + jwtToken
+        },
         dataType: 'json',
         success: function(data) {
             console.log("Cart items fetched:", data);

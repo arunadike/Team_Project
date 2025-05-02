@@ -1,26 +1,27 @@
 package com.Project3.Project3.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name="user16")
-public class User {
-	public User()
+@Table(
+		name = "user17",
+		uniqueConstraints = {
+				@UniqueConstraint(columnNames = {"name"}),
+				@UniqueConstraint(name = "name", columnNames = {"name"})
+		}
+)
+public class Users {
+	public Users()
 	{
 		
 	}
-	public User(long userid, String name, String email, String password, String role, String contact_number) {
+	public Users(long userid, String username, String email, String password, String role, String contact_number) {
 		//super();
 		this.userid = userid;
-		this.name = name;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.role = role;
@@ -32,13 +33,14 @@ public class User {
 	private long userid;
 	//@Column(name="name", nullable=false)
 	@NotNull
-	private String name;
+	//@Column(unique=true,nullable = false)
+	private String username;
 	
 	//@Column(name="email", nullable=false,unique=true)
 	@Email(message="Check your mail")
 	private String email;
 	//@Column(name="password", nullable=false)
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
+//	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
 	private String password;
 	//@Column(name="role", nullable=false)
 	@NotNull
@@ -53,11 +55,11 @@ public class User {
 	public void setUserId(long userId) {
 		this.userid = userId;
 	}
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getEmail() {
 		return email;
@@ -85,7 +87,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [userId=" + userid + ", name=" + name + ", email=" + email + ", password=" + password + ", role="
+		return "User [userId=" + userid + ", name=" + username + ", email=" + email + ", password=" + password + ", role="
 				+ role + ", contact_number=" + contact_number + "]";
 	}
 	

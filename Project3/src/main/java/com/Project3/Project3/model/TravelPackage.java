@@ -25,20 +25,20 @@ public class TravelPackage {
 	@NotNull
 	private int duration; // Duration in days
 	private double price;
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 	private String includedService;
 	@ManyToOne
 	@JoinColumn(name="userid")
-	private User user;
+	private Users user;
 	private String imageUrl;
 
 public TravelPackage(int packageId, @NotNull String title, String description, @NotNull int duration, double price,
-			String includedService, User user, String imageUrl) {
+			String includedService, Users user, String imageUrl) {
 		super();
 		this.packageId = packageId;
 		this.title = title;

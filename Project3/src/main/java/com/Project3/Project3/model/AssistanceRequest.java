@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "assistancerequest2")
 public class AssistanceRequest {
-	public AssistanceRequest(int requestId, User user, @NotNull String issueDescription, @NotNull String status,
+	public AssistanceRequest(int requestId, Users user, @NotNull String issueDescription, @NotNull String status,
 			Timestamp resolutionTime) {
 		super();
 		this.requestId = requestId;
@@ -30,7 +30,7 @@ public class AssistanceRequest {
 	private int requestId;
 	@ManyToOne
 	@JoinColumn(name="userid")
-	private User user;
+	private Users user;
 	@NotNull
 	private String issueDescription;
 	@NotNull
@@ -59,11 +59,11 @@ public class AssistanceRequest {
 		this.requestId = requestId;
 	}
 
-	public User getUserId() {
+	public Users getUserId() {
 		return user;
 	}
 
-	public void setUserId(User user) {
+	public void setUserId(Users user) {
 		this.user = user;
 	}
 

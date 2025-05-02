@@ -26,7 +26,7 @@ public class Booking {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "userid")
-	private User user;
+	private Users user;
 
 	@NotNull
 	@OneToOne
@@ -48,7 +48,7 @@ public class Booking {
 	public Booking() {
 	}
 
-	public Booking(int bookingId, @NotNull User user, @NotNull TravelPackage package1,
+	public Booking(int bookingId, @NotNull Users user, @NotNull TravelPackage package1,
 				   @NotNull @FutureOrPresent Date orderDate, @NotNull double price, @NotNull String paymentStatus,
 				   @NotNull String paymentMethod) {
 		this.bookingId = bookingId;
@@ -101,11 +101,11 @@ public class Booking {
 		this.bookingId = bookingId;
 	}
 
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 

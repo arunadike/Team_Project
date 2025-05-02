@@ -24,7 +24,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "cartitems2")
 public class CartItems {
-	public CartItems(Integer cartItemID, @NotNull User user, @NotNull TravelPackage package1,
+	public CartItems(Integer cartItemID, @NotNull Users user, @NotNull TravelPackage package1,
 			@NotNull @FutureOrPresent Date startDate, @NotNull int noOfPersons, boolean insurance,
 			@NotNull double price, String imageUrl) {
 		super();
@@ -68,7 +68,7 @@ public class CartItems {
     @NotNull
 	@ManyToOne
 	@JoinColumn(name = "userid")
-	private User user;
+	private Users user;
 
     @NotNull
 	@OneToOne
@@ -98,11 +98,11 @@ public class CartItems {
 		this.cartItemID = cartItemID;
 	}
 
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 

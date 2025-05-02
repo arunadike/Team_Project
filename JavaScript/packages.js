@@ -85,6 +85,7 @@ function renderPackages(filteredPackages = []) {
         maxPrice = null,
 
       ) {
+      const jwtToken = localStorage.getItem('JWT');
 
         const apiUrl = "http://localhost:8081/api/packageDisplay"; // Default: fetch all
 
@@ -157,6 +158,10 @@ function renderPackages(filteredPackages = []) {
           method: "GET",
 
           dataType: "json",
+
+          headers: { // Add the headers option
+              "Authorization": "Bearer " + jwtToken
+          },
 
           success: function (data) {
 
@@ -870,23 +875,22 @@ function renderPackages(filteredPackages = []) {
 
         const packagePrice = $(this).data("package-price");
 
-
-
-        // **Important:** You'll need to get the following information:
-
-        // 1. User ID: How is the user currently logged in or identified?
-
-        // 2. Start Date: How do you want the user to select this? (e.g., a default, a calendar picker)
-
-        // 3. Number of Persons: How do you want the user to specify this? (e.g., a default of 1, an input field)
-
-        // 4. Insurance: How do you want to handle this? (e.g., a checkbox, a default of false)
-
-
-
-        // For this example, I'll make some assumptions:
-
-        const userId = 1; // Replace with the actual logged-in user ID
+        const userId = localStorage.getItem('userId');
+        console.log(userId); // Use the userId
+        // const userId = 0; 
+        // if (userJson) {
+        //   try {
+        //     const user = JSON.parse(userJson);
+        //     userId = user.userId;
+        //     console.log(userId); // Use the userId
+        //   } catch (error) {
+        //     console.error('Error parsing user data from localStorage:', error);
+        //     // Handle the error, e.g., clear the invalid data:
+        //     // localStorage.removeItem('user');
+        //   }
+        // } else {
+        //   console.log('No user data found in localStorage');
+        // } // Replace with the actual logged-in user ID
 
         const startDate = new Date().toISOString(); // Current date as default
 
@@ -918,12 +922,19 @@ function renderPackages(filteredPackages = []) {
 
 
 
+        // Assuming you have a JWT token stored in localStorage or a variable
+        const jwtToken = localStorage.getItem("JWT"); 
+
         $.ajax({
 
             url: 'http://localhost:8081/cart/add', // Your backend API endpoint to add to cart
 
             method: 'POST',
 
+            dataType: 'json',
+            headers: { // Add the headers option
+                "Authorization": "Bearer " + jwtToken
+            },
             contentType: 'application/json',
 
             data: JSON.stringify(cartItemData),

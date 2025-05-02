@@ -36,14 +36,14 @@ public class Insurance {
 	
 	@OneToOne
 	@JoinColumn(name = "userid",nullable=false)
-	private User user;
+	private Users user;
 
 	public Insurance() {
 		this.status="ACTIVE";
 	}
 
 	public Insurance(int insuranceId, @NotNull String coverageDetails, @NotNull String provider, @NotNull double amount,
-			Payment1 payment1, String status, Booking booking, User user) {
+			Payment1 payment1, String status, Booking booking, Users user) {
 		super();
 		this.insuranceId = insuranceId;
 		this.coverageDetails = coverageDetails;
@@ -103,11 +103,11 @@ public class Insurance {
 		this.booking = booking;
 	}
 
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 

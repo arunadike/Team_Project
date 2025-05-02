@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 @Table(name="payment1")
 public class Payment1 {
 	public Payment1(int paymentId, @NotNull double amount, @NotNull String status, @NotNull String paymentMethod,
-			TravelPackage travelPackage, User user) {
+			TravelPackage travelPackage, Users user) {
 		super();
 		this.paymentId = paymentId;
 		this.amount = amount;
@@ -39,7 +39,7 @@ public class Payment1 {
 	private TravelPackage travelPackage;
 	@ManyToOne
 	@JoinColumn(name="userid",nullable=false)
-	private User user;
+	private Users user;
 	
 	public int getPaymentId() {
 		return paymentId;
@@ -71,10 +71,10 @@ public class Payment1 {
 	public void setTravelPackage(TravelPackage travelPackage) {
 		this.travelPackage = travelPackage;
 	}
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 	@Override

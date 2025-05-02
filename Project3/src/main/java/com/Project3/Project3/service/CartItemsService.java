@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.Project3.Project3.model.TravelPackage;
-import com.Project3.Project3.model.User;
+import com.Project3.Project3.model.Users;
 import com.Project3.Project3.repository.TravelPackageRepository;
 import com.Project3.Project3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +32,11 @@ public class CartItemsService {
 	private TravelPackageRepository packageRepository;
 
 	public CartItems addItemToCart(Long userId, int packageId, Date startDate2, Integer noOfPersons, Boolean insurance, Double price) {
-		Optional<User> userOptional = userRepository.findById(userId);
+		Optional<Users> userOptional = userRepository.findById(userId);
 		Optional<TravelPackage> packageOptional = packageRepository.findById(packageId);
 		System.out.println(packageOptional.isPresent());
 		if (userOptional.isPresent() && packageOptional.isPresent()) {
-			User user = userOptional.get();
+			Users user = userOptional.get();
 			TravelPackage package1 = packageOptional.get(); // Renamed
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust pattern if needed
