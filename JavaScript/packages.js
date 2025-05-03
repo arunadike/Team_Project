@@ -177,17 +177,12 @@ function renderPackages(filteredPackages = []) {
 
               price: `${pkg.price}`,
 
-            //   includes: pkg.includedService
-
-            //     ? pkg.includedService.split(", ").map((s) => s.toLowerCase())
-
-            //     : [],
 
                 includes : pkg.includedService
 
-      ? pkg.includedService.split(/, ?/).map((s) => s.toLowerCase()) // Split by ", " or ","
+              ? pkg.includedService.split(/, ?/).map((s) => s.toLowerCase()) // Split by ", " or ","
 
-      : [],
+              : [],
 
 
 
@@ -309,7 +304,7 @@ function renderPackages(filteredPackages = []) {
 
                 minDuration = 7;
 
-                maxDuration = Infinity;
+                maxDuration = 9999;
 
                 break;
 
@@ -353,7 +348,7 @@ function renderPackages(filteredPackages = []) {
 
                 minPrice = 30000;
 
-                maxPrice = Infinity;
+                maxPrice = 9999;
 
                 break;
 
@@ -467,7 +462,7 @@ function renderPackages(filteredPackages = []) {
 
                   minPrice = 0;
 
-                  maxPrice = Infinity;
+                  maxPrice = 9999;
 
                   break;
 
@@ -507,7 +502,7 @@ function renderPackages(filteredPackages = []) {
 
                 minDuration = 7;
 
-                maxDuration = Infinity;
+                maxDuration = 9999;
 
                 break;
 
@@ -629,7 +624,7 @@ function renderPackages(filteredPackages = []) {
 
                   minPrice = 0;
 
-                  maxPrice = Infinity;
+                  maxPrice = 9999;
 
                   break;
 
@@ -673,7 +668,7 @@ function renderPackages(filteredPackages = []) {
 
                   minDuration = 7;
 
-                  maxDuration = Infinity;
+                  maxDuration = 9999;
 
                   break;
 
@@ -785,7 +780,7 @@ function renderPackages(filteredPackages = []) {
 
                   minDuration = 7;
 
-                  maxDuration = Infinity;
+                  maxDuration = 9999;
 
                   break;
 
@@ -825,7 +820,7 @@ function renderPackages(filteredPackages = []) {
 
                 minPrice = 30000;
 
-                maxPrice = Infinity;
+                maxPrice = 9999;
 
                 break;
 

@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,10 +35,17 @@ public class TravelPackageController {
 	private ReviewService reviewService; // Add ReviewService
 
 	@PostMapping("/packageCreation")
-	public void packageCreation(@Valid @RequestBody TravelPackage travelPackage) {
-		System.out.println("working");
-		travelPackageService.createPackage(travelPackage);
+	public ResponseEntity<TravelPackage> packageCreation(
+	    @Valid @RequestBody TravelPackage travelPackage) {
+
+	    try {
+	        TravelPackage createdPackage = travelPackageService.createPackage(travelPackage);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(createdPackage);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+	    }
 	}
+
 	
 	@DeleteMapping("delete/{packageId}")
     public ResponseEntity<String> deletePackage(@PathVariable int packageId) {

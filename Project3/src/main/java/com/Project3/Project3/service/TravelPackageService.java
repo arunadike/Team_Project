@@ -27,8 +27,8 @@ public class TravelPackageService {
 	}
 
 	@Transactional
-	public void createPackage(TravelPackage travelPackage) {
-		travelPackageRepository.save(travelPackage);
+	public TravelPackage createPackage(TravelPackage travelPackage) {
+		return travelPackageRepository.save(travelPackage);
 	}
 
 	@Transactional
