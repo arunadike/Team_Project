@@ -148,4 +148,13 @@ public class TravelPackageService {
 						.contains((SERVICE_DELIMITER + service.trim() + SERVICE_DELIMITER).toLowerCase()))
 				.collect(java.util.stream.Collectors.toList());
 	}
+	
+	public void deletePackage(int packageId) {
+        Optional<TravelPackage> packageToDelete = travelPackageRepository.findById(packageId); // Assuming your entity is in com.example.travelapp.model
+        if (packageToDelete.isPresent()) {
+            travelPackageRepository.delete(packageToDelete.get()); // Use delete() method of JPA repository
+        } else {
+            throw new RuntimeException("Package not found with id: " + packageId);
+        }
+    }
 }

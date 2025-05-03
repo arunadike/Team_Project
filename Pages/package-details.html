@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,21 @@
     <link rel="stylesheet" href="package-details.css">
     <link rel="stylesheet" href="nav_footer_feedback.css">
     <style>
-
+        .package-controls {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            margin-top: 10px; /* Space below the image */
+            padding-left: 1000px;
+        }
+ 
+        .package-controls i {
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 15px; /* Space between icons */
+        }
     </style>
 </head>
-
+ 
 <body>
     <nav>
         <div class="nav__header">
@@ -37,12 +48,16 @@
             <a href="loginOrSignUpPage.html"><button class="btn">LOGIN</button></a>
         </div>
     </nav>
-
+ 
     <div class="container package-details-container">
         <div class="row">
             <div class="col-md-12">
                 <div class="package-image-container">
                     <img id="package-image" src="" alt="Package Image" class="package-image">
+                </div>
+                <div class="package-controls">
+                    <i class="bi bi-pencil-square" onclick="editPackage()"></i>
+                    <i class="bi bi-trash" onclick="deletePackage()"></i>
                 </div>
                 <div class="package-details-text">
                     <h2 id="package-title" class="package-title"></h2>
@@ -57,7 +72,7 @@
                 </div>
             </div>
         </div>
-
+ 
         <div class="row reviews-container">
             <div class="col-md-12">
                 <h3>Reviews</h3>
@@ -66,7 +81,7 @@
             </div>
         </div>
     </div>
-
+ 
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -79,7 +94,7 @@
                         Short Book A Trip
                     </p>
                 </div>
-
+ 
                 <div class="col-md-3">
                     <h5>Company</h5>
                     <ul>
@@ -89,7 +104,7 @@
                         <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
-
+ 
                 <div class="col-md-3">
                     <h5>Travel</h5>
                     <ul>
@@ -99,7 +114,7 @@
                         <li><a href="#">Germany</a></li>
                     </ul>
                 </div>
-
+ 
                 <div class="col-md-3">
                     <h5>Resources</h5>
                     <ul>
@@ -109,7 +124,7 @@
                     </ul>
                 </div>
             </div>
-
+ 
             <div class="row mt-4">
                 <div class="col-md-12">
                     <div class="follow-box ms-3">
@@ -125,7 +140,7 @@
             </div>
         </div>
     </footer>
-
+ 
     <div class="footer-bottom">
         <div class="container">
             <p>Copyright © 2025 TEAM 4. All rights reserved.</p>
@@ -136,10 +151,11 @@
             Feedback
         </div>
     </a>
-
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./../JavaScript/package-details.js"></script>
+ 
 </body>
-
+ 
 </html>

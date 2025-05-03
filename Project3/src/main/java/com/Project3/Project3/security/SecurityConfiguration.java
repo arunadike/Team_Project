@@ -44,6 +44,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 				.authorizeHttpRequests(request -> request
 						.requestMatchers("/register", "/login").permitAll()
 						.requestMatchers("/data").hasRole("ADMIN") // Requires ADMIN role AND authentication
+						.requestMatchers("/delete/**").hasRole("AGENT")
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 				.cors(Customizer.withDefaults()); // Enable CORS integration at the Security Filter Chain level

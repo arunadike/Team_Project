@@ -131,16 +131,6 @@ public class UserController {
 		return "Hello, Administrator!";
 	}
 
-	@PostMapping("/logout")
-	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null) {
-			new SecurityContextLogoutHandler().logout(request, response, authentication);
-			return ResponseEntity.ok("Logout successful!");
-		} else {
-			return ResponseEntity.ok("No user logged in to logout.");
-		}
-	}
 
 	@GetMapping("/data")
 //	@PreAuthorize("hasRole('ROLE_ADMIN')")

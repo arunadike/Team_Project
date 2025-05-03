@@ -204,7 +204,7 @@ function renderPackages(filteredPackages = []) {
           error: function (xhr, status, error) {
 
             console.error("Error fetching packages:", status, error);
-
+            window.alert("Unauthorized", status, error);
             renderPackages([]);
 
           },
