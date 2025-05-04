@@ -157,4 +157,8 @@ public class TravelPackageService {
             throw new RuntimeException("Package not found with id: " + packageId);
         }
     }
+	 public List<TravelPackage> getPackagesByUserId(int userId) {
+	        return travelPackageRepository.findByUser_Userid(userId);
+	    }
+
 }

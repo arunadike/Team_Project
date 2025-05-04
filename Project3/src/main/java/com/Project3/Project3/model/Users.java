@@ -9,8 +9,8 @@ import jakarta.validation.constraints.Pattern;
 @Table(
 		name = "user17",
 		uniqueConstraints = {
-				@UniqueConstraint(columnNames = {"name"}),
-				@UniqueConstraint(name = "name", columnNames = {"name"})
+				@UniqueConstraint(columnNames = {"username"}),
+				@UniqueConstraint(name = "username", columnNames = {"username"})
 		}
 )
 public class Users {

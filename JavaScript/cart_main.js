@@ -1,7 +1,8 @@
 $(document).ready(function() {
     let cartItems = [];
     let bookingIdMap = {};
-    const jwtToken = localStorage.getItem("JWT"); 
+    const jwtToken = localStorage.getItem("JWT");
+    const userId=localStorage.getItem("userId");
 
     function renderCartItems(items) {
         const cartItemsContainer = $("#cart-items-container");
@@ -49,7 +50,7 @@ $(document).ready(function() {
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1 d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0 price-item" data-cart-item-id="${item.cartItemID}">Rs. ${(itemPrice * quantity).toFixed(2)}</h6>
+                        <h6 class="mb-0 price-item" data-cart-item-id="${item.cartItemID}">Rs. ${item.price.toFixed(2)}</h6>
                         <div class="d-flex ms-2">
                             <button class="btn btn-primary btn-sm me-1 save-item" style="border-radius: 2px;"
                                 data-mdb-tooltip-init title="Save item" data-cart-item-id="${item.cartItemID}">
@@ -61,8 +62,7 @@ $(document).ready(function() {
                             </button>
                             <button class="btn btn-success btn-sm me-1 initiate-payment-btn" style="border-radius: 2px;background-color:green"
                                 data-cart-item-id="${item.cartItemID}"
-                                data-package-id="${item.package1.packageId}"
-                                data-price="${(itemPrice * quantity).toFixed(2)}">
+                                data-package-id="${item.package1.packageId}"">
                                 <i class="bi bi-check-circle"></i> Book Now
                             </button>
                             <button class="btn btn-info btn-sm review-btn" data-package-id="${item.package1.packageId}" data-booking-id="${bookingIdMap[item.cartItemID]}">Review</button>
@@ -105,7 +105,7 @@ $(document).ready(function() {
                 console.log("Item deleted successfully:", response);
                 cartItemRow.remove();
                 cartItems = cartItems.filter(item => item.cartItemID !== cartItemId);
-                delete bookingIdMap[cartItemId]; // Remove bookingId from the map
+                delete bookingIdMap[cartItemId];
                 updateCartDisplay();
             },
             error: function(xhr, status, error) {
@@ -186,37 +186,63 @@ $(document).ready(function() {
     $(document).on('click', '.initiate-payment-btn', function() {
         const cartItemId = $(this).data('cart-item-id');
         const packageId = $(this).data('package-id');
-        const amount = parseFloat($(this).data('price'));
         const itemToBook = cartItems.find(item => item.cartItemID === cartItemId);
 
         if (itemToBook) {
-            var options = {
-                "key": "rzp_test_XrIUc52C7IOx6I",
-                "amount": amount * 100,
-                "currency": "INR",
-                "name": "Adventure Awaits Travel",
-                "description": itemToBook.package1.title,
-                "order_id": "",
-                "handler": function (response) {
-                    console.log("Razorpay Success Response:", response);
-                    createBookingAndHandlePayment('Paid', response.razorpay_payment_id, cartItemId, packageId, amount, itemToBook);
+            // Fetch the latest price from the backend for this specific cart item
+            $.ajax({
+                url: `http://localhost:8081/cart/cartGet/item/${cartItemId}`,
+                method: 'GET',
+                headers: {
+                    "Authorization": "Bearer " + jwtToken
                 },
-                "prefill": {
-                    "name": "Dikshit",
-                    "email": "dikshit.sharma@example.com",
-                    "contact": "6712527522"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
+                dataType: 'json',
+                success: function(cartItemData) {
+                    if (cartItemData && cartItemData.price !== undefined) {
+                        const amount = cartItemData.price;
+                        if (isNaN(amount)) {
+                            console.error("Invalid price received from backend:", cartItemData);
+                            alert("Failed to retrieve the correct price. Please try again.");
+                            return;
+                        }
 
-            rzp1.on('payment.failed', function (response){
-                console.log("Razorpay Failed Response:", response);
-                createBookingAndHandlePayment('Failed', response.error.reason, cartItemId, packageId, amount, itemToBook);
-                alert('Payment failed. Please try again.');
+                        var options = {
+                            "key": "rzp_test_XrIUc52C7IOx6I",
+                            "amount": amount * 100, // Amount in paise
+                            "currency": "INR",
+                            "name": "Adventure Awaits Travel",
+                            "description": itemToBook.package1.title,
+                            "order_id": "",
+                            "handler": function (response) {
+                                console.log("Razorpay Success Response:", response);
+                                createBookingAndHandlePayment('Paid', response.razorpay_payment_id, cartItemId, packageId, amount, itemToBook);
+                            },
+                            "prefill": {
+                                "name": "Dikshit",
+                                "email": "dikshit.sharma@example.com",
+                                "contact": "6712527522"
+                            },
+                            "theme": {
+                                "color": "#3399cc"
+                            }
+                        };
+                        var rzp1 = new Razorpay(options);
+                        rzp1.open();
+
+                        rzp1.on('payment.failed', function (response){
+                            console.log("Razorpay Failed Response:", response);
+                            createBookingAndHandlePayment('Failed', response.error.reason, cartItemId, packageId, amount, itemToBook);
+                            alert('Payment failed. Please try again.');
+                        });
+                    } else {
+                        console.error("Price not found in cart item data:", cartItemData);
+                        alert("Failed to retrieve the price. Please try again.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching cart item details:", status, error);
+                    alert("Failed to retrieve cart item details. Please try again.");
+                }
             });
         } else {
             console.warn(`Cart item with ID ${cartItemId} not found.`);
@@ -299,7 +325,7 @@ $(document).ready(function() {
                         // Filter bookings to find the one associated with the current cart item and user
                         const relevantBooking = bookingData.find(booking =>
                             booking.package1 && booking.package1.packageId === parseInt(packageId) &&
-                            booking.user && booking.user.userId === userId
+                            booking.user && booking.user.userId === userId && booking.paymentStatus === 'Paid'
                         );
                         console.log(relevantBooking);
 
@@ -343,8 +369,48 @@ $(document).ready(function() {
         updateSummary(totalItems, totalPrice);
     }
 
+    // $.ajax({
+    //     url: 'http://localhost:8081/cart',
+    //     method: 'GET',
+    //     headers: { // Add the headers option
+    //         "Authorization": "Bearer " + jwtToken
+    //     },
+    //     dataType: 'json',
+    //     success: function(data) {
+    //         console.log("Cart items fetched:", data);
+    //         cartItems = data;
+    //         // Fetch booking IDs for the cart items
+    //         $.ajax({
+    //             url: 'http://localhost:8081/booking/bookingGet',
+    //             headers: { // Add the headers option
+    //                 "Authorization": "Bearer " + jwtToken
+    //             },
+    //             method: 'GET',
+    //             dataType: 'json',
+    //             success: function(bookingData) {
+    //                 console.log("Bookings fetched:", bookingData);
+    //                 bookingData.forEach(booking => {
+    //                     if (booking.cartItem && booking.cartItem.cartItemID) {
+    //                         bookingIdMap[booking.cartItem.cartItemID] = booking.bookingId;
+    //                     }
+    //                 });
+    //                 renderCartItems(cartItems);
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.error("Error fetching bookings:", status, error);
+    //                 renderCartItems(cartItems); // Render cart items even if booking fetch fails
+    //             }
+    //         });
+    //     },
+    //     error: function(xhr, status, error) {
+    //         console.error("Error fetching cart items:", status, error);
+    //         $("#cart-items-container").html('<p>Failed to load cart items.</p>');
+    //         updateSummary(0, 0);
+    //     }
+    // });
+
     $.ajax({
-        url: 'http://localhost:8081/cart/cartGet',
+        url: `http://localhost:8081/cart/cartGet/${userId}`,
         method: 'GET',
         headers: { // Add the headers option
             "Authorization": "Bearer " + jwtToken
@@ -355,7 +421,10 @@ $(document).ready(function() {
             cartItems = data;
             // Fetch booking IDs for the cart items
             $.ajax({
-                url: 'http://localhost:8081/booking/bookingGet',
+                url: 'http://localhost:8081/bookingGet',
+                headers: { // Add the headers option
+                    "Authorization": "Bearer " + jwtToken
+                },
                 method: 'GET',
                 dataType: 'json',
                 success: function(bookingData) {

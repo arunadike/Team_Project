@@ -164,6 +164,14 @@ public class CartItemsService {
 
 
 	}
+	public List<CartItems> cartItemsById(int userId) {
+		System.out.println(userId);
+		return cartItemsRepository.findByUser_Userid(userId);
+	}
 
+	public CartItems getCartItemById(int cartItemId) {
+		Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
+		return optionalCartItem.orElse(null);
+	}
 
 }

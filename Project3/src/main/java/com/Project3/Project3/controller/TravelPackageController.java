@@ -1,8 +1,11 @@
 package com.Project3.Project3.controller;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Project3.Project3.model.Review; // Import the Review model
@@ -22,6 +26,8 @@ import com.Project3.Project3.service.ReviewService; // Import ReviewService
 import com.Project3.Project3.service.TravelPackageService;
 
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api")
@@ -33,147 +39,182 @@ public class TravelPackageController {
 
 	@Autowired
 	private ReviewService reviewService; // Add ReviewService
+	
+	private static final Logger logger = LoggerFactory.getLogger(TravelPackageController.class);
+	 @PostMapping("/packageCreation")
+	    public ResponseEntity<TravelPackage> packageCreation(
+	            @Valid @RequestBody TravelPackage travelPackage) {
+	        logger.info("Received request to create travel package: {}", travelPackage); // Log the incoming request
 
-	@PostMapping("/packageCreation")
-	public ResponseEntity<TravelPackage> packageCreation(
-	    @Valid @RequestBody TravelPackage travelPackage) {
-
-	    try {
-	        TravelPackage createdPackage = travelPackageService.createPackage(travelPackage);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(createdPackage);
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+	        try {
+	            TravelPackage createdPackage = travelPackageService.createPackage(travelPackage);
+	            logger.info("Successfully created travel package with ID: {}", createdPackage.getPackageId()); // Log the ID of the created package
+	            return ResponseEntity.status(HttpStatus.CREATED).body(createdPackage);
+	        } catch (IllegalArgumentException e) { // Catch specific exceptions
+	            logger.error("Invalid argument during package creation: {}", e.getMessage(), e);
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Return 400 for bad input
+	        } catch (Exception e) {
+	            logger.error("An error occurred during package creation: {}", e.getMessage(), e);
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Return 500 for other server errors
+	        }
 	    }
-	}
 
 	
-	@DeleteMapping("delete/{packageId}")
-    public ResponseEntity<String> deletePackage(@PathVariable int packageId) {
-        try {
-            travelPackageService.deletePackage(packageId);
-            return new ResponseEntity<>("Package deleted successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Failed to delete package: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+	 @DeleteMapping("delete/{packageId}")
+	    public ResponseEntity<String> deletePackage(@PathVariable int packageId) {
+	        logger.info("Received request to delete package with ID: {}", packageId);
+	        try {
+	            travelPackageService.deletePackage(packageId);
+	            logger.info("Successfully deleted package with ID: {}", packageId);
+	            return new ResponseEntity<>("Package deleted successfully", HttpStatus.OK);
+	        } catch (Exception e) {
+	            logger.error("Failed to delete package with ID {}: {}", packageId, e.getMessage(), e);
+	            return new ResponseEntity<>("Failed to delete package: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	        }
+	    }
 
 
-	@GetMapping("/packageDisplay")
-	public List<TravelPackage> packageDisplay(
-			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "minDuration", required = false) Integer minDuration,
-			@RequestParam(value = "maxDuration", required = false) Integer maxDuration,
-			@RequestParam(value = "services", required = false) String service, // Changed to single service
-			@RequestParam(value = "minPrice", required = false) Double minPrice,
-			@RequestParam(value = "maxPrice", required = false) Double maxPrice) {
+	 @GetMapping("/packageDisplay")
+	    public List<TravelPackage> packageDisplay(
+	            @RequestParam(value = "title", required = false) String title,
+	            @RequestParam(value = "minDuration", required = false) Integer minDuration,
+	            @RequestParam(value = "maxDuration", required = false) Integer maxDuration,
+	            @RequestParam(value = "services", required = false) String service, // Changed to single service
+	            @RequestParam(value = "minPrice", required = false) Double minPrice,
+	            @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
 
-		System.out.println("title: " + title + ", minDuration: " + minDuration + ", maxDuration: " + maxDuration + ", service: " + service + ", minPrice: " + minPrice + ", maxPrice: " + maxPrice);
+	        logger.info("Received request to display packages with filters - title: {}, minDuration: {}, maxDuration: {}, service: {}, minPrice: {}, maxPrice: {}",
+	                title, minDuration, maxDuration, service, minPrice, maxPrice);
 
-		// 2. Filter by Title
-		if (title != null && minDuration == null && maxDuration == null && service == null && minPrice == null && maxPrice == null) {
-			System.out.println("Filter by title: " + title);
-			return travelPackageService.searchPackagesByTitle(title);
-		}
-		// 3. Filter by Duration
-		else if (title == null && minDuration != null && maxDuration != null && service == null && minPrice == null && maxPrice == null) {
-			System.out.println("Filter by duration: " + minDuration + " - " + maxDuration);
-			return travelPackageService.filterPackagesByDuration(minDuration, maxDuration);
-		}
-		// 4. Filter by Service
-		else if (title == null && minDuration == null && maxDuration == null && service != null && minPrice == null && maxPrice == null) {
-			System.out.println("Filter by service: " + service);
-			return travelPackageService.filterPackagesByService(service);
-		}
-		// 5. Filter by Price
-		else if (title == null && minDuration == null && maxDuration == null && service == null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by price: " + minPrice + " - " + maxPrice);
-			return travelPackageService.filterPackagesByPrice(minPrice, maxPrice);
-		}
-		// 6. Filter by Title and Duration
-		else if (title != null && minDuration != null && maxDuration != null && service == null && minPrice == null && maxPrice == null) {
-			System.out.println("Filter by title and duration: " + title + ", " + minDuration + " - " + maxDuration);
-			return travelPackageService.findPackagesByTitleAndDuration(title, minDuration, maxDuration);
-		}
-		// 7. Filter by Title and Service
-		else if (title != null && minDuration == null && maxDuration == null && service != null && minPrice == null && maxPrice == null) {
-			System.out.println("Filter by title and service: " + title + ", " + service);
-			return travelPackageService.findPackagesByTitleAndService(title, service);
-		}
-		// 8. Filter by Title and Price
-		else if (title != null && minDuration == null && maxDuration == null && service == null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by title and price: " + title + ", " + minPrice + " - " + maxPrice);
-			return travelPackageService.findPackagesByTitleAndPrice(title, minPrice, maxPrice);
-		}
-		// 9. Filter by Duration and Service
-		else if (title == null && minDuration != null && maxDuration != null && service != null && minPrice == null && maxPrice == null) {
-			System.out.println("Filter by duration and service: " + minDuration + " - " + maxDuration + ", " + service);
-			return travelPackageService.findPackagesByDurationAndService(minDuration, maxDuration, service);
-		}
-		// 10. Filter by Duration and Price
-		else if (title == null && minDuration != null && maxDuration != null && service == null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by duration and price: " + minDuration + " - " + maxDuration + ", " + minPrice + " - " + maxPrice);
-			return travelPackageService.findPackagesByDurationAndPrice(minDuration, maxDuration, minPrice, maxPrice);
-		}
-		// 11. Filter by Service and Price
-		else if (title == null && minDuration == null && maxDuration == null && service != null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by service and price: " + service + ", " + minPrice + " - " + maxPrice);
-			return travelPackageService.findPackagesByServiceAndPrice(service, minPrice, maxPrice);
-		}
-		// 12. Filter by Title, Duration, and Service
-		else if (title != null && minDuration != null && maxDuration != null && service != null && minPrice == null && maxPrice == null) {
-			System.out.println("Filter by title, duration, and service: " + title + ", " + minDuration + " - " + maxDuration + ", " + service);
-			return travelPackageService.findPackagesByTitleAndDurationAndService(title, minDuration, maxDuration, service);
-		}
-		// 13. Filter by Title, Duration, and Price
-		else if (title != null && minDuration != null && maxDuration != null && service == null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by title, duration, and price: " + title + ", " + minDuration + " - " + maxDuration + ", " + minPrice + " - " + maxPrice);
-			return travelPackageService.findPackagesByTitleAndDurationAndPrice(title, minDuration, maxDuration, minPrice, maxPrice);
-		}
-		// 14. Filter by Title, Service, and Price
-		else if (title != null && minDuration == null && maxDuration == null && service != null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by title, service, and price: " + title + ", " + service + ", " + minPrice + " - " + maxPrice);
-			return travelPackageService.findPackagesByTitleAndServiceAndPrice(title, service, minPrice, maxPrice);
-		}
-		// 15. Filter by Duration, Service, and Price
-		else if (title == null && minDuration != null && maxDuration != null && service != null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by duration, service, and price: " + minDuration + " - " + maxDuration + ", " + service + ", " + minPrice + " - " + maxPrice);
-			return travelPackageService.findPackagesByDurationAndServiceAndPrice(minDuration, maxDuration, service, minPrice, maxPrice);
-		}
-		// 16. Filter by Title, Duration, Service, and Price
-		else if (title != null && minDuration != null && maxDuration != null && service != null && minPrice != null && maxPrice != null) {
-			System.out.println("Filter by title, duration, service, and price: " + title + ", " + minDuration + " - " + maxDuration + ", " + service + ", " + minPrice + " - " + maxPrice);
-			return travelPackageService.findPackagesByTitleAndDurationAndServiceAndPrice(title, minDuration, maxDuration, service, minPrice, maxPrice);
-		}
+	        try {
+	            List<TravelPackage> result = null; // Initialize result
 
-		else {
-			System.out.println("No filters applied");
-			return travelPackageService.packageDisplay(); // Default return, if no filters match.
-		}
-	}
+	            // 2. Filter by Title
+	            if (title != null && minDuration == null && maxDuration == null && service == null && minPrice == null && maxPrice == null) {
+	                logger.debug("Filter by title: {}", title);
+	                result = travelPackageService.searchPackagesByTitle(title);
+	            }
+	            // 3. Filter by Duration
+	            else if (title == null && minDuration != null && maxDuration != null && service == null && minPrice == null && maxPrice == null) {
+	                logger.debug("Filter by duration: {} - {}", minDuration, maxDuration);
+	                result = travelPackageService.filterPackagesByDuration(minDuration, maxDuration);
+	            }
+	            // 4. Filter by Service
+	            else if (title == null && minDuration == null && maxDuration == null && service != null && minPrice == null && maxPrice == null) {
+	                logger.debug("Filter by service: {}", service);
+	                result = travelPackageService.filterPackagesByService(service);
+	            }
+	            // 5. Filter by Price
+	            else if (title == null && minDuration == null && maxDuration == null && service == null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by price: {} - {}", minPrice, maxPrice);
+	                result = travelPackageService.filterPackagesByPrice(minPrice, maxPrice);
+	            }
+	            // 6. Filter by Title and Duration
+	            else if (title != null && minDuration != null && maxDuration != null && service == null && minPrice == null && maxPrice == null) {
+	                logger.debug("Filter by title and duration: {}, {} - {}", title, minDuration, maxDuration);
+	                result = travelPackageService.findPackagesByTitleAndDuration(title, minDuration, maxDuration);
+	            }
+	            // 7. Filter by Title and Service
+	            else if (title != null && minDuration == null && maxDuration == null && service != null && minPrice == null && maxPrice == null) {
+	                logger.debug("Filter by title and service: {}, {}", title, service);
+	                result = travelPackageService.findPackagesByTitleAndService(title, service);
+	            }
+	            // 8. Filter by Title and Price
+	            else if (title != null && minDuration == null && maxDuration == null && service == null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by title and price: {}, {} - {}", title, minPrice, maxPrice);
+	                result = travelPackageService.findPackagesByTitleAndPrice(title, minPrice, maxPrice);
+	            }
+	            // 9. Filter by Duration and Service
+	            else if (title == null && minDuration != null && maxDuration != null && service != null && minPrice == null && maxPrice == null) {
+	                logger.debug("Filter by duration and service: {} - {}, {}", minDuration, maxDuration, service);
+	                result = travelPackageService.findPackagesByDurationAndService(minDuration, maxDuration, service);
+	            }
+	            // 10. Filter by Duration and Price
+	            else if (title == null && minDuration != null && maxDuration != null && service == null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by duration and price: {} - {}, {} - {}", minDuration, maxDuration, minPrice, maxPrice);
+	                result = travelPackageService.findPackagesByDurationAndPrice(minDuration, maxDuration, minPrice, maxPrice);
+	            }
+	            // 11. Filter by Service and Price
+	            else if (title == null && minDuration == null && maxDuration == null && service != null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by service and price: {}, {} - {}", service, minPrice, maxPrice);
+	                result = travelPackageService.findPackagesByServiceAndPrice(service, minPrice, maxPrice);
+	            }
+	            // 12. Filter by Title, Duration, and Service
+	            else if (title != null && minDuration != null && maxDuration != null && service != null && minPrice == null && maxPrice == null) {
+	                logger.debug("Filter by title, duration, and service: {}, {} - {}, {}", title, minDuration, maxDuration, service);
+	                result = travelPackageService.findPackagesByTitleAndDurationAndService(title, minDuration, maxDuration, service);
+	            }
+	            // 13. Filter by Title, Duration, and Price
+	            else if (title != null && minDuration != null && maxDuration != null && service == null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by title, duration, and price: {}, {} - {}, {} - {}", title, minDuration, maxDuration, minPrice, maxPrice);
+	                result = travelPackageService.findPackagesByTitleAndDurationAndPrice(title, minDuration, maxDuration, minPrice, maxPrice);
+	            }
+	            // 14. Filter by Title, Service, and Price
+	            else if (title != null && minDuration == null && maxDuration == null && service != null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by title, service, and price: {}, {}, {} - {}", title, service, minPrice, maxPrice);
+	                result = travelPackageService.findPackagesByTitleAndServiceAndPrice(title, service, minPrice, maxPrice);
+	            }
+	            // 15. Filter by Duration, Service, and Price
+	            else if (title == null && minDuration != null && maxDuration != null && service != null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by duration, service, and price: {} - {}, {}, {} - {}", minDuration, maxDuration, service, minPrice, maxPrice);
+	                result = travelPackageService.findPackagesByDurationAndServiceAndPrice(minDuration, maxDuration, service, minPrice, maxPrice);
+	            }
+	            // 16. Filter by Title, Duration, Service, and Price
+	            else if (title != null && minDuration != null && maxDuration != null && service != null && minPrice != null && maxPrice != null) {
+	                logger.debug("Filter by title, duration, service, and price: {}, {} - {}, {}, {} - {}", title, minDuration, maxDuration, service, minPrice, maxPrice);
+	                result = travelPackageService.findPackagesByTitleAndDurationAndServiceAndPrice(title, minDuration, maxDuration, service, minPrice, maxPrice);
+	            } else {
+	                logger.debug("No filters applied");
+	                result = travelPackageService.packageDisplay(); // Default return, if no filters match.
+	            }
+	            logger.info("Successfully retrieved packages.  Number of packages returned: {}", result != null ? result.size() : 0);
+	            return result;
+
+	        } catch (Exception e) {
+	            logger.error("An error occurred while displaying packages: {}", e.getMessage(), e);
+	            throw new RuntimeException("Failed to display packages", e); //wrap
+	        }
+	    }
 
 
 
 
 
 	// New endpoint to get a single package by ID
-	@GetMapping("/package/{packageId}")
-	public ResponseEntity<TravelPackage> getPackageById(@PathVariable int packageId) {
-		Optional<TravelPackage> packageOptional = travelPackageService.getPackageById(packageId); // Corrected method call
-		if (packageOptional.isPresent()) {
-			return ResponseEntity.ok(packageOptional.get());
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+	 @GetMapping("/package/{packageId}")
+	    public ResponseEntity<TravelPackage> getPackageById(@PathVariable int packageId) {
+	        logger.info("Received request to get package with ID: {}", packageId);
+	        try {
+	            Optional<TravelPackage> packageOptional = travelPackageService.getPackageById(packageId); // Corrected method call
+	            if (packageOptional.isPresent()) {
+	                logger.info("Successfully retrieved package with ID: {}", packageId);
+	                return ResponseEntity.ok(packageOptional.get());
+	            } else {
+	                logger.warn("Package with ID {} not found", packageId);
+	                return ResponseEntity.notFound().build();
+	            }
+	        } catch (Exception e) {
+	            logger.error("An error occurred while retrieving package with ID {}: {}", packageId, e.getMessage(), e);
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	        }
+	    }
 
 	// New endpoint to get reviews for a package
-	@GetMapping("/reviews/{packageId}")
-	public ResponseEntity<List<Review>> getReviewsByPackageId(@PathVariable int packageId) {
-		System.out.println("Fetching reviews for package ID: " + packageId); // Added logging
-		List<Review> reviews = reviewService.getReviewsByPackageId(packageId);
-		System.out.println("Reviews found: " + reviews.size()); // Added logging
-		return ResponseEntity.ok(reviews);
-	}
+	 @GetMapping("/reviews/{packageId}")
+	    public ResponseEntity<List<Review>> getReviewsByPackageId(@PathVariable int packageId) {
+	        logger.info("Received request to get reviews for package ID: {}", packageId);
+	        try {
+	            List<Review> reviews = reviewService.getReviewsByPackageId(packageId);
+	            logger.info("Successfully retrieved reviews for package ID: {}. Number of reviews: {}", packageId, reviews.size());
+	            return ResponseEntity.ok(reviews);
+	        } catch (Exception e) {
+	            logger.error("An error occurred while retrieving reviews for package ID {}: {}", packageId, e.getMessage(), e);
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	        }
+	    }
 
-
+	 @GetMapping("/user/{userId}")
+	    public List<TravelPackage> getPackagesByUserId(@PathVariable int userId) {
+	        return travelPackageService.getPackagesByUserId(userId);
+	    }
 }

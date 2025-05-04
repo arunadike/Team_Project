@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Support - Travel Team 4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        /* Reset some default styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #ffffff;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        nav.header-nav ul.nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        nav.header-nav ul.nav-links li a {
+            color: rgb(12, 1, 1);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav.header-nav ul.nav-links li a:hover,
+        nav.header-nav ul.nav-links li a.active {
+            background-color: #2986fe;
+        }
+
+        .header-right .btn.login-btn {
+            background-color: transparent;
+            color: #004080;
+            border: 2px solid white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .header-right .btn.login-btn:hover {
+            background-color: white;
+            color: #004080;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .contact-section h1 {
+            font-size: 2.5rem;
+            color: #004080;
+            margin-bottom: 10px;
+        }
+
+        .contact-section p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .complaint-box {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .complaint-box textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .complaint-box button {
+            margin-top: 10px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 6px;
+            background-color: #2986fe;
+            color:#f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .complaint-box button:hover {
+            background-color: #1f6ed8;
+        }
+
+        .cards-section {
+            overflow-x: hidden;
+            position: relative;
+            height: 220px;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 30px;
+            position: absolute;
+            top: 0;
+            right: -350px; /* start off screen right */
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: box-shadow 0.3s ease, transform 0.6s ease, opacity 0.6s ease;
+            border: 1px solid #2986fe;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-color: #2986fe;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: #2986fe;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.5;
+            margin: 2px 0;
+        }
+
+        /* Footer styles */
+        footer.footer {
+            background-color: #f9f9f9;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        footer.footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer.footer .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        footer.footer .col-md-3 {
+            flex: 1 1 200px;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            width: auto;
+            margin-bottom: 15px;
+        }
+
+        .footer-description {
+            color: #333;
+            font-size: 0.9rem;
+            max-width: 250px;
+        }
+
+        footer h5 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2986fe;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer ul li {
+            margin-bottom: 10px;
+        }
+
+        footer ul li a {
+            color:#333 ;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer ul li a:hover {
+            color: #2986fe;
+        }
+
+        .follow-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid #2986fe;
+            border-radius: 30px;
+            padding: 10px 20px;
+            width: fit-content;
+            color: #333;
+            background-color: transparent;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-icon a {
+            color: #2986fe;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .social-icon.facebook a:hover {
+            color: #3b5998;
+        }
+
+        .social-icon.instagram a:hover {
+            color: #e4405f;
+        }
+
+        .footer-bottom {
+            background-color: #d6e4ff;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        /* Animation for cards */
+        .card.visible {
+            opacity: 1;
+            transform: translateX(0);
+            transition: transform 0.6s ease, opacity 0.6s ease;
+        }
+
+        .cards-container {
+            position: relative;
+            right: auto;
+            display: flex;
+            gap: 30px;
+            justify-content: flex-start;
+            height: 220px;
+            overflow: visible;
+        }
+
+        .card {
+            position: relative;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: transform 0.6s ease, opacity 0.6s ease;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                position: static;
+                flex-wrap: wrap;
+                justify-content: center;
+                height: auto;
+            }
+            .card {
+                width: 90%;
+                margin-bottom: 20px;
+                transform: translateX(0);
+                opacity: 1;
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><img src="assets/logo.png" alt="Travel Team 4 Logo" /></a>
+        </div>
+        <nav class="header-nav">
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="support.html">SUPPORT</a></li>
+                <li><a href="packages.html">PACKAGE</a></li>
+                <li><a href="#contact" class="active">CONTACT</a></li>
+                <li><a href="cart_main.html">CART</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <a href="loginOrSignUpPage.html" class="btn login-btn">LOGOUT</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <h1>Contact Us</h1>
+            <p>We would love to hear from you! Reach out to us through any of the following ways.</p>
+            <div class="complaint-box">
+                <textarea id="complaint" name="complaint" placeholder="Write your complaint or query here..." required></textarea>
+                <button id="submitBtn" type="button">Submit</button>
+            </div>
+        </section>
+
+        <section class="cards-section">
+            <div class="cards-container" id="cardsContainer">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-phone-alt"></i></div>
+                    <h3>Call Us</h3>
+                    <p>1 (234) 567-891</p>
+                    <p>1 (234) 987-654</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3>Location</h3>
+                    <p>121 Rock Street, 21 Avenue,</p>
+                    <p>New York, NY 92103-9000</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Hours</h3>
+                    <p>Mon - Fri: 11am - 8pm</p>
+                    <p>Sat, Sun: 6am - 8pm</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="Logo" />
+                    </div>
+                    <p class="footer-description">
+                        Discover The World One Adventure At A Time Life Is
+                        Short Book A Trip
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Tour Guide</a></li>
+                        <li><a href="#">Packages</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h5>Travel</h5>
+                    <ul>
+                        <li><a href="#">Turkey</a></li>
+                        <li><a href="#">America</a></li>
+                        <li><a href="#">Dubai</a></li>
+                        <li><a href="#">Germany</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="#">Free Ebooks</a></li>
+                        <li><a href="#">Travel Guide</a></li>
+                        <li><a href="#">How To Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="follow-box ms-3">
+                        <span>Follow</span>
+                        <div class="social-icon facebook">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                        <div class="social-icon instagram">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p>Copyright © 2025 TEAM 4. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/../JavaScript/contactus.js"></script>
+</body>
+</html>

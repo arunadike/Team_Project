@@ -14,6 +14,7 @@ public interface TravelPackageRepository extends CrudRepository<TravelPackage, I
 
     // 2. Filter by Title
     List<TravelPackage> findByTitleContainingIgnoreCase(String title);
+    List<TravelPackage> findByUser_Userid(int userId);
 
     // 3. Filter by Duration
     List<TravelPackage> findByDurationBetween(Integer minDuration, Integer maxDuration);
