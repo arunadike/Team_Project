@@ -275,7 +275,7 @@ $(document).ready(function() {
                     alert(`Booking created with payment status: ${paymentStatus} (${paymentId})`);
                 }
                 //  Now call updateBookingPaymentStatus *after* you have the bookingId
-                updateBookingPaymentStatus(cartItemId, paymentStatus, paymentId, bookingId);
+                // updateBookingPaymentStatus(cartItemId, paymentStatus, paymentId, bookingId);
             },
             error: function(xhr, status, error) {
                 console.error("Error creating booking:", status, error);
@@ -284,27 +284,27 @@ $(document).ready(function() {
         });
     }
 
-    function updateBookingPaymentStatus(cartItemId, paymentStatus, paymentId, bookingId) {
-        $.ajax({
-            url: `http://localhost:8081/bookingPayment/updateStatusByCartItem/${cartItemId}`,
-            method: 'PUT',headers: { // Add the headers option
-                "Authorization": "Bearer " + jwtToken
-            },
-            contentType: 'application/json',
-            data: JSON.stringify({
-                paymentStatus: paymentStatus,
-                paymentMethod: 'Razorpay',
-                transactionId: paymentId,
-                booking: { bookingId: bookingId } // Include bookingId here
-            }),
-            success: function(paymentResponse) {
-                console.log("BookingPayment updated:", paymentResponse);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error updating BookingPayment:", status, error);
-            }
-        });
-    }
+    // function updateBookingPaymentStatus(cartItemId, paymentStatus, paymentId, bookingId) {
+    //     $.ajax({
+    //         url: `http://localhost:8081/bookingPayment/updateStatusByCartItem/${cartItemId}`,
+    //         method: 'PUT',headers: { // Add the headers option
+    //             "Authorization": "Bearer " + jwtToken
+    //         },
+    //         contentType: 'application/json',
+    //         data: JSON.stringify({
+    //             paymentStatus: paymentStatus,
+    //             paymentMethod: 'Razorpay',
+    //             transactionId: paymentId,
+    //             booking: { bookingId: bookingId } // Include bookingId here
+    //         }),
+    //         success: function(paymentResponse) {
+    //             console.log("BookingPayment updated:", paymentResponse);
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error("Error updating BookingPayment:", status, error);
+    //         }
+    //     });
+    // }
 
     $(document).on('click', '.review-btn', function() {
         const packageId = $(this).data('package-id');

@@ -1,6 +1,7 @@
 function displayPackagesByUserId(userId) {
   const packagesContainer = $(".col-lg-9 .row");
   packagesContainer.empty();
+//   const userId = localStorage.getItem('userId');
 
   const jwtToken = localStorage.getItem('JWT');
 
@@ -81,12 +82,12 @@ $(document).ready(function () {
         "Authorization": "Bearer " + jwtToken
       },
       success: function (response) {
-        console.log("Package removed from wishlist:", response);
-        alert("Package removed from your wishlist!");
-        displayPackagesByUserId(userId);
+        console.log("Package removed:", response);
+        alert("Package removed!");
+        // displayPackagesByUserId(userId);
       },
       error: function (xhr, status, error) {
-        console.error("Error removing package from wishlist:", status, error);
+        console.error("Error removing package:", status, error);
         alert("Error removing package. Please try again.");
       }
     });
