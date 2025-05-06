@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  
  
 @Repository
- 
-	public interface ContactRepository extends JpaRepository<Contactus, Long> {
-	}
+public interface ContactRepository extends JpaRepository<Contactus, Long> {
+
+}
  

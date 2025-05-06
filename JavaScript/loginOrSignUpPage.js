@@ -11,7 +11,7 @@ $(document).ready(function() {
           const payloadJson = atob(payloadBase64);  // Use atob() to decode
           const payload = JSON.parse(payloadJson);
           const now = Math.floor(Date.now() / 1000); // Get current time in seconds
-  
+
           if (payload.exp > now) {
             // Token is valid, redirect
             window.location.href = 'index.html'; // Redirect to your main page
@@ -27,21 +27,21 @@ $(document).ready(function() {
           // Handle the error:  The token is invalid, remove it.
         }
       }
-  
-      
-      
+
+
+
     }
-  
+
     // Call this function when the page loads
     checkAuthenticationAndRedirect();
-  
+
     $("#loginButton").click(function(event) {
       event.preventDefault(); // Prevent the default form submission
-  
+
       const username = $("#username").val();
       const password = $("#password").val();
       const statusDiv = $("#status");
-  
+
       $.ajax({
         url: "http://localhost:8081/login",
         type: "POST",
@@ -77,4 +77,3 @@ $(document).ready(function() {
       });
     });
   });
-  

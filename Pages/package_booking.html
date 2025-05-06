@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,39 +12,60 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="nav_footer_feedback.css">
 </head>
- 
+
 <body>
- 
+
+    <nav>
+        <div class="nav__header">
+            <div class="nav__logo">
+                <a href="#" class="logo"><img src="assets/logo.png" alt="logo" /></a>
+            </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="support.html">SUPPORT</a></li>
+            <li><a id="package" href="packages.html">PACKAGE</a></li>
+            <li><a href="contactus.html">CONTACT</a></li>
+            <li><a href="cart_main.html">CART</a></li>
+        </ul>
+        <div class="nav__btns">
+            <a href="loginOrSignUpPage.html">
+                <button id="logout-btn" class="btn">LOGOUT</button>
+            </a>
+        </div>
+    </nav>
+
     <div class="popup">
         <div class="d-flex justify-content-between align-items-center">
             <h2 style="color: #2986fe; text-align: center; flex-grow: 1; margin-right: 20px;">Package Booking</h2>
             <button type="button" class="close-btn" onclick="$('.popup').hide();">&times;</button>
         </div>
- 
+
         <form>
             <div class="form-group">
                 <label for="location">Title:</label>
                 <input type="text" class="form-control" id="title" placeholder="Enter Title" required>
             </div>
- 
+
             <div class="form-group">
                 <label for="price">Price:</label>
                 <input type="number" class="form-control" id="price" placeholder="Enter price" required min="1000">
             </div>
- 
+
             <div class="form-group">
                 <label for="perPerson">Description</label>
                 <input type="text" class="form-control" id="description" placeholder="Enter Description" required>
             </div>
- 
- 
- 
+
+
+
             <div class="form-group">
                 <label for="includedService">includedService:</label>
                 <input type="text" class="form-control" id="includedService" placeholder="Enter includedService:"
                     required>
             </div>
-           
+
             <div class="form-group">
                 <label for="duration">Duration:</label>
                 <input type="number" class="form-control" id="duration" placeholder="Enter duration:" required>
@@ -53,11 +74,11 @@
                 <label for="imageUrl">ImageUrl:</label>
                 <input type="text" class="form-control" id="imageUrl" placeholder="Enter imageUrl" required>
             </div>
- 
- 
- 
- 
- 
+
+
+
+
+
             <button id="submit1" type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
@@ -66,38 +87,41 @@
             Feedback
         </div>
     </a>
- 
+
     <script>
         $(document).ready(function () {
             const JWT = localStorage.getItem("JWT");
             $("#fromDate, #toDate").datepicker({
                 dateFormat: "yy-mm-dd"
             });
- 
+
             $("#submit1").on("click", function (event) {
                 event.preventDefault(); // Stops default form submission
- 
+
                 var formData = {
                     title: $("#title").val(),
                     price: $("#price").val(),
                     description: $("#description").val(),
                     includedService: $("#includedService").val(),
-                    user: { userId: localStorage.getItem('userId') },
+                    user: {
+                        userId: localStorage.getItem('userId')
+                    },
                     duration: $("#duration").val(),
                     imageUrl: $("#imageUrl").val()
                 };
- 
+
                 $.ajax({
                     type: "POST",
                     headers: { // Add the headers option
-                   "Authorization": "Bearer " + JWT
+                        "Authorization": "Bearer " + JWT
                     },
                     url: "http://localhost:8081/api/packageCreation",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     success: function (response) {
                         alert("Package stored successfully!");
-                        window.location.href = "agentcreation.html"; // Redirect to another page
+                        window.location.href =
+                        "agentcreation.html"; // Redirect to another page
                     },
                     error: function (xhr) {
                         alert("Error: " + xhr.responseText);
@@ -106,9 +130,7 @@
             });
         });
     </script>
- 
+
 </body>
- 
+
 </html>
- 
- 

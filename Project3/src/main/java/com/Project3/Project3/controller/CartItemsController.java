@@ -84,11 +84,9 @@ public class CartItemsController {
 	            logger.info("Successfully deleted cart item with ID: {}", cartItemId);
 	        } catch (EmptyResultDataAccessException e) {
 	            logger.warn("Attempted to delete non-existent cart item with ID: {}", cartItemId);
-	            // Consider returning a 404 Not Found error to the client
 	            throw new Exception("Cart item with ID " + cartItemId + " not found.", e);
 	        } catch (Exception e) {
 	            logger.error("An error occurred while deleting cart item with ID {}: {}", cartItemId, e.getMessage(), e);
-	            // Consider returning a more specific error response to the client
 	            throw new RuntimeException("Failed to delete cart item with ID " + cartItemId, e);
 	        }
 	    }
@@ -213,7 +211,7 @@ public class CartItemsController {
 	        }
 	    }
 }
-class UpdateCartRequest
+class 	UpdateCartRequest
 {
 	private Integer noOfPersons;
 	private Double price;

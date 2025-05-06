@@ -42,15 +42,15 @@
     <!-- Main Content -->
     <div class="container my-4">
         <div class="row">
-            
-                
-            </div>
 
-            <div class="col-lg-9">
-                <div class="row">
-                </div>
+
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row">
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Footer -->
@@ -125,11 +125,7 @@
             <p>Copyright © 2025 TEAM 4. All rights reserved.</p>
         </div>
     </div>
-    <a href="webfeedback.html">
-        <div class="feedback-btn">
-            Feedback
-        </div>
-    </a>
+
     <script src="./../JavaScript/agentcreation.js"></script>
 
     <!-- Scripts
@@ -137,12 +133,12 @@
     function displayPackagesByUserId(userId) {
         const packagesContainer = $(".col-lg-9 .row"); // Or wherever you want to display the packages
         packagesContainer.empty(); // Clear previous content
-      
+
         const jwtToken = localStorage.getItem('JWT'); // Get JWT token
-      
+
         // Construct the API URL to fetch packages for a specific user.
         const apiUrl = `http://localhost:8081/api/user/${userId}`; //  <--  Adjust this URL
-      
+
         $.ajax({
           url: apiUrl,
           method: "GET",
@@ -156,7 +152,7 @@
               let packagesHtml = "";
               data.forEach(package => {
                 packagesHtml += `
-                  <div class="col-md-4 mb-4">  
+                  <div class="col-md-4 mb-4">
                     <div class="card">
                       <img src="${package.imageUrl}" class="card-img-top" alt="${package.title}" style="height: 200px; object-fit: cover;">
                       <div class="card-body">
@@ -164,7 +160,7 @@
                         <p class="card-text">${package.description}</p>
                         <p class="card-text">Duration: ${package.duration} days</p>
                         <p class="card-text">Price: $${package.price}</p>
-                         
+
                       </div>
                     </div>
                   </div>
@@ -185,7 +181,7 @@
           }
         });
       }
-      
+
       // Example usage:
       const userId = localStorage.getItem('userId'); //  Replace 123 with the actual user ID.
       if(userId){
@@ -194,10 +190,10 @@
       else{
         console.log("user not logged in")
       }
-      
+
       </script> -->
-      
-    
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->

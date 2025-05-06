@@ -69,10 +69,10 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getKey()) // verify wheather a token is valid or not by using signature
+                .setSigningKey(getKey()) // verify weather a token is valid or not by using signature
                 .build()// a builder object is created
                 .parseClaimsJws(token)// the token is passed to the builder obj
-                .getBody(); // return claims object without it it retuen jws(header, sig, body(payload)) obj
+                .getBody(); // return claims object without it return jws(header, sig, body(payload)) obj
     }
 
     // end

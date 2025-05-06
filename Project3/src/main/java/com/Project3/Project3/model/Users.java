@@ -43,7 +43,7 @@ public class Users {
 //	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
 	private String password;
 	//@Column(name="role", nullable=false)
-	@NotNull
+//	@NotNull
 	private String role;
 	//@Column(name="contact_number", nullable=false)
 	@NotNull

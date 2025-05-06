@@ -32,7 +32,6 @@ $(document).ready(function() {
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
                         <h6 class="text-dark">${item.package1.title || 'Package Title'}</h6>
-                        <h6 class="mb-0">${item.package1.description || ''}</h6>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3" style="max-width: 150px;">
                         <h6 class="mb-0">Persons:</h6>
