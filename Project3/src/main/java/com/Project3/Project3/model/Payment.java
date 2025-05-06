@@ -8,9 +8,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="payment1")
-public class Payment1 {
-	public Payment1(int paymentId, @NotNull double amount, @NotNull String status, @NotNull String paymentMethod,
+@Table(name="payment")
+public class Payment {
+	public Payment(int paymentId, @NotNull double amount, @NotNull String status, @NotNull String paymentMethod,
 			TravelPackage travelPackage, Users user) {
 		super();
 		this.paymentId = paymentId;
@@ -20,7 +20,7 @@ public class Payment1 {
 		this.travelPackage = travelPackage;
 		this.user = user;
 	}
-	public Payment1()
+	public Payment()
 	{
 		
 	}

@@ -27,7 +27,13 @@ $(document).ready(function() {
                 $('#complaint').val('');
             },
             error: function(xhr, status, error) {
-                alert('Error submitting complaint: ' + xhr.responseText);
+                let errorMessage = 'Error submitting complaint.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage += "\n" + xhr.responseJSON.message;
+                } else if (xhr.responseText) {
+                    errorMessage += "\n" + xhr.responseText;
+                }
+                alert(errorMessage);
             }
         });
     });

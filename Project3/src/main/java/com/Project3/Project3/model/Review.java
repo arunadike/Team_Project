@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-//@Table(name="review2")
+@Table(name="review")
 public class Review {
 
     public Review(){
@@ -86,15 +86,9 @@ public class Review {
         this.package1 = package1;
     }
 
-    @Override
-    public String toString() {
-        return "Review{" +
-                "id=" + id +
-                ", booking=" + booking +
-                ", reviewComment='" + reviewComment + '\'' +
-                ", rating=" + rating +
-                ", reviewDate=" + reviewDate +
-                ", package1=" + package1 +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Review{" + "id=" + id + ", booking=" + booking + ", reviewComment='" + reviewComment + '\''
+				+ ", rating=" + rating + ", reviewDate=" + reviewDate + ", package1=" + package1 + '}';
+	}
 }

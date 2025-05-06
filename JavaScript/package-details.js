@@ -65,7 +65,13 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching package details:", status, error);
-                alert('Failed to load package details.');
+                let errorMessage = 'Failed to load package details.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage += "\n" + xhr.responseJSON.message;
+                } else if (xhr.responseText) {
+                    errorMessage += "\n" + xhr.responseText;
+                }
+                alert(errorMessage);
                 window.location.href = 'packages.html';
             }
         });

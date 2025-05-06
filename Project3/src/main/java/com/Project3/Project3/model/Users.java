@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(
-		name = "user17",
+		name = "user",
 		uniqueConstraints = {
 				@UniqueConstraint(columnNames = {"username"}),
 				@UniqueConstraint(name = "username", columnNames = {"username"})

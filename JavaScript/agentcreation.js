@@ -53,6 +53,11 @@ function displayPackagesByUserId(userId) {
     error: function (xhr, status, error) {
       console.error("Error fetching packages:", status, error);
       packagesContainer.html("<div class='col-12 text-center py-5'><h4>Error: Could not retrieve packages.</h4></div>");
+      let errorMessage = "Error: Could not retrieve packages.";
+      if (xhr.responseJSON && xhr.responseJSON.message) {
+        errorMessage += "\n" + xhr.responseJSON.message;
+      }
+      alert(errorMessage);
       if (xhr.status === 401) {
         alert("Unauthorized. Please log in.");
       }

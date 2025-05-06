@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-//    private static final String SECRET="secrfet";
+	private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
     public String secrectKey;
     public JwtService(){
@@ -32,9 +34,10 @@ public class JwtService {
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
             SecretKey secretKey = keyGen.generateKey();
-            System.out.println("Secret Key : " + secretKey.toString());
+            logger.info("Secret Key : {}", secretKey.toString());
             return Base64.getEncoder().encodeToString(secretKey.getEncoded());
         } catch (NoSuchAlgorithmException e) {
+            logger.error("Error generating secret key: {}", e.getMessage(), e);
             throw new RuntimeException("Error generating secret key", e);
         }
     }

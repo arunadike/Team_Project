@@ -18,7 +18,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
  
 @Entity
-@Table(name = "cartitems2", uniqueConstraints = {
+@Table(name = "cartitems", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"userid", "packageid"})
 })
 public class CartItems {

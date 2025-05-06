@@ -11,6 +11,8 @@ import com.Project3.Project3.model.TravelPackage;
 import com.Project3.Project3.model.Users;
 import com.Project3.Project3.repository.TravelPackageRepository;
 import com.Project3.Project3.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import jakarta.validation.Valid;
 @Service
 public class CartItemsService {
 
+	private static final Logger logger = LoggerFactory.getLogger(CartItemsService.class);
+
 	@Autowired
 	private CartItemsRepository cartItemsRepository;
 
@@ -32,146 +36,177 @@ public class CartItemsService {
 	private TravelPackageRepository packageRepository;
 
 	public CartItems addItemToCart(Long userId, int packageId, Date startDate2, Integer noOfPersons, Boolean insurance, Double price) {
-		Optional<Users> userOptional = userRepository.findById(userId);
-		Optional<TravelPackage> packageOptional = packageRepository.findById(packageId);
-		System.out.println(packageOptional.isPresent());
-		if (userOptional.isPresent() && packageOptional.isPresent()) {
-			Users user = userOptional.get();
-			TravelPackage package1 = packageOptional.get(); // Renamed
+		try {
+			Optional<Users> userOptional = userRepository.findById(userId);
+			Optional<TravelPackage> packageOptional = packageRepository.findById(packageId);
+			logger.info("Package present: {}", packageOptional.isPresent());
+			if (userOptional.isPresent() && packageOptional.isPresent()) {
+				Users user = userOptional.get();
+				TravelPackage package1 = packageOptional.get(); // Renamed
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust pattern if needed
-			Date startDate=null;
-			try {
-				//startDate = dateFormat.parse(startDate2);
-				System.out.println("hello");
-			} catch (Exception e) {
-				// Handle the parsing exception appropriately (e.g., log, throw custom exception)
-				System.err.println("Error parsing date: " + startDate2);
-				return null;
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust pattern if needed
+				Date startDate = null;
+				try {
+					//startDate = dateFormat.parse(startDate2);
+					logger.info("hello");
+				} catch (Exception e) {
+					// Handle the parsing exception appropriately (e.g., log, throw custom exception)
+					logger.error("Error parsing date: {}", startDate2);
+					return null;
+				}
+
+				//CartItems cartItem = new CartItems(user, package1, startDate, noOfPersons, insurance, price);
+				CartItems cartItems = new CartItems();
+				cartItems.setNoOfPersons(noOfPersons);
+				cartItems.setInsurance(insurance);
+				cartItems.setPackage1(package1);
+				cartItems.setUser(user);
+				cartItems.setPrice(price);
+				cartItems.setStartDate(new Date());
+				return cartItemsRepository.save(cartItems);
 			}
-
-			//CartItems cartItem = new CartItems(user, package1, startDate, noOfPersons, insurance, price);
-			CartItems cartItems = new CartItems();
-			cartItems.setNoOfPersons(noOfPersons);
-			cartItems.setInsurance(insurance);
-			cartItems.setPackage1(package1);
-			cartItems.setUser(user);
-			cartItems.setPrice(price);
-			cartItems.setStartDate(new Date());
-			return cartItemsRepository.save(cartItems);
+			return null; // Or throw an exception indicating user or package not found
+		} catch (Exception e) {
+			logger.error("Error adding item to cart: {}", e.getMessage(), e);
+			throw e;
 		}
-		return null; // Or throw an exception indicating user or package not found
 	}
 
-
-//	@Autowired
-//	private CartItemsRepository cartItemsRepository;
-
-
 	public void saveData(CartItems cartItems) {
-		cartItemsRepository.save(cartItems);
-
+		try {
+			cartItemsRepository.save(cartItems);
+		} catch (Exception e) {
+			logger.error("Error saving cart item: {}", e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	public List<CartItems> returnData() {
-		// TODO Auto-generated method stub
-		return (List<CartItems>) cartItemsRepository.findAll();
+		try {
+			return (List<CartItems>) cartItemsRepository.findAll();
+		} catch (Exception e) {
+			logger.error("Error fetching cart items: {}", e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	public void cartSave(@Valid CartItems cartItems) {
-		// TODO Auto-generated method stub
-		cartItemsRepository.save(cartItems);
-
+		try {
+			cartItemsRepository.save(cartItems);
+		} catch (Exception e) {
+			logger.error("Error saving cart item: {}", e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	public List<CartItems> cartReturn() {
-		// TODO Auto-generated method stub
-		return (List<CartItems>) cartItemsRepository.findAll();
-		//return null;
+		try {
+			return (List<CartItems>) cartItemsRepository.findAll();
+		} catch (Exception e) {
+			logger.error("Error fetching cart items: {}", e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	public void deleteCartItem(int cartItemId) {
-		// TODO Auto-generated method stub
-		cartItemsRepository.deleteById(cartItemId);
-
+		try {
+			cartItemsRepository.deleteById(cartItemId);
+		} catch (Exception e) {
+			logger.error("Error deleting cart item with ID {}: {}", cartItemId, e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	public void updateCartItem(int cartItemId,int noOfPersons) {
-		// TODO Auto-generated method stub
-		 Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
-		   if (optionalCartItem.isEmpty()) {
-		    throw new NoSuchElementException("Cart item with ID " + cartItemId + " not found");
-		   }
-		   CartItems cartItem = optionalCartItem.get();
+		try {
+			Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
+			if (optionalCartItem.isEmpty()) {
+				throw new NoSuchElementException("Cart item with ID " + cartItemId + " not found");
+			}
+			CartItems cartItem = optionalCartItem.get();
 
-		   if (noOfPersons > 0) {
-		    cartItem.setNoOfPersons(noOfPersons);
-		   } else if (noOfPersons <= 0) {
-		    throw new IllegalArgumentException("Number of persons must be greater than zero.");
-		   }
+			if (noOfPersons > 0) {
+				cartItem.setNoOfPersons(noOfPersons);
+			} else if (noOfPersons <= 0) {
+				throw new IllegalArgumentException("Number of persons must be greater than zero.");
+			}
 
+			double originalPrice = cartItem.getPackage1().getPrice();
+			double newPrice = originalPrice*noOfPersons;
+			cartItem.setPrice(newPrice);
 
-		    	   double originalPrice = cartItem.getPackage1().getPrice();
-		    	    double newPrice = originalPrice*noOfPersons;
-		    	   cartItem.setPrice(newPrice);
-
-
-		    cartItemsRepository.save(cartItem);
-
+			cartItemsRepository.save(cartItem);
+		} catch (Exception e) {
+			logger.error("Error updating cart item with ID {}: {}", cartItemId, e.getMessage(), e);
+			throw e;
+		}
 	}
 
-
-
 	public boolean updateInsurance(int cartItemId, Boolean hasInsurance) {
-		// TODO Auto-generated method stub
-		Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
-        if (optionalCartItem.isPresent()) {
-            CartItems cartItem = optionalCartItem.get();
-            cartItem.setInsurance(hasInsurance);
-            // Recalculate the price based on insurance (you'll need your pricing logic here)
-            double basePrice = cartItem.getPrice();// ... get the base price of the item ...
-            double insuranceCost = hasInsurance ? 500.00 : 0.00; // Example insurance cost
-            cartItem.setPrice(basePrice + insuranceCost);
-            cartItemsRepository.save(cartItem);
-            return true;
-        }
-        return false;
-
-		//return false;
+		try {
+			Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
+			if (optionalCartItem.isPresent()) {
+				CartItems cartItem = optionalCartItem.get();
+				cartItem.setInsurance(hasInsurance);
+				// Recalculate the price based on insurance (you'll need your pricing logic here)
+				double basePrice = cartItem.getPrice();// ... get the base price of the item ...
+				double insuranceCost = hasInsurance ? 500.00 : 0.00; // Example insurance cost
+				cartItem.setPrice(basePrice + insuranceCost);
+				cartItemsRepository.save(cartItem);
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			logger.error("Error updating insurance for cart item with ID {}: {}", cartItemId, e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	public void updateCart(int cartItemId,int noOfPersons,boolean insurance) {
-		// TODO Auto-generated method stub
-		Optional<CartItems> optionalCartItem=cartItemsRepository.findById(cartItemId);
-		if(optionalCartItem.isPresent())
-		{
-			CartItems cartItem = optionalCartItem.get();
-			cartItem.setNoOfPersons(noOfPersons);
-			cartItem.setInsurance(insurance);
-			double price1=cartItem.getPackage1().getPrice()*cartItem.getNoOfPersons();
-			double c=0;
-			//cartItem.setInsurance(cartItem.isInsurance());
-			if(cartItem.isInsurance())
+		try {
+			Optional<CartItems> optionalCartItem=cartItemsRepository.findById(cartItemId);
+			if(optionalCartItem.isPresent())
 			{
-				c=500*cartItem.getNoOfPersons();
+				CartItems cartItem = optionalCartItem.get();
+				cartItem.setNoOfPersons(noOfPersons);
+				cartItem.setInsurance(insurance);
+				double price1=cartItem.getPackage1().getPrice()*cartItem.getNoOfPersons();
+				double c=0;
+				//cartItem.setInsurance(cartItem.isInsurance());
+				if(cartItem.isInsurance())
+				{
+					c=500*cartItem.getNoOfPersons();
+				}
+				//cartItem.setInsurance(cartItem.isInsurance());
+				cartItem.setPrice(price1+c);
+				//cartItem.setNoOfPersons(cartItem.getNoOfPersons());
+
+				cartItemsRepository.save(cartItem);
 			}
-			//cartItem.setInsurance(cartItem.isInsurance());
-			cartItem.setPrice(price1+c);
-			//cartItem.setNoOfPersons(cartItem.getNoOfPersons());
-
-			cartItemsRepository.save(cartItem);
+		} catch (Exception e) {
+			logger.error("Error updating cart with ID {}: {}", cartItemId, e.getMessage(), e);
+			throw e;
 		}
-
-
 	}
+
 	public List<CartItems> cartItemsById(int userId) {
-		System.out.println(userId);
-		return cartItemsRepository.findByUser_Userid(userId);
+		try {
+			logger.info("Fetching cart items for user ID: {}", userId);
+			return cartItemsRepository.findByUser_Userid(userId);
+		} catch (Exception e) {
+			logger.error("Error fetching cart items for user ID {}: {}", userId, e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	public CartItems getCartItemById(int cartItemId) {
-		Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
-		return optionalCartItem.orElse(null);
+		try {
+			Optional<CartItems> optionalCartItem = cartItemsRepository.findById(cartItemId);
+			return optionalCartItem.orElse(null);
+		} catch (Exception e) {
+			logger.error("Error fetching cart item with ID {}: {}", cartItemId, e.getMessage(), e);
+			throw e;
+		}
 	}
 
 }

@@ -66,13 +66,15 @@ $(document).ready(function() {
         },
         error: function(xhr, status, error) {
           console.error("Login failed:", xhr, status, error);
+          let errorMessage = "Login failed.";
           if (xhr.responseJSON && xhr.responseJSON.message) {
-            statusDiv.text("Login failed: " + xhr.responseJSON.message);
+            errorMessage += " " + xhr.responseJSON.message;
           } else if (xhr.responseText) {
-            statusDiv.text("Login failed: " + xhr.responseText);
+            errorMessage += " " + xhr.responseText;
           } else {
-            statusDiv.text("Login failed: An unexpected error occurred.");
+            errorMessage += " An unexpected error occurred.";
           }
+          statusDiv.text(errorMessage);
         }
       });
     });

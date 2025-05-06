@@ -8,54 +8,52 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="INSURANCE")
+@Table(name = "INSURANCE")
 public class Insurance {
 
 	@Id
 	private int insuranceId;
-	
+
 	@NotNull
 	private String coverageDetails;
-	
+
 	@NotNull
 	private String provider;
-	
+
 	@NotNull
 	private double amount;
-	
+
 	@OneToOne
-	@JoinColumn(name = "paymentId",nullable=false)
-	private Payment1 payment1;
-	
+	@JoinColumn(name = "paymentId", nullable = false)
+	private Payment payment;
+
 	@NotNull
 	private String status;
-	
+
 	@OneToOne
-	@JoinColumn(name = "bookingId",nullable=false)
+	@JoinColumn(name = "bookingId", nullable = false)
 	private Booking booking;
-	
+
 	@OneToOne
-	@JoinColumn(name = "userid",nullable=false)
+	@JoinColumn(name = "userid", nullable = false)
 	private Users user;
 
 	public Insurance() {
-		this.status="ACTIVE";
+		this.status = "ACTIVE";
 	}
 
 	public Insurance(int insuranceId, @NotNull String coverageDetails, @NotNull String provider, @NotNull double amount,
-			Payment1 payment1, String status, Booking booking, Users user) {
+			Payment payment, String status, Booking booking, Users user) {
 		super();
 		this.insuranceId = insuranceId;
 		this.coverageDetails = coverageDetails;
 		this.provider = provider;
 		this.amount = amount;
-		this.payment1 = payment1;
+		this.payment = payment;
 		this.status = status;
 		this.booking = booking;
 		this.user = user;
 	}
-
-
 
 	@Override
 	public String toString() {
@@ -119,13 +117,12 @@ public class Insurance {
 		this.amount = amount;
 	}
 
-	public Payment1 getPayment1() {
-		return payment1;
+	public Payment getPayment1() {
+		return payment;
 	}
 
-	public void setPayment1(Payment1 payment1) {
-		this.payment1 = payment1;
+	public void setPayment1(Payment payment1) {
+		this.payment = payment1;
 	}
-	
-	
+
 }

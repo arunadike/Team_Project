@@ -199,10 +199,17 @@ function renderPackages(filteredPackages = []) {
           error: function (xhr, status, error) {
 
             console.error("Error fetching packages:", status, error);
-            window.alert("Unauthorized", status, error);
+            let errorMessage = "Error fetching packages.";
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage += "\n" + xhr.responseJSON.message;
+            } else if (xhr.responseText) {
+                errorMessage += "\n" + xhr.responseText;
+            }
+            alert(errorMessage);
             renderPackages([]);
 
           },
+
 
         });
 

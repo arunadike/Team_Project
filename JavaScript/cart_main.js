@@ -109,7 +109,11 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.error("Error deleting item:", status, error);
-                alert("Failed to remove item from cart.");
+                let errorMessage = "Failed to remove item from cart.";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage += "\n" + xhr.responseJSON.message;
+                }
+                alert(errorMessage);
             }
         });
     });
@@ -190,20 +194,20 @@ $(document).ready(function() {
         if (itemToBook) {
             // Fetch the latest price from the backend for this specific cart item
             $.ajax({
-                url: `http://localhost:8081/cart/cartGet/item/${cartItemId}`,
-                method: 'GET',
-                headers: {
-                    "Authorization": "Bearer " + jwtToken
-                },
-                dataType: 'json',
-                success: function(cartItemData) {
-                    if (cartItemData && cartItemData.price !== undefined) {
-                        const amount = cartItemData.price;
-                        if (isNaN(amount)) {
-                            console.error("Invalid price received from backend:", cartItemData);
-                            alert("Failed to retrieve the correct price. Please try again.");
-                            return;
-                        }
+            url: `http://localhost:8081/cart/cartGet/item/${cartItemId}`,
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + jwtToken
+            },
+            dataType: 'json',
+            success: function(cartItemData) {
+                if (cartItemData && cartItemData.price !== undefined) {
+                    const amount = cartItemData.price;
+                    if (isNaN(amount)) {
+                        console.error("Invalid price received from backend:", cartItemData);
+                        alert("Failed to retrieve the correct price. Please try again.");
+                        return;
+                    }
 
                         var options = {
                             "key": "rzp_test_XrIUc52C7IOx6I",

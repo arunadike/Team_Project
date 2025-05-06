@@ -1,5 +1,5 @@
 package com.Project3.Project3.model;
- 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,14 +9,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
- 
+
 @Entity
 @Table(name = "contacts")
- 
- 
+
 public class Contactus {
-	
+
 	public Contactus(Long contactId, Users users, @NotEmpty(message = "Comment cannot be empty") String commenting) {
 		super();
 		this.contactId = contactId;
@@ -27,20 +25,20 @@ public class Contactus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commenting_seq")
 	@SequenceGenerator(name = "commenting_seq", sequenceName = "commenting_SEQ", allocationSize = 1)
-    private Long contactId;
-	
+	private Long contactId;
+
 	@ManyToOne
-	@JoinColumn(name = "userid",nullable=false)
+	@JoinColumn(name = "userid", nullable = false)
 	private Users users;
- 
- 
-    @NotEmpty(message = "Comment cannot be empty")
-    //@Size(min = 5, max = 500, message = "Comment must be between 5 and 500 characters")
-    private String commenting;
- 
-    // Default constructor (required by JPA)
-    public Contactus() {
-    }
+
+	@NotEmpty(message = "Comment cannot be empty")
+	// @Size(min = 5, max = 500, message = "Comment must be between 5 and 500
+	// characters")
+	private String commenting;
+
+	// Default constructor (required by JPA)
+	public Contactus() {
+	}
 
 	public Long getContactId() {
 		return contactId;
@@ -65,16 +63,9 @@ public class Contactus {
 	public void setCommenting(String commenting) {
 		this.commenting = commenting;
 	}
- 
-    
-    // Constructor with fields
-    
-    // Getters and Setters
-    
-   
- 
-    
-       
- 
+
+	// Constructor with fields
+
+	// Getters and Setters
+
 }
- 

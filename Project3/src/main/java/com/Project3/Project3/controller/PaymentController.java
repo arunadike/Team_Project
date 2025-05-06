@@ -8,27 +8,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Project3.Project3.model.Payment1;
+import com.Project3.Project3.model.Payment;
 import com.Project3.Project3.service.PaymentService;
 
 import jakarta.validation.Valid;
 
 @RestController
 public class PaymentController {
-	
+
 	@Autowired
 	PaymentService paymentService;
-	
+
 	@PostMapping("/paymentPost")
-	public void paymentPost(@RequestBody @Valid Payment1 payment)
-	{
+	public void paymentPost(@RequestBody @Valid Payment payment) {
 		paymentService.saveData(payment);
-		
+
 	}
-	
+
 	@GetMapping("/paymentGet")
-	public List<Payment1> paymentGet()
-	{
+	public List<Payment> paymentGet() {
 		return paymentService.returnData();
 	}
 
