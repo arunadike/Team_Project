@@ -39,7 +39,7 @@ function displayPackagesByUserId(userId) {
                   <p class="package-price card-text h5">₹${pkg.price.toLocaleString('en-IN')}</p>
                   ${serviceIcons}
                   <a href="package-details.html?id=${pkg.packageId}" class="btn btn-sm btn-primary mt-3">Know More</a>
-                  <button class="btn btn-sm btn-danger mt-3 remove-from-wishlist-btn" data-package-id="${pkg.packageId}">Remove</button>
+                  <button class="btn btn-sm btn-danger mt-3 remove-from-wishlist-btn" onclick="deletePackage(${pkg.packageId})" data-package-id="${pkg.packageId}">Remove</button>
                 </div>
               </div>
             </div>
@@ -75,26 +75,32 @@ $(document).ready(function () {
     console.log("user not logged in");
   }
 
-  $(".col-lg-9 .row").on("click", ".remove-from-wishlist-btn", function () {
-    const packageId = $(this).data("package-id");
-    const userId = localStorage.getItem('userId');
-    const jwtToken = localStorage.getItem('JWT');
+  window.deletePackage = function (packageId) {
+    console.log("Delete icon clicked for package ID:", packageId);
 
-    $.ajax({
-      url: `http://localhost:8081/api/delete/${packageId}`,
-      method: 'DELETE',
-      headers: {
-        "Authorization": "Bearer " + jwtToken
-      },
-      success: function (response) {
-        console.log("Package removed:", response);
-        alert("Package removed!");
-        // displayPackagesByUserId(userId);
-      },
-      error: function (xhr, status, error) {
-        console.error("Error removing package:", status, error);
-        alert("Error removing package. Please try again.");
-      }
-    });
-  });
+    if (confirm("Are you sure you want to delete this package?")) {
+        $.ajax({
+            url: `http://localhost:8081/api/delete/${packageId}`, // Corrected URL
+            method: 'DELETE',
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem('JWT') // Include the JWT token
+            },
+            success: function (response) {
+                console.log("Package deleted successfully:", response);
+                alert("Package deleted successfully!");
+                window.location.href = 'agentcreation.html'; // Redirect to the packages list.  I've changed this, as it seems more logical to go to agent creation.
+            },
+            error: function (xhr, status, error) {
+                console.error("Error deleting package:", error); // More specific error message
+                //  window.location.href = 'packages.html'; // Removed:  This could cause a loop.
+                alert('Failed to delete package.');
+                // Optionally display more detailed error information
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    console.error("Server error message:", xhr.responseJSON.message);
+                }
+            }
+        });
+    }
+};
+
 });
