@@ -1,8 +1,9 @@
+
 $(document).ready(function () {
     // Get the package ID from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const packageId = urlParams.get('id');
-    const JWT=localStorage.getItem('JWT');
+    const JWT = localStorage.getItem('JWT');
 
     if (!packageId) {
         alert('Package ID is missing!');
@@ -15,8 +16,8 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8081/api/package/${packageId}`,
             method: 'GET',
-            headers:{
-                "Authorization": "Bearer "+JWT
+            headers: {
+                "Authorization": "Bearer " + JWT
             },
             dataType: 'json',
             success: function (packageData) {
@@ -60,7 +61,7 @@ $(document).ready(function () {
                     });
                 }
                 fetchReviews(
-                packageId); // Call fetchReviews after package details are loaded
+                    packageId); // Call fetchReviews after package details are loaded
 
             },
             error: function (xhr, status, error) {
@@ -82,8 +83,8 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8081/api/reviews/${packageId}`,
             method: 'GET',
-            headers:{
-                "Authorization": "Bearer "+JWT
+            headers: {
+                "Authorization": "Bearer " + JWT
             },
             dataType: 'json',
             success: function (reviews) {
@@ -103,16 +104,16 @@ $(document).ready(function () {
                         userName = review.booking.user.username;
                     } else {
                         console.warn("Review is missing user/booking data:",
-                        review);
+                            review);
                     }
                     const reviewCard = `<div class="col-md-6 mb-4">
-                                        <div class="review-card">
-                                            <div class="review-user">${userName}</div>
-                                            <div class="review-rating">${generateStarRating(review.rating)}</div>
-                                            <p class="review-comment">${review.reviewComment ? review.reviewComment : 'No comment'}</p>
-                                            <p class="review-timestamp">Posted: ${formatTimestamp(review.reviewDate)}</p>
-                                        </div>
-                                    </div>`;
+    <div class="review-card">
+    <div class="review-user">${userName}</div>
+    <div class="review-rating">${generateStarRating(review.rating)}</div>
+    <p class="review-comment">${review.reviewComment ? review.reviewComment : 'No comment'}</p>
+    <p class="review-timestamp">Posted: ${formatTimestamp(review.reviewDate)}</p>
+    </div>
+    </div>`;
                     reviewsList.append(reviewCard);
                 });
             },
@@ -148,7 +149,7 @@ $(document).ready(function () {
                 url: `http://localhost:8081/api/delete/${packageId}`, // Corrected URL
                 method: 'DELETE',
                 headers: {
-                    "Authorization": "Bearer " + JWT  // Include the JWT token
+                    "Authorization": "Bearer " + JWT // Include the JWT token
                 },
                 success: function (response) {
                     console.log("Package deleted successfully:", response);
@@ -157,7 +158,7 @@ $(document).ready(function () {
                 },
                 error: function (xhr, status, error) {
                     console.error("Unauthorized access");
-                    window.location.href = 'packages.html'; 
+                    window.location.href = 'packages.html';
                     alert('Failed to delete package.');
                     // Optionally display more detailed error information
                     if (xhr.responseJSON && xhr.responseJSON.message) {
@@ -167,8 +168,8 @@ $(document).ready(function () {
             });
         }
     };
- 
- 
+
+
 
     fetchPackageDetails(packageId); // Start the process by fetching package details
 
@@ -176,3 +177,4 @@ $(document).ready(function () {
 
 
 });
+

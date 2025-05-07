@@ -90,7 +90,8 @@ public class TravelPackageService {
 		try {
 			return travelPackageRepository.findByDurationBetween(minDuration, maxDuration);
 		} catch (Exception e) {
-			logger.error("Error filtering TravelPackages by duration between {} and {}: {}", minDuration, maxDuration, e.getMessage(), e);
+			logger.error("Error filtering TravelPackages by duration between {} and {}: {}", minDuration, maxDuration,
+					e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -112,7 +113,8 @@ public class TravelPackageService {
 		try {
 			return travelPackageRepository.findByPriceBetween(minPrice, maxPrice);
 		} catch (Exception e) {
-			logger.error("Error filtering TravelPackages by price between {} and {}: {}", minPrice, maxPrice, e.getMessage(), e);
+			logger.error("Error filtering TravelPackages by price between {} and {}: {}", minPrice, maxPrice,
+					e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -121,9 +123,11 @@ public class TravelPackageService {
 	@Transactional
 	public List<TravelPackage> findPackagesByTitleAndDuration(String title, Integer minDuration, Integer maxDuration) {
 		try {
-			return travelPackageRepository.findByTitleContainingIgnoreCaseAndDurationBetween(title, minDuration, maxDuration);
+			return travelPackageRepository.findByTitleContainingIgnoreCaseAndDurationBetween(title, minDuration,
+					maxDuration);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by title {} and duration between {} and {}: {}", title, minDuration, maxDuration, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by title {} and duration between {} and {}: {}", title,
+					minDuration, maxDuration, e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -132,9 +136,11 @@ public class TravelPackageService {
 	@Transactional
 	public List<TravelPackage> findPackagesByTitleAndService(String title, String service) {
 		try {
-			return travelPackageRepository.findByTitleContainingIgnoreCaseAndIncludedServices(title, service.trim(), SERVICE_DELIMITER);
+			return travelPackageRepository.findByTitleContainingIgnoreCaseAndIncludedServices(title, service.trim(),
+					SERVICE_DELIMITER);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by title {} and service {}: {}", title, service, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by title {} and service {}: {}", title, service, e.getMessage(),
+					e);
 			throw e;
 		}
 	}
@@ -145,29 +151,36 @@ public class TravelPackageService {
 		try {
 			return travelPackageRepository.findByTitleContainingIgnoreCaseAndPriceBetween(title, minPrice, maxPrice);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by title {} and price between {} and {}: {}", title, minPrice, maxPrice, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by title {} and price between {} and {}: {}", title, minPrice,
+					maxPrice, e.getMessage(), e);
 			throw e;
 		}
 	}
 
 	// 9. Filter by Duration and Included Service
 	@Transactional
-	public List<TravelPackage> findPackagesByDurationAndService(Integer minDuration, Integer maxDuration, String service) {
+	public List<TravelPackage> findPackagesByDurationAndService(Integer minDuration, Integer maxDuration,
+			String service) {
 		try {
-			return travelPackageRepository.findByDurationBetweenAndIncludedServices(minDuration, maxDuration, service.trim(), SERVICE_DELIMITER);
+			return travelPackageRepository.findByDurationBetweenAndIncludedServices(minDuration, maxDuration,
+					service.trim(), SERVICE_DELIMITER);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by duration between {} and {} and service {}: {}", minDuration, maxDuration, service, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by duration between {} and {} and service {}: {}", minDuration,
+					maxDuration, service, e.getMessage(), e);
 			throw e;
 		}
 	}
 
 	// 10. Filter by Duration and Price
 	@Transactional
-	public List<TravelPackage> findPackagesByDurationAndPrice(Integer minDuration, Integer maxDuration, double minPrice, double maxPrice) {
+	public List<TravelPackage> findPackagesByDurationAndPrice(Integer minDuration, Integer maxDuration, double minPrice,
+			double maxPrice) {
 		try {
-			return travelPackageRepository.findByDurationBetweenAndPriceBetween(minDuration, maxDuration, minPrice, maxPrice);
+			return travelPackageRepository.findByDurationBetweenAndPriceBetween(minDuration, maxDuration, minPrice,
+					maxPrice);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by duration between {} and {} and price between {} and {}: {}", minDuration, maxDuration, minPrice, maxPrice, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by duration between {} and {} and price between {} and {}: {}",
+					minDuration, maxDuration, minPrice, maxPrice, e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -176,66 +189,85 @@ public class TravelPackageService {
 	@Transactional
 	public List<TravelPackage> findPackagesByServiceAndPrice(String service, double minPrice, double maxPrice) {
 		try {
-			return travelPackageRepository.findByIncludedServicesAndPriceBetween(service.trim(), SERVICE_DELIMITER, minPrice, maxPrice);
+			return travelPackageRepository.findByIncludedServicesAndPriceBetween(service.trim(), SERVICE_DELIMITER,
+					minPrice, maxPrice);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by service {} and price between {} and {}: {}", service, minPrice, maxPrice, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by service {} and price between {} and {}: {}", service,
+					minPrice, maxPrice, e.getMessage(), e);
 			throw e;
 		}
 	}
 
 	// 12. Filter by Title, Duration, and Included Service
 	@Transactional
-	public List<TravelPackage> findPackagesByTitleAndDurationAndService(String title, Integer minDuration, Integer maxDuration, String service) {
+	public List<TravelPackage> findPackagesByTitleAndDurationAndService(String title, Integer minDuration,
+			Integer maxDuration, String service) {
 		try {
-			return travelPackageRepository.findByTitleContainingIgnoreCaseAndDurationBetweenAndIncludedServices(
-					title, minDuration, maxDuration, service.trim(), SERVICE_DELIMITER);
+			return travelPackageRepository.findByTitleContainingIgnoreCaseAndDurationBetweenAndIncludedServices(title,
+					minDuration, maxDuration, service.trim(), SERVICE_DELIMITER);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by title {}, duration between {} and {}, and service {}: {}", title, minDuration, maxDuration, service, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by title {}, duration between {} and {}, and service {}: {}",
+					title, minDuration, maxDuration, service, e.getMessage(), e);
 			throw e;
 		}
 	}
 
 	// 13. Filter by Title, Duration, and Price
 	@Transactional
-	public List<TravelPackage> findPackagesByTitleAndDurationAndPrice(String title, Integer minDuration, Integer maxDuration, double minPrice, double maxPrice) {
+	public List<TravelPackage> findPackagesByTitleAndDurationAndPrice(String title, Integer minDuration,
+			Integer maxDuration, double minPrice, double maxPrice) {
 		try {
-			return travelPackageRepository.findByTitleContainingIgnoreCaseAndDurationBetweenAndPriceBetween(title, minDuration, maxDuration, minPrice, maxPrice);
+			return travelPackageRepository.findByTitleContainingIgnoreCaseAndDurationBetweenAndPriceBetween(title,
+					minDuration, maxDuration, minPrice, maxPrice);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by title {}, duration between {} and {}, and price between {} and {}: {}", title, minDuration, maxDuration, minPrice, maxPrice, e.getMessage(), e);
+			logger.error(
+					"Error finding TravelPackages by title {}, duration between {} and {}, and price between {} and {}: {}",
+					title, minDuration, maxDuration, minPrice, maxPrice, e.getMessage(), e);
 			throw e;
 		}
 	}
 
 	// 14. Filter by Title, Included Service, and Price
 	@Transactional
-	public List<TravelPackage> findPackagesByTitleAndServiceAndPrice(String title, String service, double minPrice, double maxPrice) {
+	public List<TravelPackage> findPackagesByTitleAndServiceAndPrice(String title, String service, double minPrice,
+			double maxPrice) {
 		try {
-			return travelPackageRepository.findByTitleContainingIgnoreCaseAndIncludedServicesAndPriceBetween(title, service.trim(), SERVICE_DELIMITER, minPrice, maxPrice);
+			return travelPackageRepository.findByTitleContainingIgnoreCaseAndIncludedServicesAndPriceBetween(title,
+					service.trim(), SERVICE_DELIMITER, minPrice, maxPrice);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by title {}, service {}, and price between {} and {}: {}", title, service, minPrice, maxPrice, e.getMessage(), e);
+			logger.error("Error finding TravelPackages by title {}, service {}, and price between {} and {}: {}", title,
+					service, minPrice, maxPrice, e.getMessage(), e);
 			throw e;
 		}
 	}
 
 	// 15. Filter by Duration, Included Service, and Price
 	@Transactional
-	public List<TravelPackage> findPackagesByDurationAndServiceAndPrice(Integer minDuration, Integer maxDuration, String service, double minPrice, double maxPrice) {
+	public List<TravelPackage> findPackagesByDurationAndServiceAndPrice(Integer minDuration, Integer maxDuration,
+			String service, double minPrice, double maxPrice) {
 		try {
-			return travelPackageRepository.findByDurationBetweenAndIncludedServicesAndPriceBetween(minDuration, maxDuration, service.trim(), SERVICE_DELIMITER, minPrice, maxPrice);
+			return travelPackageRepository.findByDurationBetweenAndIncludedServicesAndPriceBetween(minDuration,
+					maxDuration, service.trim(), SERVICE_DELIMITER, minPrice, maxPrice);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by duration between {} and {}, service {}, and price between {} and {}: {}", minDuration, maxDuration, service, minPrice, maxPrice, e.getMessage(), e);
+			logger.error(
+					"Error finding TravelPackages by duration between {} and {}, service {}, and price between {} and {}: {}",
+					minDuration, maxDuration, service, minPrice, maxPrice, e.getMessage(), e);
 			throw e;
 		}
 	}
 
 	// 16. Filter by Title, Duration, Included Service, and Price
 	@Transactional
-	public List<TravelPackage> findPackagesByTitleAndDurationAndServiceAndPrice(String title, Integer minDuration, Integer maxDuration, String service, double minPrice, double maxPrice) {
+	public List<TravelPackage> findPackagesByTitleAndDurationAndServiceAndPrice(String title, Integer minDuration,
+			Integer maxDuration, String service, double minPrice, double maxPrice) {
 		try {
-			return travelPackageRepository.findByTitleContainingIgnoreCaseAndDurationBetweenAndIncludedServicesAndPriceBetween(
-					title, minDuration, maxDuration, service.trim(), SERVICE_DELIMITER, minPrice, maxPrice);
+			return travelPackageRepository
+					.findByTitleContainingIgnoreCaseAndDurationBetweenAndIncludedServicesAndPriceBetween(title,
+							minDuration, maxDuration, service.trim(), SERVICE_DELIMITER, minPrice, maxPrice);
 		} catch (Exception e) {
-			logger.error("Error finding TravelPackages by title {}, duration between {} and {}, service {}, and price between {} and {}: {}", title, minDuration, maxDuration, service, minPrice, maxPrice, e.getMessage(), e);
+			logger.error(
+					"Error finding TravelPackages by title {}, duration between {} and {}, service {}, and price between {} and {}: {}",
+					title, minDuration, maxDuration, service, minPrice, maxPrice, e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -250,22 +282,24 @@ public class TravelPackageService {
 
 	private List<TravelPackage> filterByIncludedService(List<TravelPackage> packages, String service) {
 		return packages.stream()
-				.filter(p -> (SERVICE_DELIMITER + p.getIncludedService() + SERVICE_DELIMITER)
-						.toLowerCase()
+				.filter(p -> (SERVICE_DELIMITER + p.getIncludedService() + SERVICE_DELIMITER).toLowerCase()
 						.contains((SERVICE_DELIMITER + service.trim() + SERVICE_DELIMITER).toLowerCase()))
 				.collect(java.util.stream.Collectors.toList());
 	}
-	
-	public void deletePackage(int packageId) {
-        Optional<TravelPackage> packageToDelete = travelPackageRepository.findById(packageId); // Assuming your entity is in com.example.travelapp.model
-        if (packageToDelete.isPresent()) {
-            travelPackageRepository.delete(packageToDelete.get()); // Use delete() method of JPA repository
-        } else {
-            throw new RuntimeException("Package not found with id: " + packageId);
-        }
-    }
-	 public List<TravelPackage> getPackagesByUserId(int userId) {
-	        return travelPackageRepository.findByUser_Userid(userId);
-	    }
 
-} 
+	public void deletePackage(int packageId) {
+		Optional<TravelPackage> packageToDelete = travelPackageRepository.findById(packageId); // Assuming your entity
+																								// is in
+																								// com.example.travelapp.model
+		if (packageToDelete.isPresent()) {
+			travelPackageRepository.delete(packageToDelete.get()); // Use delete() method of JPA repository
+		} else {
+			throw new RuntimeException("Package not found with id: " + packageId);
+		}
+	}
+
+	public List<TravelPackage> getPackagesByUserId(int userId) {
+		return travelPackageRepository.findByUser_Userid(userId);
+	}
+
+}

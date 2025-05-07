@@ -15,12 +15,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class Contactus {
 
-	public Contactus(Long contactId, Users users, @NotEmpty(message = "Comment cannot be empty") String commenting) {
-		super();
-		this.contactId = contactId;
-		this.users = users;
-		this.commenting = commenting;
-	}
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commenting_seq")
@@ -32,11 +27,16 @@ public class Contactus {
 	private Users users;
 
 	@NotEmpty(message = "Comment cannot be empty")
-	// @Size(min = 5, max = 500, message = "Comment must be between 5 and 500
-	// characters")
+	
 	private String commenting;
+	
+	public Contactus(Long contactId, Users users, @NotEmpty(message = "Comment cannot be empty") String commenting) {
+		super();
+		this.contactId = contactId;
+		this.users = users;
+		this.commenting = commenting;
+	}
 
-	// Default constructor (required by JPA)
 	public Contactus() {
 	}
 
@@ -64,8 +64,6 @@ public class Contactus {
 		this.commenting = commenting;
 	}
 
-	// Constructor with fields
 
-	// Getters and Setters
 
 }

@@ -9,9 +9,6 @@ import java.util.Date;
 @Table(name="review")
 public class Review {
 
-    public Review(){
-        super();
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_seq")
     @SequenceGenerator(name = "review_seq", sequenceName = "REVIEW_SEQ", allocationSize = 1)
@@ -40,6 +37,10 @@ public class Review {
         this.rating = rating;
         this.reviewDate = reviewDate;
         this.package1 = package1;
+    }
+    
+    public Review(){
+        super();
     }
 
     public void setId(int id) {

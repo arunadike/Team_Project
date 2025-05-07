@@ -38,16 +38,21 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.csrf(customizer -> customizer.disable())
+		http.csrf(customizer -> customizer.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(request -> request
-						.requestMatchers("/register", "/login").permitAll()
+				.authorizeHttpRequests(request -> request.requestMatchers("/register", "/login").permitAll()
 						.requestMatchers("/data").hasRole("ADMIN") // Requires ADMIN role AND authentication
-						.requestMatchers("/api/delete/**", "/api/packageCreation").hasRole("AGENT")
-						.anyRequest().authenticated())
-				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-				.cors(Customizer.withDefaults()); // Enable CORS integration at the Security Filter Chain level
+						.requestMatchers("/api/delete/**", "/api/packageCreation").hasRole("AGENT").anyRequest()
+						.authenticated())
+				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).cors(Customizer.withDefaults()); // Enable
+																															// CORS
+																															// integration
+																															// at
+																															// the
+																															// Security
+																															// Filter
+																															// Chain
+																															// level
 
 		return http.build();
 	}
@@ -59,12 +64,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-				.allowedOrigins("http://127.0.0.1:5500") // Ensure NO trailing slash here
+		registry.addMapping("/**").allowedOrigins("http://127.0.0.1:5500") // Ensure NO trailing slash here
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 				.allowedHeaders("Authorization", "Content-Type") // Be specific, or use "*"
 				.exposedHeaders("Authorization") // If your frontend needs to read this from the response
-				.allowCredentials(true)
-				.maxAge(3600);
+				.allowCredentials(true).maxAge(3600);
 	}
 }

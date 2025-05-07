@@ -41,7 +41,7 @@ public class Insurance {
 	public Insurance() {
 		this.status = "ACTIVE";
 	}
-
+	
 	public Insurance(int insuranceId, @NotNull String coverageDetails, @NotNull String provider, @NotNull double amount,
 			Payment payment, String status, Booking booking, Users user) {
 		super();
@@ -53,12 +53,6 @@ public class Insurance {
 		this.status = status;
 		this.booking = booking;
 		this.user = user;
-	}
-
-	@Override
-	public String toString() {
-		return "Insurance [insuranceId=" + insuranceId + ", coverageDetails=" + coverageDetails + ", provider="
-				+ provider + ", status=" + status + ", user=" + user + "]";
 	}
 
 	public int getInsuranceId() {
@@ -123,6 +117,12 @@ public class Insurance {
 
 	public void setPayment1(Payment payment1) {
 		this.payment = payment1;
+	}
+	
+	@Override
+	public String toString() {
+		return "Insurance [insuranceId=" + insuranceId + ", coverageDetails=" + coverageDetails + ", provider="
+				+ provider + ", status=" + status + ", user=" + user + "]";
 	}
 
 }

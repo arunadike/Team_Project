@@ -65,7 +65,8 @@ public class UserService {
 	public Users getUserByUsername(String username) {
 		try {
 			Users user = (userRepository.findByUsername(username));
-			return user; // Or throw an exception if user not found: .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
+			return user; // Or throw an exception if user not found: .orElseThrow(() -> new
+							// UserNotFoundException("User not found: " + username));
 		} catch (Exception e) {
 			logger.error("Error fetching user by username {}: {}", username, e.getMessage(), e);
 			throw e;

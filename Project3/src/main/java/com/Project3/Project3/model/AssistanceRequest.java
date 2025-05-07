@@ -13,6 +13,18 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "assistancerequest2")
 public class AssistanceRequest {
+
+	@Id
+	private int requestId;
+	@ManyToOne
+	@JoinColumn(name="userid")
+	private Users user;
+	@NotNull
+	private String issueDescription;
+	@NotNull
+	private String status;
+	private Timestamp resolutionTime;
+	
 	public AssistanceRequest(int requestId, Users user, @NotNull String issueDescription, @NotNull String status,
 			Timestamp resolutionTime) {
 		super();
@@ -26,30 +38,9 @@ public class AssistanceRequest {
 	public AssistanceRequest() {
 	}
 
-	@Id
-	private int requestId;
-	@ManyToOne
-	@JoinColumn(name="userid")
-	private Users user;
-	@NotNull
-	private String issueDescription;
-	@NotNull
-	private String status;
-	private Timestamp resolutionTime;
-
 	public void setResolutionTime(Timestamp resolutionTime) {
 		this.resolutionTime = resolutionTime;
 	}
-
-//	public AssistanceRequest(int requestId, @NotNull int userId, @NotNull String issueDescription,
-//			@NotNull String status, Timestamp resolutionTime) {
-//		super();
-//		this.requestId = requestId;
-//		this.userId = userId;
-//		this.issueDescription = issueDescription;
-//		this.status = status;
-//		this.resolutionTime = resolutionTime;
-//	}
 
 	public int getRequestId() {
 		return requestId;
@@ -92,5 +83,7 @@ public class AssistanceRequest {
 		return "AssistanceRequest [requestId=" + requestId + ", userId=" + user + ", issueDescription="
 				+ issueDescription + ", status=" + status + ", resolutionTime=" + resolutionTime + "]";
 	}
+	
+	
 
 }

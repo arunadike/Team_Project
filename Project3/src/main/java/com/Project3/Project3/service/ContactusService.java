@@ -25,7 +25,8 @@ public class ContactusService {
 
 	public Contactus saveContact(Contactus contactus, Long userId) {
 		try {
-			// You can add any business logic here before saving, e.g., logging, sending an email
+			// You can add any business logic here before saving, e.g., logging, sending an
+			// email
 			Users users = userRepository.findById(userId).orElseThrow();
 
 			// 2. Associate the User with the Contactus entity
@@ -34,7 +35,8 @@ public class ContactusService {
 			// 3. Add a commt to be saved (this will be part of the Contactus entity)
 			contactus.setCommenting(contactus.getCommenting());
 
-			// 4. Save the Contactus entity, which now includes the user association and the comment
+			// 4. Save the Contactus entity, which now includes the user association and the
+			// comment
 			return contactusRepository.save(contactus);
 		} catch (Exception e) {
 			logger.error("Error saving contact: {}", e.getMessage(), e);
@@ -51,6 +53,6 @@ public class ContactusService {
 		}
 	}
 
-	// You can add other service methods as needed, e.g., fetching all contacts, etc.
+	// You can add other service methods as needed, e.g., fetching all contacts,
+	// etc.
 }
- 

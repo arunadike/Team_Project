@@ -15,15 +15,15 @@ import jakarta.validation.Valid;
 
 @RestController
 public class InsuranceController {
-	
+
 	@Autowired
 	InsuranceService insuranceService;
-	
+
 	@GetMapping("/insuranceGet")
-	public List<Insurance> insuranceGet(){
+	public List<Insurance> insuranceGet() {
 		return insuranceService.returnData();
 	}
-	
+
 	@PostMapping("/insurancePost")
 	public void insurancePost(@RequestBody @Valid Insurance insurance) {
 		insuranceService.saveData(insurance);
